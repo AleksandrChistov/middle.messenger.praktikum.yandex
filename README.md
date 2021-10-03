@@ -1,3 +1,5 @@
+[Link to mockup in Figma](https://www.figma.com/file/Fgv0WBOkjZq5Vid1C3pcto/Chat).
+
 ### Ветка, в которой делаете задания спринта, должна называться sprint_i, где i - номер спринта. Не переименовывайте её.
 
 ### Откройте pull request в ветку main из ветки, где вы разрабатывали проект, и добавьте ссылку на этот pr в README.md в ветке main. Название pull request может быть любое.
