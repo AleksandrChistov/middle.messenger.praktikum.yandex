@@ -2,12 +2,20 @@
   "name": "chatly",
   "version": "1.0.0",
   "description": "project on vanila js",
-  "main": "src/test/entry.js",
-  "source": "src/test/entry.pug",
+  "main": "src/entry.js",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build src/entry.js",
+    "build": "parcel build",
     "test": "test"
+  },
+  "targets": {
+    "frontend": {
+      "source": [
+        "./src/screens/signin/signin.pug",
+        "./src/screens/signup/signup.pug"
+      ],
+      "distDir": "./dist"
+    }
   },
   "repository": {
     "type": "git",
@@ -26,6 +34,7 @@
   },
   "homepage": "https://github.com/AleksandrChistov/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
+    "@parcel/transformer-image": "^2.0.0-rc.0",
     "@parcel/transformer-pug": "^2.0.0-rc.0",
     "@parcel/transformer-sass": "^2.0.0-rc.0",
     "parcel": "^2.0.0-rc.0"

@@ -1,0 +1,70 @@
+@import '../../../static/styles/styles';
+@import '../../../static/styles/colors';
+@import '../../components/inputs/input-styles';
+@import '../../components/inputs/text/text-input';
+@import '../../components/inputs/email/email-input';
+@import '../../components/inputs/phone/phone-input';
+@import '../../components/inputs/password/password-input';
+@import '../../components/error-form/error-form';
+@import '../../components/form-button/form-button';
+
+.form {
+  max-width: 100%;
+  width: 414px;
+  margin: 0 auto;
+  padding: 33px;
+  border-radius: 20px;
+  background: $background-color;
+
+  &__welcome-text {
+    position: relative;
+    font-family: $head-font-family;
+    font-weight: 300;
+    font-size: 42px;
+    line-height: 51px;
+    text-align: center;
+    color: $purple;
+    margin: 0;
+
+    span {
+      font-weight: 400;
+      margin-top: -10px;
+      display: block;
+    }
+  }
+
+  &__img {
+    margin: -45px auto 0;
+    display: block;
+  }
+
+  &__title {
+    font-family: $basic-font-family;
+    font-size: 28px;
+    line-height: 38px;
+    font-weight: 400;
+    margin-bottom: 15px;
+    color: $black;
+  }
+
+  &__button-container {
+    position: relative;
+  }
+
+  &__error-text {
+    position: absolute;
+  }
+
+  &__button-signup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    border: 1px solid $purple;
+    box-shadow: none;
+    background: transparent;
+    color: $purple;
+  }
+}
+
+
