@@ -1,0 +1,42 @@
+extends ../components/html-head/html-head.pug
+include ../../components/inputs/text/text-input.pug
+include ../../components/inputs/email/email-input.pug
+include ../../components/inputs/phone/phone-input.pug
+include ../../components/inputs/password/password-input.pug
+include ../../components/error-form/error-form
+include ../../components/form-button/form-button.pug
+
+block title
+    title='Chatly - user settings'
+block links
+    link(rel="stylesheet", href="settings.scss")
+
+block content
+    div.form-container
+        form.form
+            a(href="../chat/chat.pug" class="arrow-back")
+                icon(id="arrow-back")
+            h1="Your profile"
+            hr.line
+            +textInput("Name", "name", "name", "mb-5")
+            +textInput("Surname", "surname", "surname", "mb-5")
+            +textInput("Display name", "display-name", "display-name", "mb-5")
+            +textInput("Login", "login", "login", "mb-5")
+            +emailInput("Email", "email", "email", "mb-5")
+            +phoneInput("Phone", "phone", "phone", "mb-5")
+            div(class="form__button-container")
+                +errorForm(null, "form__error-text")
+                +formButton("submit", "Change data", "mt-30")
+        form.form.form--relative
+            a(href="../signin/signin.pug" class="form__escape-icon")
+                icon(id="escape")
+            button(type="button" class="avatar-button")
+                span(class="avatar-button__text")="Change avatar"
+            hr.line
+            +passwordInput("Old password", "old-password", "old-password", "mb-5")
+            +passwordInput("Password", "password", "password", "mb-5")
+            +passwordInput("Password (again)", "password-again", "password-again", "mb-5")
+            div(class="form__button-container")
+                +errorForm(null, "form__error-text")
+                +formButton("submit","Change password", "mt-30")
+        script(type="module" src="settings.js")
