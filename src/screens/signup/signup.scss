@@ -1,0 +1,22 @@
+@import '../../../static/styles/styles';
+@import '../../../static/styles/colors';
+@import '../../components/inputs/input-styles';
+@import '../../components/inputs/text/text-input';
+@import '../../components/inputs/email/email-input';
+@import '../../components/inputs/phone/phone-input';
+@import '../../components/inputs/password/password-input';
+@import '../../components/error-form/error-form';
+@import '../../components/form-button/form-button';
+
+.form {
+  max-width: 100%;
+  width: 414px;
+  margin: 0 auto;
+  padding: 33px;
+  border-radius: 20px;
+  background: $background-color;
+
+  &__error-text {
+    position: absolute;
+  }
+}
