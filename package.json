@@ -13,7 +13,8 @@
       "source": [
         "./src/screens/signin/signin.pug",
         "./src/screens/signup/signup.pug",
-        "./src/screens/settings/settings.pug"
+        "./src/screens/settings/settings.pug",
+        "./src/screens/chat/chat.pug"
       ],
       "distDir": "./dist"
     }
