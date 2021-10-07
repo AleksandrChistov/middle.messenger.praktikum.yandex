@@ -14,7 +14,8 @@
         "./src/screens/signin/signin.pug",
         "./src/screens/signup/signup.pug",
         "./src/screens/settings/settings.pug",
-        "./src/screens/chat/chat.pug"
+        "./src/screens/chat/chat.pug",
+        "./src/screens/404/404.pug"
       ],
       "distDir": "./dist"
     }
