@@ -1,12 +1,24 @@
 export default function putSvgIcons() {
     const allSvgIcons = document.querySelectorAll('icon');
 
+    const addClass = (classList, span) => {
+        if (classList.length) {
+            span.classList.add(...classList);
+        }
+    }
+
+    const createElement = (svgIcon) => {
+        const span = document.createElement('span');
+        addClass(svgIcon.classList, span);
+        span.innerHTML = icons[svgIcon.id];
+        return span;
+    }
+
     [...allSvgIcons]
         .filter(svgIcon => icons[svgIcon.id])
         .forEach(svgIcon => {
-            const span = document.createElement('span');
-            span.innerHTML = icons[svgIcon.id];
-            svgIcon.replaceWith(span);
+            const iconReady = createElement(svgIcon);
+            svgIcon.replaceWith(iconReady);
         })
 }
 
