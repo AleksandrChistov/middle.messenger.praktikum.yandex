@@ -17,13 +17,13 @@ block content
             icon(id="arrow-back")
         h1="Sign up"
         hr.line
-        +textInput("Name", "name", "name", "mb-5")
-        +textInput("Surname", "surname", "surname", "mb-5")
+        +textInput("Name", "first_name", "first_name", "mb-5")
+        +textInput("Surname", "second_name", "second_name", "mb-5")
         +textInput("Login", "login", "login", "mb-5")
         +emailInput("Email", "email", "email", "mb-5")
         +phoneInput("Phone", "phone", "phone", "mb-5")
         +passwordInput("Password", "password", "password", "mb-5")
-        +passwordInput("Password (again)", "password-again", "password-again", "mb-5")
+        +passwordInput("Password (again)", "newPassword", "newPassword", "mb-5")
         div(class="form__button-container")
             +errorForm(null, "form__error-text")
             +formButton("submit", "Sign up", "mt-30")

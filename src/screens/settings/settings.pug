@@ -18,9 +18,9 @@ block content
                 icon(id="arrow-back")
             h1="Your profile"
             hr.line
-            +textInput("Name", "name", "name", "mb-5")
-            +textInput("Surname", "surname", "surname", "mb-5")
-            +textInput("Display name", "display-name", "display-name", "mb-5")
+            +textInput("Name", "first_name", "first_name", "mb-5")
+            +textInput("Surname", "second_name", "second_name", "mb-5")
+            +textInput("Display name", "display_name", "display_name", "mb-5")
             +textInput("Login", "login", "login", "mb-5")
             +emailInput("Email", "email", "email", "mb-5")
             +phoneInput("Phone", "phone", "phone", "mb-5")
@@ -33,9 +33,9 @@ block content
             button(type="button" class="avatar-button")
                 span(class="avatar-button__text")="Change avatar"
             hr.line
-            +passwordInput("Old password", "old-password", "old-password", "mb-5")
+            +passwordInput("Old password", "oldPassword", "oldPassword", "mb-5")
             +passwordInput("Password", "password", "password", "mb-5")
-            +passwordInput("Password (again)", "password-again", "password-again", "mb-5")
+            +passwordInput("Password (again)", "newPassword", "newPassword", "mb-5")
             div(class="form__button-container")
                 +errorForm(null, "form__error-text")
                 +formButton("submit","Change password", "mt-30")
