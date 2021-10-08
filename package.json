@@ -4,7 +4,7 @@
   "description": "project on vanila js",
   "main": "app.js",
   "scripts": {
-    "start": "node server/app.js",
+    "start": "parcel build & node server/app.js",
     "start:dev": "parcel",
     "build": "parcel build",
     "test": "test"
