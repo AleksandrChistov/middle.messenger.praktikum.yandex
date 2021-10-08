@@ -2,9 +2,10 @@
   "name": "chatly",
   "version": "1.0.0",
   "description": "project on vanila js",
-  "main": "src/entry.js",
+  "main": "app.js",
   "scripts": {
-    "start": "parcel",
+    "start": "node server/app.js",
+    "start:dev": "parcel",
     "build": "parcel build",
     "test": "test"
   },
@@ -20,6 +21,9 @@
       ],
       "distDir": "./dist"
     }
+  },
+  "engines": {
+    "node": ">=14.18.0"
   },
   "repository": {
     "type": "git",
@@ -42,5 +46,8 @@
     "@parcel/transformer-pug": "^2.0.0-rc.0",
     "@parcel/transformer-sass": "^2.0.0-rc.0",
     "parcel": "^2.0.0-rc.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
