@@ -23,9 +23,6 @@
       "distDir": "./dist"
     }
   },
-  "engines": {
-    "node": ">=12.0.0 <=14.18.0"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AleksandrChistov/middle.messenger.praktikum.yandex.git"
