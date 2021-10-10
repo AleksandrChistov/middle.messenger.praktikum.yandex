@@ -24,7 +24,7 @@
     line-height: 51px;
     text-align: center;
     color: $purple;
-    margin: 0;
+    margin: 0 0 -45px;
 
     span {
       font-weight: 400;
@@ -34,7 +34,7 @@
   }
 
   &__img {
-    margin: -45px auto 0;
+    margin: 0 auto;
     display: block;
   }
 
