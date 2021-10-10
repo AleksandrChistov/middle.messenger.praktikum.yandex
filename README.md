@@ -1,5 +1,8 @@
-Домен: [https://jovial-wiles-3d5464.netlify.app](https://jovial-wiles-3d5464.netlify.app)
+Ссылкы на открытый PR: [https://github.com/AleksandrChistov/middle.messenger.praktikum.yandex/pull/1](https://github.com/AleksandrChistov/middle.messenger.praktikum.yandex/pull/1)
 
+---
+
+Домен: [https://jovial-wiles-3d5464.netlify.app](https://jovial-wiles-3d5464.netlify.app)  
 Ссылка на прототип проекта: [https://www.figma.com/file/Fgv0WBOkjZq5Vid1C3pcto/Chat](https://www.figma.com/file/Fgv0WBOkjZq5Vid1C3pcto/Chat)
 
 ---
