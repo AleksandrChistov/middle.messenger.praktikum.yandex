@@ -15,7 +15,7 @@ block content
     div.form-container
         form.form
             a(href="../chat/chat.pug" class="arrow-back")
-                icon(id="arrow-back")
+                include ../../../static/assets/icons/arrow-back.svg
             h1="Your profile"
             hr.line
             +textInput("Name", "first_name", "first_name", "mb-5")
@@ -29,7 +29,7 @@ block content
                 +formButton("submit", "Change data", "mt-30")
         form.form.form--relative
             a(href="../signin/signin.pug" class="form__escape-icon")
-                icon(id="escape")
+                include ../../../static/assets/icons/escape.svg
             button(type="button" class="avatar-button")
                 span(class="avatar-button__text")="Change avatar"
             hr.line
@@ -39,4 +39,3 @@ block content
             div(class="form__button-container")
                 +errorMessage(null, "form__error-text")
                 +formButton("submit","Change password", "mt-30")
-        script(type="module" src="settings.js")

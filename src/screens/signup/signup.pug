@@ -14,7 +14,7 @@ block links
 block content
     form.form
         a(href="../signin/signin.pug" class="arrow-back")
-            icon(id="arrow-back")
+            include ../../../static/assets/icons/arrow-back.svg
         h1="Sign up"
         hr.line
         +textInput("Name", "first_name", "first_name", "mb-5")
@@ -27,4 +27,3 @@ block content
         div(class="form__button-container")
             +errorMessage(null, "form__error-text")
             +formButton("submit", "Sign up", "mt-30")
-    script(type="module" src="signup.js")

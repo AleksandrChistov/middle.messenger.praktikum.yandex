@@ -8,7 +8,6 @@ block links
 block content
     section.error-section
         a(href="../chat/chat.pug")
-            icon(id="arrow-back" class="error-section__arrow-back-icon")
+            include ../../../static/assets/icons/arrow-back.svg
             span(class="error-section__text")="Back to the chats"
         img(class="error-section__img" src="../../../static/assets/img/404.png" alt="Error 404")
-    script(type="module" src="404.js")
