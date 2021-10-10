@@ -21,7 +21,7 @@ block content
         +textInput("Login", "login", "login", "mb-5")
         +passwordInput("Password", "password", "password", "mb-5")
         div(class="form__button-container")
-            +errorForm(null, "form__error-text")
+            +errorMessage(null, "form__error-text")
             +formButton("submit","Sign in", "mt-30 mb-20")
         a(href="../signup/signup.pug" class="form-button form__button-signup")="Sign up"
     script(type="module" src="signin.js")

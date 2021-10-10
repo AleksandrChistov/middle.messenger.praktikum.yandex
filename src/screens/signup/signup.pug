@@ -25,6 +25,6 @@ block content
         +passwordInput("Password", "password", "password", "mb-5")
         +passwordInput("Password (again)", "newPassword", "newPassword", "mb-5")
         div(class="form__button-container")
-            +errorForm(null, "form__error-text")
+            +errorMessage(null, "form__error-text")
             +formButton("submit", "Sign up", "mt-30")
     script(type="module" src="signup.js")

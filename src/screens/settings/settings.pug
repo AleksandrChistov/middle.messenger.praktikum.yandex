@@ -25,7 +25,7 @@ block content
             +emailInput("Email", "email", "email", "mb-5")
             +phoneInput("Phone", "phone", "phone", "mb-5")
             div(class="form__button-container")
-                +errorForm(null, "form__error-text")
+                +errorMessage(null, "form__error-text")
                 +formButton("submit", "Change data", "mt-30")
         form.form.form--relative
             a(href="../signin/signin.pug" class="form__escape-icon")
@@ -37,6 +37,6 @@ block content
             +passwordInput("Password", "password", "password", "mb-5")
             +passwordInput("Password (again)", "newPassword", "newPassword", "mb-5")
             div(class="form__button-container")
-                +errorForm(null, "form__error-text")
+                +errorMessage(null, "form__error-text")
                 +formButton("submit","Change password", "mt-30")
         script(type="module" src="settings.js")
