@@ -1,6 +1,5 @@
 .idea/
 .cache
 node_modules
-package-lock.json
 dist
 .parcel-cache
