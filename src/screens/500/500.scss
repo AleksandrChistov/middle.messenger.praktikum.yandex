@@ -1,0 +1,40 @@
+@import '../../../static/styles/variables';
+@import '../../../static/styles/colors';
+
+body {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-section {
+  text-align: center;
+
+  a {
+    display: inline-flex;
+    margin-bottom: 50px;
+    text-decoration: none;
+  }
+
+  &__text {
+    font-family: $basic-font-family;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 16px;
+    color: $purple;
+  }
+
+  svg {
+    margin-right: 15px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__img {
+    height: 348px;
+    display: block;
+  }
+}

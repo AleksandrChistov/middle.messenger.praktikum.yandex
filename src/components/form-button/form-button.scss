@@ -1,0 +1,22 @@
+@import "../../../static/styles/colors";
+@import "../../../static/styles/variables";
+
+.form-button {
+  max-width: 100%;
+  width: 348px;
+  height: 40px;
+  background: $purple;
+  box-shadow: 0 3px 7px 1px rgba($black, 0.25);
+  border-radius: 20px;
+  border: none;
+
+  font-family: $basic-font-family;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: $white;
+
+  &:hover {
+  cursor: pointer;
+}
+}

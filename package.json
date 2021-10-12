@@ -1,0 +1,51 @@
+{
+  "name": "chatly",
+  "version": "1.0.0",
+  "description": "project on vanila js",
+  "main": "app.js",
+  "scripts": {
+    "start": "parcel build & node server/app.js",
+    "start:dev": "parcel",
+    "build": "parcel build",
+    "test": "test"
+  },
+  "targets": {
+    "frontend": {
+      "source": [
+        "./src/screens/signin/signin.pug",
+        "./src/screens/signup/signup.pug",
+        "./src/screens/settings/settings.pug",
+        "./src/screens/chat/chat.pug",
+        "./src/screens/404/404.pug",
+        "./src/screens/500/500.pug",
+        "index.html"
+      ],
+      "distDir": "./dist"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AleksandrChistov/middle.messenger.praktikum.yandex.git"
+  },
+  "keywords": [
+    "parcel",
+    "webpack",
+    "template",
+    "engine"
+  ],
+  "author": "Alexander Chistov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AleksandrChistov/middle.messenger.praktikum.yandex/issues"
+  },
+  "homepage": "https://github.com/AleksandrChistov/middle.messenger.praktikum.yandex#readme",
+  "devDependencies": {
+    "@parcel/transformer-image": "^2.0.0-rc.0",
+    "@parcel/transformer-pug": "^2.0.0-rc.0",
+    "@parcel/transformer-sass": "^2.0.0-rc.0",
+    "parcel": "^2.0.0-rc.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

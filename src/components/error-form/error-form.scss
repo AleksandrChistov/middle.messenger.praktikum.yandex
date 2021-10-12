@@ -1,0 +1,12 @@
+@import "../../../static/styles/colors";
+@import "../../../static/styles/variables";
+
+.error-text {
+  display: none;
+  font-family: $basic-font-family;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  color: $error-color;
+  margin: 0;
+}
