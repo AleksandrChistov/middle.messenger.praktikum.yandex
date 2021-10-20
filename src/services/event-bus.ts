@@ -1,20 +1,20 @@
-type anyFunc = (...args: any[]) => any | void;
+type AnyFunc = (...args: any[]) => any | void;
 
-class EventBus {
-    private listeners: {[key: string]: Array<anyFunc>};
+export class EventBus {
+    private listeners: {[key: string]: Array<AnyFunc>};
 
     constructor() {
         this.listeners = {};
     }
 
-    on(event: string, callback: anyFunc) {
+    on(event: string, callback: AnyFunc) {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
         this.listeners[event].push(callback);
     }
 
-    off(event: string, callback: anyFunc) {
+    off(event: string, callback: AnyFunc) {
         if (!this.listeners[event]) {
             throw new Error(`Нет события: ${event}`);
         }
@@ -30,5 +30,3 @@ class EventBus {
         })
     }
 }
-
-export const eventBus = new EventBus();
