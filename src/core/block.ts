@@ -138,13 +138,13 @@ export class Block {
     _addEvents() {
         const {events = {}} = this.props;
 
-        Object.entries(events).forEach(([eventName, eventObj = {}]) => {
-            Object.entries(eventObj).forEach(([elementID, callback]) => {
-                const nodeElement = this.element.querySelector(`#${elementID}`);
+        Object.entries(events).forEach(([eventName, eventArray = []]) => {
+            eventArray.forEach(({id, fn}) => {
+                const nodeElement = this.element.querySelector(`#${id}`);
                 if (!nodeElement) {
-                    throw new Error(`AddEvents function failed with the element id ${elementID}`);
+                    throw new Error(`AddEvents function failed with the element id ${id}`);
                 }
-                nodeElement.addEventListener(eventName, callback);
+                nodeElement.addEventListener(eventName, fn);
             })
         });
     }
@@ -152,11 +152,11 @@ export class Block {
     _removeEvents() {
         const {events = {}} = this.props;
 
-        Object.entries(events).forEach(([eventName, eventObj = {}]) => {
-            Object.entries(eventObj).forEach(([elementID, callback]) => {
-                const nodeElement = this.element.querySelector(`#${elementID}`);
+        Object.entries(events).forEach(([eventName, eventArray = []]) => {
+            eventArray.forEach(({id, fn}) => {
+                const nodeElement = this.element.querySelector(`#${id}`);
                 if (nodeElement) {
-                    nodeElement.removeEventListener(eventName, callback);
+                    nodeElement.removeEventListener(eventName, fn);
                 }
             })
         });

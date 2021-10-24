@@ -8,11 +8,14 @@ const props: Props = {
     title: 'Chatly is saying hello!',
     classTitle: 'title',
     events: {
-        click: {
-            title: event => {
-                console.log(event);
+        click: [
+            {
+                id: "title",
+                fn: event => {
+                    console.log(event);
+                }
             }
-        },
+        ],
     },
     children: {
         LinkList: linkListComponent,
