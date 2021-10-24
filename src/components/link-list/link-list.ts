@@ -46,4 +46,4 @@ class LinkList extends Block {
     }
 }
 
-export const itemListComponent = new LinkList(props);
+export const linkListComponent = new LinkList(props);

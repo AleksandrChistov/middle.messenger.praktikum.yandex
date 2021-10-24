@@ -1,9 +1,13 @@
+import {Block} from "./block";
+
 export type Props = {
     [key: string]: string | number | {};
     events?: {
-        [key: string]: (event: Event) => void;
+        [eventName: string]: {
+            [elementID: string]: (event: Event) => void;
+        };
     },
     children?: {
-        [key: string]: any
+        [elementTag: string]: InstanceType<typeof Block>;
     }
 }

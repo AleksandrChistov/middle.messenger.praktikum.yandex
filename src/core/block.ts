@@ -138,18 +138,27 @@ export class Block {
     _addEvents() {
         const {events = {}} = this.props;
 
-        Object.keys(events).forEach(eventName => {
-            this._element.addEventListener(eventName, events[eventName]);
+        Object.entries(events).forEach(([eventName, eventObj = {}]) => {
+            Object.entries(eventObj).forEach(([elementID, callback]) => {
+                const nodeElement = this.element.querySelector(`#${elementID}`);
+                if (!nodeElement) {
+                    throw new Error(`AddEvents function failed with the element id ${elementID}`);
+                }
+                nodeElement.addEventListener(eventName, callback);
+            })
         });
-        console.log('addEventListener', this._element);
     }
 
     _removeEvents() {
         const {events = {}} = this.props;
 
-        Object.keys(events).forEach(eventName => {
-            this._element.removeEventListener(eventName, events[eventName]);
+        Object.entries(events).forEach(([eventName, eventObj = {}]) => {
+            Object.entries(eventObj).forEach(([elementID, callback]) => {
+                const nodeElement = this.element.querySelector(`#${elementID}`);
+                if (nodeElement) {
+                    nodeElement.removeEventListener(eventName, callback);
+                }
+            })
         });
-        console.log('removeEventListener', this._element);
     }
 }

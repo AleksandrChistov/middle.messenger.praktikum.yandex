@@ -2,18 +2,20 @@ import {Block} from './core/block';
 import {Props} from "./core/types";
 import {compileTemplate} from './core/utils';
 import templatePug from './main.pug';
-import {itemListComponent} from './components/link-list/link-list';
+import {linkListComponent} from './components/link-list/link-list';
 
 const props: Props = {
     title: 'Chatly is saying hello!',
     classTitle: 'title',
     events: {
-        click: event => {
-            console.log(event);
+        click: {
+            title: event => {
+                console.log(event);
+            }
         },
     },
     children: {
-        ItemList: itemListComponent,
+        LinkList: linkListComponent,
     }
 }
 
