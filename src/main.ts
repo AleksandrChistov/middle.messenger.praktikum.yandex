@@ -2,7 +2,7 @@ import {Block} from './core/block';
 import {Props} from "./core/types";
 import {compileTemplate} from './core/utils';
 import templatePug from './main.pug';
-import {linkListComponent} from './components/link-list/link-list';
+import {LinkList} from './components/link-list/link-list';
 
 const props: Props = {
     title: 'Chatly is saying hello!',
@@ -18,7 +18,34 @@ const props: Props = {
         ],
     },
     children: {
-        LinkList: linkListComponent,
+        LinkList: new LinkList({
+            items: [
+                {
+                    href: '/src/screens/signin/signin.pug',
+                    value: 'Sign in'
+                },
+                {
+                    href: '/src/screens/signup/signup.pug',
+                    value: 'Sign up'
+                },
+                {
+                    href: '/src/screens/settings/settings.pug',
+                    value: 'User settings'
+                },
+                {
+                    href: '/src/screens/chat/chat.pug',
+                    value: 'Chat (stub)'
+                },
+                {
+                    href: '/src/screens/404/404.pug',
+                    value: '404'
+                },
+                {
+                    href: '/src/screens/500/500.pug',
+                    value: '500'
+                }
+            ]
+        }),
     }
 }
 
