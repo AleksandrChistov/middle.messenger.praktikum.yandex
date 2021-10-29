@@ -54,8 +54,8 @@ export class Block {
     };
 
     // Может переопределять пользователь, необязательно трогать
-    render(): string {
-        return '';
+    render(): DocumentFragment {
+        return null;
     }
 
     getContent(): HTMLElement {
@@ -99,12 +99,9 @@ export class Block {
     }
 
     _render(): void {
-        // Этот небезопасный метод для упрощения логики
-        // Используйте шаблонизатор из npm или напишите свой безопасный
-        // Нужно не в строку компилировать (или делать это правильно),
-        // либо сразу в DOM-элементы возвращать из compile DOM-ноду
         this._removeEvents();
-        this._element.innerHTML = this.render();
+        this._element.innerHTML = '';
+        this._element.appendChild(this.render());
         this._addEvents();
     }
 

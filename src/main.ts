@@ -1,6 +1,6 @@
 import {Block} from './core/block';
 import {Props} from "./core/types";
-import {compileTemplate} from './core/utils';
+import {compileTemplateToElement} from './core/utils';
 import templatePug from './main.pug';
 import {LinkList} from './components/link-list/link-list';
 
@@ -56,9 +56,9 @@ class Main extends Block {
     }
 
     render() {
-        const template = compileTemplate(templatePug, this.props);
-        console.log('Main template', template);
-        return template;
+        const element = compileTemplateToElement(templatePug, this.props);
+        console.log('Main template', element);
+        return element;
     }
 
     componentDidMount() {

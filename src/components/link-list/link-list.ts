@@ -1,6 +1,6 @@
 import {Block} from "../../core/block";
 import {Events} from "../../core/types";
-import {compileTemplate} from '../../core/utils';
+import {compileTemplateToElement} from '../../core/utils';
 import templatePug from "./link-list.pug";
 import './link-list.scss';
 
@@ -21,8 +21,8 @@ export class LinkList extends Block {
     }
 
     render() {
-        const template = compileTemplate(templatePug, this.props);
-        console.log('List template', template);
-        return template;
+        const element = compileTemplateToElement(templatePug, this.props);
+        console.log('List template', element);
+        return element;
     }
 }

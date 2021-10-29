@@ -1,6 +1,6 @@
 import {Block} from "../../../core/block";
 import {Events} from "../../../core/types";
-import {compileTemplate} from '../../../core/utils';
+import {compileTemplateToElement} from '../../../core/utils';
 import templatePug from "./text-input.pug";
 import './text-input.scss';
 
@@ -21,8 +21,8 @@ export class TextInput extends Block {
     }
 
     render() {
-        const template = compileTemplate(templatePug, this.props);
-        console.log('TextInput template', template);
-        return template;
+        const element = compileTemplateToElement(templatePug, this.props);
+        console.log('TextInput template', element);
+        return element;
     }
 }

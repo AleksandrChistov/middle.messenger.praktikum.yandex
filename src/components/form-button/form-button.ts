@@ -1,6 +1,6 @@
 import {Block} from "../../core/block";
 import {Events} from "../../core/types";
-import {compileTemplate} from '../../core/utils';
+import {compileTemplateToElement} from '../../core/utils';
 import templatePug from "./form-button.pug";
 import './form-button.scss';
 
@@ -18,8 +18,8 @@ export class FormButton extends Block {
     }
 
     render() {
-        const template = compileTemplate(templatePug, this.props);
-        console.log('FormButton template', template);
-        return template;
+        const element = compileTemplateToElement(templatePug, this.props);
+        console.log('FormButton template', element);
+        return element;
     }
 }

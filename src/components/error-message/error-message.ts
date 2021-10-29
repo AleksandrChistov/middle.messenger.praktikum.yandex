@@ -1,6 +1,6 @@
 import {Block} from "../../core/block";
 import {Events} from "../../core/types";
-import {compileTemplate} from '../../core/utils';
+import {compileTemplateToElement} from '../../core/utils';
 import templatePug from "./error-message.pug";
 import './error-message.scss';
 
@@ -17,8 +17,8 @@ export class ErrorMessage extends Block {
     }
 
     render() {
-        const template = compileTemplate(templatePug, this.props);
-        console.log('ErrorMessage template', template);
-        return template;
+        const element = compileTemplateToElement(templatePug, this.props);
+        console.log('ErrorMessage template', element);
+        return element;
     }
 }
