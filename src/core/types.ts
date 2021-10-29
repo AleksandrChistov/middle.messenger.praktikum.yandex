@@ -5,12 +5,16 @@ type ElementEvent = {
     fn: (event: Event) => void;
 }
 
+export type Events = {
+    [eventName: string]: ElementEvent[];
+}
+
+export type Children = {
+    [elementTag: string]: InstanceType<typeof Block>;
+}
+
 export type Props = {
     [key: string]: string | number | {};
-    events?: {
-        [eventName: string]: ElementEvent[]
-    },
-    children?: {
-        [elementTag: string]: InstanceType<typeof Block>;
-    }
+    events?: Events;
+    children?: Children;
 }
