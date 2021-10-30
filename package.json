@@ -14,7 +14,8 @@
     "frontend": {
       "source": [
         "index.html",
-        "./src/screens/signin/index.html"
+        "./src/screens/signin/index.html",
+        "./src/screens/signup/index.html"
       ],
       "distDir": "./dist"
     }

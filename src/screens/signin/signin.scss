@@ -2,63 +2,65 @@
 @import '../../../static/styles/colors';
 @import '../../components/inputs/input-styles';
 
-.form {
-  max-width: 100%;
-  width: 414px;
-  margin: 0 auto;
-  padding: 33px;
-  border-radius: 20px;
-  background: $background-color;
+#app {
+  .form {
+    max-width: 100%;
+    width: 414px;
+    margin: 0 auto;
+    padding: 33px;
+    border-radius: 20px;
+    background: $background-color;
 
-  &__welcome-text {
-    position: relative;
-    font-family: $head-font-family;
-    font-weight: 300;
-    font-size: 42px;
-    line-height: 51px;
-    text-align: center;
-    color: $purple;
-    margin: 0 0 -45px;
+    &__welcome-text {
+      position: relative;
+      font-family: $head-font-family;
+      font-weight: 300;
+      font-size: 42px;
+      line-height: 51px;
+      text-align: center;
+      color: $purple;
+      margin: 0 0 -45px;
 
-    span {
-      font-weight: 400;
-      margin-top: -10px;
+      span {
+        font-weight: 400;
+        margin-top: -10px;
+        display: block;
+      }
+    }
+
+    &__img {
+      height: 191px;
+      margin: 0 auto;
       display: block;
     }
-  }
 
-  &__img {
-    height: 191px;
-    margin: 0 auto;
-    display: block;
-  }
+    &__title {
+      font-family: $basic-font-family;
+      font-size: 28px;
+      line-height: 38px;
+      font-weight: 400;
+      margin-bottom: 15px;
+      color: $black;
+    }
 
-  &__title {
-    font-family: $basic-font-family;
-    font-size: 28px;
-    line-height: 38px;
-    font-weight: 400;
-    margin-bottom: 15px;
-    color: $black;
-  }
+    &__button-container {
+      position: relative;
+    }
 
-  &__button-container {
-    position: relative;
-  }
+    &__error-text {
+      position: absolute;
+    }
 
-  &__error-text {
-    position: absolute;
-  }
-
-  &__button-signup {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    border: 1px solid $purple;
-    box-shadow: none;
-    background: transparent;
-    color: $purple;
+    &__button-signup {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      border: 1px solid $purple;
+      box-shadow: none;
+      background: transparent;
+      color: $purple;
+    }
   }
 }
 
