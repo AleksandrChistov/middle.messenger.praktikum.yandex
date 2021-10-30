@@ -13,7 +13,8 @@
   "targets": {
     "frontend": {
       "source": [
-        "static/index.html"
+        "index.html",
+        "./src/screens/signin/index.html"
       ],
       "distDir": "./dist"
     }

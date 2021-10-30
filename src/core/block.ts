@@ -34,6 +34,7 @@ export class Block {
 
     init() {
         this._createResources();
+        this._addComponentNameAttribute();
         this.eventBus.emit(Block.EVENTS.FLOW_CDM);
     }
 
@@ -84,6 +85,10 @@ export class Block {
     _createResources() {
         const { tagName } = this._meta;
         this._element = this._createDocumentElement(tagName);
+    }
+
+    _addComponentNameAttribute() {
+        this._element.setAttribute('data-component', this.constructor.name);
     }
 
     _componentDidMount() {
