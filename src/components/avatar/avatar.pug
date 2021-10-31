@@ -1,0 +1,5 @@
+div(class="avatar" style=`width: ${size ? size : '40px'}; height: ${size ? size : '40px'}`)
+    if avatarImgSrc
+        img(class="avatar__img" src=avatarImgSrc alt="Error 404")
+    else
+        div.avatar__default
