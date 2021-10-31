@@ -6,12 +6,12 @@ import './time.scss';
 import {getDateString} from "./service";
 
 interface TimeProps extends Props {
-    type: 'chat-card' | 'chat-main';
+    type: 'time-card' | 'time-main';
     date: Date;
 }
 
 interface TimeParsedProps extends Props {
-    type: 'chat-card' | 'chat-main';
+    type: 'time-card' | 'time-main';
     date: string;
 }
 
