@@ -1,10 +1,10 @@
 import {Block} from "../../../core/block";
 import {Props} from "../../../core/types";
 import {compileTemplateToElement} from '../../../core/utils';
-import templatePug from "./password-input.pug";
-import './password-input.scss';
+import templatePug from "./search-input.pug";
+import './search-input.scss';
 
-interface PasswordInputProps extends Props {
+interface SearchInputProps extends Props {
     id: string;
     name: string;
     label?: string;
@@ -14,14 +14,14 @@ interface PasswordInputProps extends Props {
     placeholder?: string;
 }
 
-export class PasswordInput extends Block<PasswordInputProps> {
-    constructor(propsObj: PasswordInputProps) {
+export class SearchInput extends Block<SearchInputProps> {
+    constructor(propsObj: SearchInputProps) {
         super("div", propsObj);
     }
 
     render() {
         const element = compileTemplateToElement(templatePug, this.props);
-        console.log('Password template', element);
+        console.log('SearchInput template', element);
         return element;
     }
 }
