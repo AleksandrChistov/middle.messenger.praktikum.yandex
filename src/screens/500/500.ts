@@ -1,25 +1,25 @@
 import {Block} from '../../core/block';
 import {Props} from "../../core/types";
 import {compileTemplateToElement} from '../../core/utils';
-import templatePug from './404.pug';
-import errorImg from '../../../static/assets/img/404.png';
+import templatePug from './500.pug';
+import errorImg from '../../../static/assets/img/500.png';
 
-interface Page404Props extends Props {
+interface Page500Props extends Props {
     errorImgSrc: string;
 }
 
-const props: Page404Props = {
+const props: Page500Props = {
     errorImgSrc: errorImg,
 }
 
-class Page404 extends Block<Page404Props> {
-    constructor(propsObj: Page404Props) {
+class Page500 extends Block<Page500Props> {
+    constructor(propsObj: Page500Props) {
         super("main", propsObj);
     }
 
     render() {
         const element = compileTemplateToElement(templatePug, this.props);
-        console.log('404 template', element);
+        console.log('500 template', element);
         return element;
     }
 
@@ -31,4 +31,4 @@ class Page404 extends Block<Page404Props> {
     }
 }
 
-new Page404(props);
+new Page500(props);
