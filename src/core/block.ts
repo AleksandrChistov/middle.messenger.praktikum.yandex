@@ -16,7 +16,7 @@ export class Block<T> {
 
     private _element: HTMLElement = null;
     private _meta: Meta = null;
-    private eventBus: EventBus;
+    protected eventBus: EventBus;
     props: Props;
 
     constructor(tagName: string = "div", props: Props = {}) {
@@ -55,6 +55,11 @@ export class Block<T> {
 
     // Может переопределять пользователь, необязательно трогать
     render(): DocumentFragment {
+        return null;
+    }
+
+    // Может переопределять пользователь, необязательно трогать
+    makePropsProxy(props: Props): Props {
         return null;
     }
 
@@ -110,21 +115,25 @@ export class Block<T> {
     }
 
     _makePropsProxy(props: Props): Props {
-        const self = this;
+        const propsFromCustomMethod = this.makePropsProxy(props);
+
+        if (propsFromCustomMethod) {
+            return propsFromCustomMethod;
+        }
 
         return new Proxy<Props>(props, {
-            get(target: Props, prop: string): (() => any) | string | {} {
+            get: (target: Props, prop: string): (() => any) | string | {} => {
                 const value = target[prop];
                 console.log('get', value);
                 return (typeof value === 'function') ? value.bind(target) : value;
             },
-            set(target: Props, prop: string, value: string | {}): boolean {
+            set: (target: Props, prop: string, value: string | {}): boolean => {
                 target[prop] = value;
                 console.log('set', value);
-                self.eventBus.emit(Block.EVENTS.FLOW_CDU, {...target}, target);
+                this.eventBus.emit(Block.EVENTS.FLOW_CDU, {...target}, target);
                 return true;
             },
-            deleteProperty(target: Props, prop: string): boolean {
+            deleteProperty: (target: Props, prop: string): boolean => {
                 delete target[prop];
                 return true;
             }
