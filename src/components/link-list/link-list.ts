@@ -1,5 +1,5 @@
 import {Block} from "../../core/block";
-import {Events} from "../../core/types";
+import {Events, Props} from "../../core/types";
 import {compileTemplateToElement} from '../../core/utils';
 import templatePug from "./link-list.pug";
 import './link-list.scss';
@@ -9,12 +9,12 @@ type Item = {
     value: string;
 }
 
-type LinkListProps = {
+interface LinkListProps extends Props {
     items: Item[];
     events?: Events;
 }
 
-export class LinkList extends Block {
+export class LinkList extends Block<LinkListProps> {
     constructor(propsObj: LinkListProps) {
         // Создаём враппер DOM-элемент
         super("div", propsObj);

@@ -4,7 +4,12 @@ import {compileTemplateToElement} from './core/utils';
 import templatePug from './main.pug';
 import {LinkList} from './components/link-list/link-list';
 
-const props: Props = {
+interface MainPageProps extends Props {
+    title: string;
+    classTitle: string;
+}
+
+const props: MainPageProps = {
     title: 'Chatly is saying hello!',
     classTitle: 'title',
     events: {
@@ -49,9 +54,8 @@ const props: Props = {
     }
 }
 
-class Main extends Block {
-    constructor(propsObj: Props) {
-        // Создаём враппер DOM-элемент button
+class MainPage extends Block<MainPageProps> {
+    constructor(propsObj: MainPageProps) {
         super("main", propsObj);
     }
 
@@ -69,10 +73,10 @@ class Main extends Block {
     }
 }
 
-const main = new Main(props);
+const mainPage = new MainPage(props);
 
 setTimeout(() => {
-    main.setProps({
+    mainPage.setProps({
         title: 'New Title!',
         classTitle: 'some other class'
     })

@@ -1,18 +1,17 @@
 import {Block} from "../../core/block";
-import {Events} from "../../core/types";
+import {Events, Props} from "../../core/types";
 import {compileTemplateToElement} from '../../core/utils';
 import templatePug from "./error-message.pug";
 import './error-message.scss';
 
-type ErrorMessageProps = {
+interface ErrorMessageProps extends Props {
     textError?: string;
     addClass?: string;
     events?: Events;
 }
 
-export class ErrorMessage extends Block {
+export class ErrorMessage extends Block<ErrorMessageProps> {
     constructor(propsObj: ErrorMessageProps) {
-        // Создаём враппер DOM-элемент
         super("div", propsObj);
     }
 

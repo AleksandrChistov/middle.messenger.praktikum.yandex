@@ -1,10 +1,10 @@
 import {Block} from "../../../core/block";
-import {Events} from "../../../core/types";
+import {Events, Props} from "../../../core/types";
 import {compileTemplateToElement} from '../../../core/utils';
 import templatePug from "./password-input.pug";
 import './password-input.scss';
 
-type PasswordInputProps = {
+interface PasswordInputProps extends Props {
     id: string;
     name: string;
     label?: string;
@@ -15,9 +15,8 @@ type PasswordInputProps = {
     events?: Events;
 }
 
-export class PasswordInput extends Block {
+export class PasswordInput extends Block<PasswordInputProps> {
     constructor(propsObj: PasswordInputProps) {
-        // Создаём враппер DOM-элемент
         super("div", propsObj);
     }
 

@@ -8,7 +8,11 @@ import {PasswordInput} from "../../components/inputs/password/password-input";
 import {ErrorMessage} from "../../components/error-message/error-message";
 import {FormButton} from "../../components/form-button/form-button";
 
-const props: Props = {
+interface SignInPageProps extends Props {
+    welcomeImgSrc: string;
+}
+
+const props: SignInPageProps = {
     welcomeImgSrc: welcomeImg,
     children: {
         TextInput: new TextInput({
@@ -34,9 +38,8 @@ const props: Props = {
     }
 }
 
-class SignInPage extends Block {
-    constructor(propsObj: Props) {
-        // Создаём враппер DOM-элемент button
+class SignInPage extends Block<SignInPageProps> {
+    constructor(propsObj: SignInPageProps) {
         super("main", propsObj);
     }
 

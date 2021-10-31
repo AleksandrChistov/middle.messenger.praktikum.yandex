@@ -9,7 +9,9 @@ import {PasswordInput} from "../../components/inputs/password/password-input";
 import {ErrorMessage} from "../../components/error-message/error-message";
 import {FormButton} from "../../components/form-button/form-button";
 
-const props: Props = {
+interface SignUpPageProps extends Props {}
+
+const props: SignUpPageProps = {
     children: {
         TextInput1: new TextInput({
             label: 'Name',
@@ -64,14 +66,14 @@ const props: Props = {
     }
 }
 
-class SignInPage extends Block {
-    constructor(propsObj: Props) {
+class SignUpPage extends Block<SignUpPageProps> {
+    constructor(propsObj: SignUpPageProps) {
         super("main", propsObj);
     }
 
     render() {
         const element = compileTemplateToElement(templatePug, this.props);
-        console.log('SignIn template', element);
+        console.log('SignUpPage template', element);
         return element;
     }
 
@@ -83,10 +85,10 @@ class SignInPage extends Block {
     }
 }
 
-const signInPage = new SignInPage(props);
+const signUpPage = new SignUpPage(props);
 
 setTimeout(() => {
-    signInPage.props.children.TextInput1.setProps({
+    signUpPage.props.children.TextInput1.setProps({
         label: 'Test'
     })
 }, 4000);

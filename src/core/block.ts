@@ -6,7 +6,7 @@ type Meta = {
     props: Props
 }
 
-export class Block {
+export class Block<T> {
     static EVENTS = {
         INIT: "init",
         FLOW_CDM: "flow:component-did-mount",
@@ -46,13 +46,12 @@ export class Block {
         return oldProps !== newProps;
     }
 
-    setProps = (nextProps: Props) => {
+    setProps(nextProps: T): void {
         if (!nextProps) {
             return;
         }
-
         Object.assign(this.props, nextProps);
-    };
+    }
 
     // Может переопределять пользователь, необязательно трогать
     render(): DocumentFragment {

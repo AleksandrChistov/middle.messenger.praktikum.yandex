@@ -1,10 +1,10 @@
 import {Block} from "../../../core/block";
-import {Events} from "../../../core/types";
+import {Events, Props} from "../../../core/types";
 import {compileTemplateToElement} from '../../../core/utils';
 import templatePug from "./phone-input.pug";
 import './phone-input.scss';
 
-type PhoneInputProps = {
+interface PhoneInputProps extends Props {
     id: string;
     name: string;
     label?: string;
@@ -14,7 +14,7 @@ type PhoneInputProps = {
     events?: Events;
 }
 
-export class PhoneInput extends Block {
+export class PhoneInput extends Block<PhoneInputProps> {
     constructor(propsObj: PhoneInputProps) {
         super("div", propsObj);
     }
