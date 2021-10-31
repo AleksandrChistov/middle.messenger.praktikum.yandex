@@ -15,7 +15,8 @@
       "source": [
         "index.html",
         "./src/screens/signin/index.html",
-        "./src/screens/signup/index.html"
+        "./src/screens/signup/index.html",
+        "./src/screens/settings/index.html"
       ],
       "distDir": "./dist"
     }

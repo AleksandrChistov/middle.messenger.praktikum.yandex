@@ -1,41 +1,27 @@
-extends ../components/html-head/html-head.pug
-include ../../components/inputs/text/text-input.pug
-include ../../components/inputs/email/email-input.pug
-include ../../components/inputs/phone/phone-input.pug
-include ../../components/inputs/password/password-input.pug
-include ../../components/error-message/error-message
-include ../../components/form-button/form-button.pug
-
-block title
-    title='Chatly - user settings'
-block links
-    link(rel="stylesheet", href="settings.scss")
-
-block content
-    div.form-container
-        form.form
-            a(href="../chat/chat.pug" class="arrow-back")
-                include ../../../static/assets/icons/arrow-back.svg
-            h1="Your profile"
-            hr.line
-            +textInput("Name", "first_name", "first_name", "mb-5")
-            +textInput("Surname", "second_name", "second_name", "mb-5")
-            +textInput("Display name", "display_name", "display_name", "mb-5")
-            +textInput("Login", "login", "login", "mb-5")
-            +emailInput("Email", "email", "email", "mb-5")
-            +phoneInput("Phone", "phone", "phone", "mb-5")
-            div(class="form__button-container")
-                +errorMessage(null, "form__error-text")
-                +formButton("submit", "Change data", "mt-30")
-        form.form.form--relative
-            a(href="../signin/signin.pug" class="form__escape-icon")
-                include ../../../static/assets/icons/escape.svg
-            button(type="button" class="avatar-button")
-                span(class="avatar-button__text")="Change avatar"
-            hr.line
-            +passwordInput("Old password", "oldPassword", "oldPassword", "mb-5")
-            +passwordInput("Password", "password", "password", "mb-5")
-            +passwordInput("Password (again)", "newPassword", "newPassword", "mb-5")
-            div(class="form__button-container")
-                +errorMessage(null, "form__error-text")
-                +formButton("submit","Change password", "mt-30")
+div.form-container
+    form.form
+        a(href="../chat/chat.pug" class="arrow-back")
+            include ../../../static/assets/icons/arrow-back.svg
+        h1="Your profile"
+        hr.line
+        TextInput1
+        TextInput2
+        TextInput3
+        TextInput4
+        EmailInput
+        PhoneInput
+        div(class="form__button-container")
+            ErrorMessage1
+            FormButton1
+    form.form.form--relative
+        a(href="../signin/signin.pug" class="form__escape-icon")
+            include ../../../static/assets/icons/escape.svg
+        button(type="button" class="avatar-button")
+            span(class="avatar-button__text")="Change avatar"
+        hr.line
+        PasswordInput1
+        PasswordInput2
+        PasswordInput3
+        div(class="form__button-container")
+            ErrorMessage2
+            FormButton2
