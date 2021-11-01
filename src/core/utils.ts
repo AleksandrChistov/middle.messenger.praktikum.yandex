@@ -19,6 +19,14 @@ export function compileTemplateToElement(templatePugFn: (locals) => string, prop
             }
 
             const childElement = children[tag].getContent();
+            const attributeNames = childElementTag.getAttributeNames();
+            console.log('attributeNames', attributeNames);
+
+            attributeNames.forEach((attrName) => {
+                const attrValue = childElementTag.getAttribute(attrName);
+                console.log('attrValue', attrValue);
+                childElement.setAttribute(attrName, attrValue);
+            })
 
             childElementTag.replaceWith(childElement);
         })
