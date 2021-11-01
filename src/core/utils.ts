@@ -12,6 +12,12 @@ export function compileTemplateToElement(templatePugFn: (locals) => string, prop
         Object.keys(children).forEach(tag => {
             console.log('childTag > ', tag);
             const childElementTag = elementBody.querySelector(tag);
+
+            if (!childElementTag) {
+                console.error(`The ${tag} tag was not specified in the markup`);
+                return;
+            }
+
             const childElement = children[tag].getContent();
 
             childElementTag.replaceWith(childElement);

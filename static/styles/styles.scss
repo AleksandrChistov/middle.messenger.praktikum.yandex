@@ -5,6 +5,11 @@
   box-sizing: border-box;
 }
 
+body, h1, h2, h3, h4, h5, p {
+  font-family: $basic-font-family;
+  margin: 0;
+}
+
 h1 {
   font-family: $head-font-family;
   font-size: 42px;

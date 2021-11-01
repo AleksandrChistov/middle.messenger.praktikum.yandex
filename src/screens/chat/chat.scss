@@ -1,1 +1,152 @@
 @import '../../../static/styles/styles';
+@import '../../components/inputs/input-styles';
+
+$top-panel-height: 54px;
+$bottom-panel-height: 50px;
+$margin-bottom: 15px;
+
+#app {
+  main {
+    display: flex;
+    height: 100vh;
+  }
+
+  .sidebar {
+    flex-basis: 30%;
+    background-color: $background-color;
+  }
+
+  .main {
+    flex-basis: 70%;
+  }
+
+  .search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 16px;
+    background-color: $purple;
+
+    [data-component="SearchInput"] {
+      width: 100%;
+    }
+  }
+
+  .settings-icon {
+    margin-right: 16px;
+
+    svg {
+      vertical-align: middle;
+    }
+  }
+
+  .chat {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - #{$top-panel-height} - #{$bottom-panel-height} - #{$margin-bottom});
+    padding: 20px 25px 10px;
+
+    &__container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      flex-grow: 1;
+      overflow: hidden;
+    }
+
+    & > [data-component="Time"] {
+      text-align: center;
+      margin-bottom: 20px;
+      color: $gray;
+    }
+
+    [data-component="Message"] {
+      margin-bottom: 20px;
+    }
+
+    &__default-text {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 500;
+      color: $gray;
+    }
+  }
+
+  .top-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 25px;
+    background-color: $background-color;
+
+    &__avatar {
+      display: flex;
+      align-items: center;
+    }
+
+    [data-component="Avatar"] {
+      margin-right: 10px;
+    }
+
+    &__author-name {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    &__options {
+      display: flex;
+
+      &-ellipsis-icon {
+        margin-right: 20px;
+      }
+    }
+  }
+
+  .bottom-panel {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
+
+    &__button {
+      width: 50px;
+      height: 50px;
+      border: none;
+      border-radius: 50%;
+      background: $purple;
+      box-shadow: 0 4px 4px rgba($black, 0.25);
+    }
+
+    &__clip-button {
+      margin-right: 10px;
+    }
+
+    &__arrow-button {
+      margin-left: 10px;
+    }
+
+    &__text-message {
+      resize: none;
+      flex-grow: 1;
+      font-family: $basic-font-family;
+      height: 50px;
+      padding: 16px 45px;
+      color: white;
+      border-radius: 20px;
+      border: none;
+      background: $purple;
+
+      &::placeholder {
+        color: white;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}

@@ -11,8 +11,8 @@ interface ChatCardProps extends Props {
     textMessage?: string;
     messageCount?: string;
     children: {
-        Avatar: Avatar
-        Time: Time
+        Avatar: InstanceType<typeof Avatar>;
+        Time: InstanceType<typeof Time>;
     }
 }
 

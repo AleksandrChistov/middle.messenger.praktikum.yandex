@@ -18,7 +18,8 @@
         "./src/screens/signup/index.html",
         "./src/screens/settings/index.html",
         "./src/screens/404/index.html",
-        "./src/screens/500/index.html"
+        "./src/screens/500/index.html",
+        "./src/screens/chat/index.html"
       ],
       "distDir": "./dist"
     }

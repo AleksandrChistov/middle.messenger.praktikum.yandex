@@ -1,9 +1,29 @@
-extends ../components/html-head/html-head.pug
-
-block title
-    title='Chatly - online chat'
-block links
-    link(rel="stylesheet", href="chat.scss")
-
-block content
-    h1="Chat page stub"
+section.sidebar
+    div.search-container
+        a(href="../settings/settings.html" class="settings-icon")
+            include ../../../static/assets/icons/settings.svg
+        SearchInput
+    ChatCard1
+    ChatCard2
+section.main
+    section.top-panel
+        div.top-panel__avatar
+            Avatar
+            span(class="top-panel__author-name")=authorName
+        div.top-panel__options
+            input(type="image" class="top-panel__options-ellipsis-icon" id="cart" alt="cart" src=cartImgSrc)
+            input(type="image" id="vertical-ellipsis" alt="vertical-ellipsis" src=vertEllipsisImgSrc)
+    section.chat
+        if true
+            Time1
+            div.chat__container
+                Message1
+                Message2
+        else
+            p(class="chat__default-text")="Select a chat to send a message"
+    section.bottom-panel
+        button(type="button" class="bottom-panel__button bottom-panel__clip-button")
+            include ../../../static/assets/icons/clip.svg
+        textarea(class="bottom-panel__text-message" wrap="hard" cols="2" id="text-message" name="text-message" placeholder="Type a message...")
+        button(type="submit" class="bottom-panel__button bottom-panel__arrow-button")
+            include ../../../static/assets/icons/arrow-button.svg
