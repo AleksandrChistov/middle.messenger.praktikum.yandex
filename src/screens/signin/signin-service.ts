@@ -18,7 +18,7 @@ class SignInService extends FormServiceAbstract {
         this.props = getProps(this.handleFormService);
     }
 
-    protected showError(errorMessage: string): void {
+    protected showError(errorMessage: string, inputName?: string): void {
         this.props.children.ErrorMessage.setProps({
             textError: errorMessage,
             addClass: errorMessage ? 'error-text--display' : '',

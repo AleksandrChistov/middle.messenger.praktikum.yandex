@@ -1,31 +1,34 @@
 import {Props} from "../../core/types";
 import {FormServiceAbstract} from "../../services/form-service-abstract";
 import {TextInput} from "../../components/inputs/text/text-input";
-import {EmailInput} from "../../components/inputs/email/email-input";
-import {PhoneInput} from "../../components/inputs/phone/phone-input";
 import {PasswordInput} from "../../components/inputs/password/password-input";
 import {ErrorMessage} from "../../components/error-message/error-message";
 import {FormButton} from "../../components/form-button/form-button";
+import {EmailInput} from "../../components/inputs/email/email-input";
+import {PhoneInput} from "../../components/inputs/phone/phone-input";
 
-export interface SignUpPageProps extends Props {}
+export interface SettingsPageProps extends Props {}
 
-class SignUpService extends FormServiceAbstract {
-    public props: SignUpPageProps;
+class SettingsService extends FormServiceAbstract {
+    public props: SettingsPageProps;
 
     constructor() {
         super();
         this.props = getProps(this.handleFormService);
     }
 
-    protected showError(errorMessage: string, inputName?: string): void {
-        this.props.children.ErrorMessage.setProps({
+    protected showError(errorMessage: string, inputName: string): void {
+        const isFormPassword = inputName === 'password' || inputName === 'oldPassword' || inputName === 'newPassword';
+        const formComponent = isFormPassword ? 'ErrorMessage2' : 'ErrorMessage1';
+
+        this.props.children[formComponent].setProps({
             textError: errorMessage,
             addClass: errorMessage ? 'error-text--display' : '',
         })
     }
 }
 
-function getProps(handleFormService): SignUpPageProps {
+function getProps(handleFormService): SettingsPageProps {
     return {
         children: {
             TextInput1: new TextInput({
@@ -43,6 +46,13 @@ function getProps(handleFormService): SignUpPageProps {
                 required: true,
             }),
             TextInput3: new TextInput({
+                label: 'Display name',
+                id: 'display_name',
+                name: 'display_name',
+                inputClass: 'mb-5',
+                required: true,
+            }),
+            TextInput4: new TextInput({
                 label: 'Login',
                 id: 'login',
                 name: 'login',
@@ -63,28 +73,43 @@ function getProps(handleFormService): SignUpPageProps {
                 inputClass: 'mb-5',
                 required: true,
             }),
+            ErrorMessage1: new ErrorMessage({
+                addClass: 'form__error-text'
+            }),
+            FormButton1: new FormButton({
+                type: 'submit',
+                text: 'Change data',
+                addClass: 'mt-30'
+            }),
             PasswordInput1: new PasswordInput({
-                label: 'Password',
-                id: 'password',
-                name: 'password',
-                inputClass: 'mb-5',
+                label: 'Old password',
+                id: 'oldPassword',
+                name: 'oldPassword',
+                inputContainerClass: 'mb-5',
                 required: true,
             }),
             PasswordInput2: new PasswordInput({
-                label: 'Password (again)',
-                id: 'passwordAgain',
-                name: 'passwordAgain',
-                inputClass: 'mb-5',
+                label: 'Password',
+                id: 'password',
+                name: 'password',
+                inputContainerClass: 'mb-5',
                 required: true,
             }),
-            ErrorMessage: new ErrorMessage({
+            PasswordInput3: new PasswordInput({
+                label: 'Password (again)',
+                id: 'newPassword',
+                name: 'newPassword',
+                inputContainerClass: 'mb-5',
+                required: true,
+            }),
+            ErrorMessage2: new ErrorMessage({
                 addClass: 'form__error-text'
             }),
-            FormButton: new FormButton({
+            FormButton2: new FormButton({
                 type: 'submit',
-                text: 'Sign up',
+                text: 'Change password',
                 addClass: 'mt-30'
-            })
+            }),
         },
         events: {
             focus: [
@@ -109,11 +134,15 @@ function getProps(handleFormService): SignUpPageProps {
                     fn: event => handleFormService.handleFieldFocus(event)
                 },
                 {
+                    id: "oldPassword",
+                    fn: event => handleFormService.handleFieldFocus(event)
+                },
+                {
                     id: "password",
                     fn: event => handleFormService.handleFieldFocus(event)
                 },
                 {
-                    id: "passwordAgain",
+                    id: "newPassword",
                     fn: event => handleFormService.handleFieldFocus(event)
                 }
             ],
@@ -139,17 +168,25 @@ function getProps(handleFormService): SignUpPageProps {
                     fn: event => handleFormService.handleFieldBlur(event)
                 },
                 {
+                    id: "oldPassword",
+                    fn: event => handleFormService.handleFieldBlur(event)
+                },
+                {
                     id: "password",
                     fn: event => handleFormService.handleFieldBlur(event)
                 },
                 {
-                    id: "passwordAgain",
+                    id: "newPassword",
                     fn: event => handleFormService.handleFieldBlur(event)
                 }
             ],
             submit: [
                 {
-                    id: "form",
+                    id: "form-profile",
+                    fn: event => handleFormService.handleFormSubmit(event)
+                },
+                {
+                    id: "form-password",
                     fn: event => handleFormService.handleFormSubmit(event)
                 }
             ],
@@ -157,6 +194,6 @@ function getProps(handleFormService): SignUpPageProps {
     }
 }
 
-const signUpService = new SignUpService();
+const settingsService = new SettingsService();
 
-export const props = signUpService.props;
+export const props = settingsService.props;

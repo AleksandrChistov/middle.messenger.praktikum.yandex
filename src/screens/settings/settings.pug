@@ -1,5 +1,5 @@
 div.form-container
-    form.form
+    form(class="form" id="form-profile")
         a(href="../chat/chat.pug" class="arrow-back")
             include ../../../static/assets/icons/arrow-back.svg
         h1="Your profile"
@@ -13,7 +13,7 @@ div.form-container
         div(class="form__button-container")
             ErrorMessage1
             FormButton1
-    form.form.form--relative
+    form(class="form form--relative" id="form-password")
         a(href="../signin/signin.pug" class="form__escape-icon")
             include ../../../static/assets/icons/escape.svg
         button(type="button" class="avatar-button")
