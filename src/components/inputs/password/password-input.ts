@@ -12,6 +12,7 @@ interface PasswordInputProps extends Props {
     inputContainerClass?: string;
     inputClass?: string;
     placeholder?: string;
+    required?: boolean;
 }
 
 export class PasswordInput extends Block<PasswordInputProps> {

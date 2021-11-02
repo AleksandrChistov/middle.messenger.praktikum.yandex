@@ -1,5 +1,5 @@
 import {Block} from "../../../core/block";
-import {Events, Props} from "../../../core/types";
+import {Props} from "../../../core/types";
 import {compileTemplateToElement} from '../../../core/utils';
 import templatePug from "./email-input.pug";
 import './email-input.scss';
@@ -11,7 +11,7 @@ interface EmailInputProps extends Props {
     labelClass?: string;
     inputClass?: string;
     placeholder?: string;
-    events?: Events;
+    required?: boolean;
 }
 
 export class EmailInput extends Block<EmailInputProps> {
