@@ -1,6 +1,6 @@
 import {Props} from '../../core/types';
 import {FormServiceAbstract} from '../../services/form-service-abstract';
-import {HandleFormService} from "../../services/form-service";
+import {HandleFormService} from '../../services/form-service';
 import welcomeImg from '../../../static/assets/img/welcome.png';
 import {TextInput} from '../../components/inputs/text/text-input';
 import {PasswordInput} from '../../components/inputs/password/password-input';
@@ -20,7 +20,7 @@ class SignInService extends FormServiceAbstract {
 	}
 
 	protected showError(errorMessage: string): void {
-		this.props.children?.ErrorMessage.setProps({
+		this.props.children?.errorMessageComponent.setProps({
 			textError: errorMessage,
 			addClass: errorMessage ? 'error-text--display' : '',
 		});
@@ -29,26 +29,26 @@ class SignInService extends FormServiceAbstract {
 
 function getProps(handleFormService: HandleFormService): SignInPageProps {
 	return {
-		welcomeImgSrc: welcomeImg,
+		welcomeImgSrc: welcomeImg as string,
 		children: {
-			TextInput: new TextInput({
+			textInputComponent: new TextInput({
 				label: 'Login',
 				id: 'login',
 				name: 'login',
 				inputClass: 'mb-5',
 				required: true,
 			}),
-			PasswordInput: new PasswordInput({
+			passwordInputComponent: new PasswordInput({
 				label: 'Password',
 				id: 'password',
 				name: 'password',
 				inputContainerClass: 'mb-5',
 				required: true,
 			}),
-			ErrorMessage: new ErrorMessage({
+			errorMessageComponent: new ErrorMessage({
 				addClass: 'form__error-text',
 			}),
-			FormButton: new FormButton({
+			formButtonComponent: new FormButton({
 				type: 'submit',
 				text: 'Sign in',
 				addClass: 'mt-30 mb-20',
@@ -58,27 +58,37 @@ function getProps(handleFormService: HandleFormService): SignInPageProps {
 			focus: [
 				{
 					id: 'login',
-					fn: event => handleFormService.handleFieldFocus(event),
+					fn: event => {
+						handleFormService.handleFieldFocus(event);
+					},
 				},
 				{
 					id: 'password',
-					fn: event => handleFormService.handleFieldFocus(event),
+					fn: event => {
+						handleFormService.handleFieldFocus(event);
+					},
 				},
 			],
 			blur: [
 				{
 					id: 'login',
-					fn: event => handleFormService.handleFieldBlur(event),
+					fn: event => {
+						handleFormService.handleFieldBlur(event);
+					},
 				},
 				{
 					id: 'password',
-					fn: event => handleFormService.handleFieldBlur(event),
+					fn: event => {
+						handleFormService.handleFieldBlur(event);
+					},
 				},
 			],
 			submit: [
 				{
 					id: 'form',
-					fn: event => handleFormService.handleFormSubmit(event),
+					fn: event => {
+						handleFormService.handleFormSubmit(event);
+					},
 				},
 			],
 		},

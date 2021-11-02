@@ -6,19 +6,18 @@ type Meta = {
 	props: Props;
 };
 
+export enum EventsEnum {
+	INIT = 'init',
+	FLOW_CDM = 'flow:component-did-mount',
+	FLOW_CDU = 'flow:component-did-update',
+	FLOW_RENDER = 'flow:render',
+}
+
 export class Block<T> {
-	static EVENTS = {
-		INIT: 'init',
-		FLOW_CDM: 'flow:component-did-mount',
-		FLOW_CDU: 'flow:component-did-update',
-		FLOW_RENDER: 'flow:render',
-	};
-
-	private _element: HTMLElement;
-	private _meta: Meta;
-
-	protected eventBus: EventBus;
 	props: Props;
+	protected eventBus: EventBus;
+	private _element: HTMLElement;
+	private readonly _meta: Meta;
 
 	constructor(tagName = 'div', props: Props = {}) {
 		this.eventBus = new EventBus();
@@ -30,17 +29,18 @@ export class Block<T> {
 		this.props = this._makePropsProxy(props);
 
 		this._registerEvents(this.eventBus);
-		this.eventBus.emit(Block.EVENTS.INIT);
+		this.eventBus.emit(EventsEnum.INIT);
 	}
 
 	init() {
 		this._createResources();
 		this._addComponentNameAttribute();
-		this.eventBus.emit(Block.EVENTS.FLOW_CDM);
+		this.eventBus.emit(EventsEnum.FLOW_CDM);
 	}
 
-	// Может переопределять пользователь, необязательно трогать
-	componentDidMount(): void {}
+	componentDidMount(): void {
+		// Может переопределять пользователь, необязательно трогать
+	}
 
 	// Может переопределять пользователь, необязательно трогать
 	componentDidUpdate(oldProps: Props, newProps: Props): boolean {
@@ -61,8 +61,7 @@ export class Block<T> {
 	}
 
 	// Может переопределять пользователь, необязательно трогать
-	// @ts-ignore
-	makePropsProxy(props: Props): Props | null {
+	makePropsProxy(_: Props): Props | null {
 		return null;
 	}
 
@@ -83,10 +82,10 @@ export class Block<T> {
 	}
 
 	_registerEvents(eventBus: EventBus) {
-		eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
-		eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
-		eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
-		eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+		eventBus.on(EventsEnum.INIT, this.init.bind(this));
+		eventBus.on(EventsEnum.FLOW_CDM, this._componentDidMount.bind(this));
+		eventBus.on(EventsEnum.FLOW_CDU, this._componentDidUpdate.bind(this));
+		eventBus.on(EventsEnum.FLOW_RENDER, this._render.bind(this));
 	}
 
 	_createResources() {
@@ -100,13 +99,13 @@ export class Block<T> {
 
 	_componentDidMount() {
 		this.componentDidMount();
-		this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+		this.eventBus.emit(EventsEnum.FLOW_RENDER);
 	}
 
 	_componentDidUpdate(oldProps: Props, newProps: Props): void {
 		const response = this.componentDidUpdate(oldProps, newProps);
 		if (response) {
-			this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+			this.eventBus.emit(EventsEnum.FLOW_RENDER);
 		}
 	}
 
@@ -125,18 +124,23 @@ export class Block<T> {
 		}
 
 		return new Proxy<Props>(props, {
-			get: (target: Props, prop: string): (() => any) | string | {} => {
-				const value = target[prop];
+			get: (target: Props, prop: string): unknown => {
+				const value = target[prop] as unknown;
 				console.log('get', value);
 				return (typeof value === 'function') ? value.bind(target) : value;
 			},
-			set: (target: Props, prop: string, value: string | {}): boolean => {
+			set: (
+				target: Props,
+				prop: string,
+				value: string | Record<string, unknown>,
+			): boolean => {
 				target[prop] = value;
 				console.log('set', value);
-				this.eventBus.emit(Block.EVENTS.FLOW_CDU, {...target}, target);
+				this.eventBus.emit(EventsEnum.FLOW_CDU, {...target}, target);
 				return true;
 			},
 			deleteProperty: (target: Props, prop: string): boolean => {
+				// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 				delete target[prop];
 				return true;
 			},

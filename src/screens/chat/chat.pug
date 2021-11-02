@@ -2,26 +2,26 @@ section.sidebar
     div.search-container
         a(href="../settings/settings.html" class="settings-icon")
             include ../../../static/assets/icons/settings.svg
-        SearchInput
-    ChatCard1
-    ChatCard2
+        searchInputComponent
+    chatCardComponent1
+    chatCardComponent2
 section.main
     section.top-panel
         div.top-panel__avatar
-            Avatar
+            avatarComponent
             span(class="top-panel__author-name")=authorName
         div.top-panel__options
             input(type="image" class="top-panel__options-ellipsis-icon" id="cart" alt="cart" src=cartImgSrc)
             input(type="image" id="vertical-ellipsis" alt="vertical-ellipsis" src=vertEllipsisImgSrc)
     section.chat
         if true
-            Time1
+            timeComponent1
             div.chat__container
-                Message1
-                Message2
+                messageComponent1
+                messageComponent2
         else
             p(class="chat__default-text")="Select a chat to send a message"
-    ErrorMessage
+    errorMessageComponent
     section.bottom-panel
         button(type="button" class="bottom-panel__button bottom-panel__clip-button")
             include ../../../static/assets/icons/clip.svg

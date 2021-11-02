@@ -8,6 +8,8 @@
     "start:dev": "parcel --open",
     "server": "node server/app.js",
     "build": "parcel build",
+    "lint": "eslint src/**",
+    "lint fix": "eslint src/** --fix",
     "test": "test"
   },
   "targets": {

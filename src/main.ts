@@ -23,7 +23,7 @@ const props: MainPageProps = {
 		],
 	},
 	children: {
-		LinkList: new LinkList({
+		linkListComponent: new LinkList({
 			items: [
 				{
 					href: '/src/screens/signin/signin.html',

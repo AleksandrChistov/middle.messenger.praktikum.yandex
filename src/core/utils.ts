@@ -1,6 +1,9 @@
 import {Props} from './types';
 
-export function compileTemplateToElement(templatePugFn: (locals: Props) => string, props: Props): DocumentFragment {
+export function compileTemplateToElement(
+	templatePugFn: (locals: Props) => string,
+	props: Props,
+): DocumentFragment {
 	const parser = new DOMParser();
 	const template: string = templatePugFn(props);
 	const {children = {}} = props;
@@ -25,13 +28,22 @@ export function compileTemplateToElement(templatePugFn: (locals: Props) => strin
 			attributeNames.forEach(attrName => {
 				const attrValue = childElementTag.getAttribute(attrName);
 				console.log('attrValue', attrValue);
+
+				if (!attrValue) {
+					console.error(
+						`The value for the ${attrName} attribute name 
+						was not specified in the markup`,
+					);
+					return;
+				}
+
 				childElement.setAttribute(attrName, attrValue);
 			});
 
 			childElementTag.replaceWith(childElement);
 		});
-	} catch (err) {
-		throw new Error(`Template compilation failed due to ${err}`);
+	} catch (err: unknown) {
+		throw new Error(`Template compilation failed due to ${String(err)}`);
 	}
 
 	const fragment = document.createDocumentFragment();

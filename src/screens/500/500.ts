@@ -9,7 +9,7 @@ interface Page500Props extends Props {
 }
 
 const props: Page500Props = {
-	errorImgSrc: errorImg,
+	errorImgSrc: errorImg as string,
 };
 
 class Page500 extends Block<Page500Props> {

@@ -38,7 +38,8 @@ export class HandleFormService {
 		const {elements} = formNode;
 		const elementsArray = Array.from(elements);
 
-		const isFormValid = elementsArray.every((element: HTMLInputElement) => this.validateInput(element));
+		const isFormValid = elementsArray
+			.every((element: HTMLInputElement) => this.validateInput(element));
 
 		if (!isFormValid) {
 			return null;
@@ -46,13 +47,13 @@ export class HandleFormService {
 
 		return Array.from(elements)
 			.filter((element: HTMLInputElement) => Boolean(element.name))
-			.reduce((obj, element: HTMLInputElement) => {
-				const {name, value} = element;
+			.reduce<Record<string, string>>((obj, element: HTMLInputElement) => {
+			const {name, value} = element;
 
-				obj[name] = value;
+			obj[name] = value;
 
-				return obj;
-			}, {} as Record<string, string>);
+			return obj;
+		}, {});
 	}
 
 	private validateInput(element: HTMLInputElement): boolean {
@@ -60,7 +61,7 @@ export class HandleFormService {
 		console.log('validateInput', name);
 
 		if (name === 'first_name' || name === 'second_name') {
-			const isValidValue = /^[A-ZА-Я][a-zA-Zа-яА-Я\-]+$/.test(value);
+			const isValidValue = /^[A-ZА-Я][a-zA-Zа-яА-Я-]+$/.test(value);
 
 			if (!isValidValue) {
 				this.showErrorFn('Latin or Cyrillic letters are allowed, '
@@ -101,7 +102,8 @@ export class HandleFormService {
 			if (!isValidValue) {
 				this.showErrorFn('The Latin alphabet is acceptable, '
                     + 'it can include numbers and special characters like a hyphen, '
-                    + 'there must be a "dog" (@) and a dot after it, but there must be letters before the dot',
+                    + 'there must be a "dog" (@) and a dot after it, '
+					+ 'but there must be letters before the dot',
 				name,
 				);
 				return false;
@@ -110,7 +112,12 @@ export class HandleFormService {
 			return true;
 		}
 
-		if (name === 'password' || name === 'passwordAgain' || name === 'oldPassword' || name === 'newPassword') {
+		if (
+			name === 'password'
+			|| name === 'passwordAgain'
+			|| name === 'oldPassword'
+			|| name === 'newPassword'
+		) {
 			console.log('value', value);
 			const isValidCharacters = /^(.*([A-Z]+.*[0-9]+|[0-9]+.*[A-Z]+).*)+$/.test(value);
 			const isValidLength = value.length >= 8 && value.length < 40;

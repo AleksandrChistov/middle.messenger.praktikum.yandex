@@ -9,7 +9,7 @@ interface Page404Props extends Props {
 }
 
 const props: Page404Props = {
-	errorImgSrc: errorImg,
+	errorImgSrc: errorImg as string,
 };
 
 class Page404 extends Block<Page404Props> {

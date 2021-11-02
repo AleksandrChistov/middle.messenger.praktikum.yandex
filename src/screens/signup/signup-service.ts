@@ -1,6 +1,6 @@
 import {Props} from '../../core/types';
 import {FormServiceAbstract} from '../../services/form-service-abstract';
-import {HandleFormService} from "../../services/form-service";
+import {HandleFormService} from '../../services/form-service';
 import {TextInput} from '../../components/inputs/text/text-input';
 import {EmailInput} from '../../components/inputs/email/email-input';
 import {PhoneInput} from '../../components/inputs/phone/phone-input';
@@ -19,7 +19,7 @@ class SignUpService extends FormServiceAbstract {
 	}
 
 	protected showError(errorMessage: string): void {
-		this.props.children?.ErrorMessage.setProps({
+		this.props.children?.errorMessageComponent.setProps({
 			textError: errorMessage,
 			addClass: errorMessage ? 'error-text--display' : '',
 		});
@@ -29,59 +29,59 @@ class SignUpService extends FormServiceAbstract {
 function getProps(handleFormService: HandleFormService): SignUpPageProps {
 	return {
 		children: {
-			TextInput1: new TextInput({
+			textInputComponent1: new TextInput({
 				label: 'Name',
 				id: 'first_name',
 				name: 'first_name',
 				inputClass: 'mb-5',
 				required: true,
 			}),
-			TextInput2: new TextInput({
+			textInputComponent2: new TextInput({
 				label: 'Surname',
 				id: 'second_name',
 				name: 'second_name',
 				inputClass: 'mb-5',
 				required: true,
 			}),
-			TextInput3: new TextInput({
+			textInputComponent3: new TextInput({
 				label: 'Login',
 				id: 'login',
 				name: 'login',
 				inputClass: 'mb-5',
 				required: true,
 			}),
-			EmailInput: new EmailInput({
+			emailInputComponent: new EmailInput({
 				label: 'Email',
 				id: 'email',
 				name: 'email',
 				inputClass: 'mb-5',
 				required: true,
 			}),
-			PhoneInput: new PhoneInput({
+			phoneInputComponent: new PhoneInput({
 				label: 'Phone',
 				id: 'phone',
 				name: 'phone',
 				inputClass: 'mb-5',
 				required: true,
 			}),
-			PasswordInput1: new PasswordInput({
+			passwordInputComponent1: new PasswordInput({
 				label: 'Password',
 				id: 'password',
 				name: 'password',
 				inputClass: 'mb-5',
 				required: true,
 			}),
-			PasswordInput2: new PasswordInput({
+			passwordInputComponent2: new PasswordInput({
 				label: 'Password (again)',
 				id: 'passwordAgain',
 				name: 'passwordAgain',
 				inputClass: 'mb-5',
 				required: true,
 			}),
-			ErrorMessage: new ErrorMessage({
+			errorMessageComponent: new ErrorMessage({
 				addClass: 'form__error-text',
 			}),
-			FormButton: new FormButton({
+			formButtonComponent: new FormButton({
 				type: 'submit',
 				text: 'Sign up',
 				addClass: 'mt-30',
@@ -91,67 +91,97 @@ function getProps(handleFormService: HandleFormService): SignUpPageProps {
 			focus: [
 				{
 					id: 'first_name',
-					fn: event => handleFormService.handleFieldFocus(event),
+					fn: event => {
+						handleFormService.handleFieldFocus(event);
+					},
 				},
 				{
 					id: 'second_name',
-					fn: event => handleFormService.handleFieldFocus(event),
+					fn: event => {
+						handleFormService.handleFieldFocus(event);
+					},
 				},
 				{
 					id: 'login',
-					fn: event => handleFormService.handleFieldFocus(event),
+					fn: event => {
+						handleFormService.handleFieldFocus(event);
+					},
 				},
 				{
 					id: 'email',
-					fn: event => handleFormService.handleFieldFocus(event),
+					fn: event => {
+						handleFormService.handleFieldFocus(event);
+					},
 				},
 				{
 					id: 'phone',
-					fn: event => handleFormService.handleFieldFocus(event),
+					fn: event => {
+						handleFormService.handleFieldFocus(event);
+					},
 				},
 				{
 					id: 'password',
-					fn: event => handleFormService.handleFieldFocus(event),
+					fn: event => {
+						handleFormService.handleFieldFocus(event);
+					},
 				},
 				{
 					id: 'passwordAgain',
-					fn: event => handleFormService.handleFieldFocus(event),
+					fn: event => {
+						handleFormService.handleFieldFocus(event);
+					},
 				},
 			],
 			blur: [
 				{
 					id: 'first_name',
-					fn: event => handleFormService.handleFieldBlur(event),
+					fn: event => {
+						handleFormService.handleFieldBlur(event);
+					},
 				},
 				{
 					id: 'second_name',
-					fn: event => handleFormService.handleFieldBlur(event),
+					fn: event => {
+						handleFormService.handleFieldBlur(event);
+					},
 				},
 				{
 					id: 'login',
-					fn: event => handleFormService.handleFieldBlur(event),
+					fn: event => {
+						handleFormService.handleFieldBlur(event);
+					},
 				},
 				{
 					id: 'email',
-					fn: event => handleFormService.handleFieldBlur(event),
+					fn: event => {
+						handleFormService.handleFieldBlur(event);
+					},
 				},
 				{
 					id: 'phone',
-					fn: event => handleFormService.handleFieldBlur(event),
+					fn: event => {
+						handleFormService.handleFieldBlur(event);
+					},
 				},
 				{
 					id: 'password',
-					fn: event => handleFormService.handleFieldBlur(event),
+					fn: event => {
+						handleFormService.handleFieldBlur(event);
+					},
 				},
 				{
 					id: 'passwordAgain',
-					fn: event => handleFormService.handleFieldBlur(event),
+					fn: event => {
+						handleFormService.handleFieldBlur(event);
+					},
 				},
 			],
 			submit: [
 				{
 					id: 'form',
-					fn: event => handleFormService.handleFormSubmit(event),
+					fn: event => {
+						handleFormService.handleFormSubmit(event);
+					},
 				},
 			],
 		},

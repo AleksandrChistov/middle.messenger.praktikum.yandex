@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
-    "downlevelIteration": true,
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "sourceMap": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "target": "esnext",
+    "declaration": false,
+    "module": "commonjs",
     "strictNullChecks": true,
-    "target": "ES6",
-    "moduleResolution": "node"
+    "sourceMap": true
   }
 }

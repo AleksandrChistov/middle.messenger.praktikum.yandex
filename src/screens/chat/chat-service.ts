@@ -1,6 +1,6 @@
 import {Props} from '../../core/types';
 import {FormServiceAbstract} from '../../services/form-service-abstract';
-import {HandleFormService} from "../../services/form-service";
+import {HandleFormService} from '../../services/form-service';
 import settingsImg from '../../../static/assets/icons/settings.svg';
 import vertEllipsisImg from '../../../static/assets/icons/vert-ellipsis.svg';
 import cartImg from '../../../static/assets/icons/cart.svg';
@@ -29,7 +29,7 @@ class ChatService extends FormServiceAbstract {
 	}
 
 	protected showError(errorMessage: string): void {
-		this.props.children?.ErrorMessage.setProps({
+		this.props.children?.errorMessageComponent.setProps({
 			textError: errorMessage,
 			addClass: errorMessage ? 'error-text--display' : '',
 		});
@@ -39,51 +39,51 @@ class ChatService extends FormServiceAbstract {
 function getProps(handleFormService: HandleFormService): ChatPageProps {
 	return {
 		authorName: 'Savannah Nguyen',
-		settingsImgSrc: settingsImg,
-		vertEllipsisImgSrc: vertEllipsisImg,
-		cartImgSrc: cartImg,
+		settingsImgSrc: settingsImg as string,
+		vertEllipsisImgSrc: vertEllipsisImg as string,
+		cartImgSrc: cartImg as string,
 		children: {
-			SearchInput: new SearchInput({
+			searchInputComponent: new SearchInput({
 				id: 'search',
 				name: 'search',
 				placeholder: 'Search',
 			}),
-			ChatCard1: new ChatCard({
+			chatCardComponent1: new ChatCard({
 				authorName: 'Savannah Nguyen',
 				textMessage: 'Yeah! You\'re right.',
 				children: {
-					Avatar: new Avatar({
-						avatarImgSrc: avatarImg1,
+					avatarComponent: new Avatar({
+						avatarImgSrc: avatarImg1 as string,
 					}),
-					Time: new Time({
+					timeComponent: new Time({
 						type: 'time-card',
 						date: new Date(2021, 9, 27, 17, 31),
 					}),
 				},
 			}),
-			ChatCard2: new ChatCard({
+			chatCardComponent2: new ChatCard({
 				authorName: 'Jane Cooper',
 				textMessage: 'I hope it goes well.',
 				messageCount: '4',
 				children: {
-					Avatar: new Avatar({
-						avatarImgSrc: avatarImg2,
+					avatarComponent: new Avatar({
+						avatarImgSrc: avatarImg2 as string,
 					}),
-					Time: new Time({
+					timeComponent: new Time({
 						type: 'time-card',
 						date: new Date(2021, 9, 3, 17, 31),
 					}),
 				},
 			}),
-			Avatar: new Avatar({
-				avatarImgSrc: avatarImg1,
+			avatarComponent: new Avatar({
+				avatarImgSrc: avatarImg1 as string,
 				size: '36px',
 			}),
-			Time1: new Time({
+			timeComponent1: new Time({
 				type: 'time-main',
 				date: new Date(2021, 1, 2, 12, 31),
 			}),
-			Message1: new Message({
+			messageComponent1: new Message({
 				you: false,
 				text: 'Hey! Look, an interesting piece of lunar \n'
                     + 'space history surfaced here - NASA at some \n'
@@ -94,29 +94,29 @@ function getProps(handleFormService: HandleFormService): ChatPageProps {
                     + 'space, but something went wrong and they \n'
                     + 'never hit the rocket.',
 				children: {
-					Avatar: new Avatar({
-						avatarImgSrc: avatarImg1,
+					avatarComponent: new Avatar({
+						avatarImgSrc: avatarImg1 as string,
 					}),
-					Time: new Time({
+					timeComponent: new Time({
 						type: 'time-card',
 						date: new Date(2021, 9, 31, 20, 1),
 					}),
 				},
 			}),
-			Message2: new Message({
+			messageComponent2: new Message({
 				you: true,
 				text: 'Hey! Look, an interesting piece of lunar',
 				children: {
-					Avatar: new Avatar({
-						avatarImgSrc: avatarImg2,
+					avatarComponent: new Avatar({
+						avatarImgSrc: avatarImg2 as string,
 					}),
-					Time: new Time({
+					timeComponent: new Time({
 						type: 'time-card',
 						date: new Date(2021, 9, 31, 20, 1),
 					}),
 				},
 			}),
-			ErrorMessage: new ErrorMessage({
+			errorMessageComponent: new ErrorMessage({
 				addClass: 'form__error-text',
 			}),
 		},
@@ -124,19 +124,25 @@ function getProps(handleFormService: HandleFormService): ChatPageProps {
 			focus: [
 				{
 					id: 'message',
-					fn: event => handleFormService.handleFieldFocus(event),
+					fn: event => {
+						handleFormService.handleFieldFocus(event);
+					},
 				},
 			],
 			blur: [
 				{
 					id: 'message',
-					fn: event => handleFormService.handleFieldBlur(event),
+					fn: event => {
+						handleFormService.handleFieldBlur(event);
+					},
 				},
 			],
 			submit: [
 				{
 					id: 'form',
-					fn: event => handleFormService.handleFormSubmit(event),
+					fn: event => {
+						handleFormService.handleFormSubmit(event);
+					},
 				},
 			],
 		},

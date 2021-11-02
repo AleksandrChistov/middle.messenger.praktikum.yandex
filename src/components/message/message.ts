@@ -10,8 +10,8 @@ interface MessageProps extends Props {
 	you: boolean;
 	text: string;
 	children: {
-		Avatar: InstanceType<typeof Avatar>;
-		Time: InstanceType<typeof Time>;
+		avatarComponent: InstanceType<typeof Avatar>;
+		timeComponent: InstanceType<typeof Time>;
 	};
 }
 
