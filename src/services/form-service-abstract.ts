@@ -7,5 +7,5 @@ export abstract class FormServiceAbstract {
         this.handleFormService = new HandleFormService(this.showError.bind(this));
     }
 
-    protected abstract showError(errorMessage: string): void;
+    protected abstract showError(errorMessage: string, inputName?: string): void;
 }

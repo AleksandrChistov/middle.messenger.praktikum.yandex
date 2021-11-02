@@ -27,7 +27,7 @@ export class HandleFormService {
         console.log('isValid > ', isValid);
 
         if (isValid) {
-            this.showErrorFn('');
+            this.showErrorFn('', element.name);
             return;
         }
 
@@ -65,7 +65,8 @@ export class HandleFormService {
             if (!isValidValue) {
                 this.showErrorFn('Latin or Cyrillic letters are allowed, ' +
                     'the first letter must be uppercase, without spaces and without numbers, ' +
-                    'there are no special characters (only a hyphen is allowed)'
+                    'there are no special characters (only a hyphen is allowed)',
+                    name
                 );
                 return false;
             }
@@ -78,14 +79,15 @@ export class HandleFormService {
             const isValidLength = value.length >= 3 && value.length < 20;
 
             if (!isValidLength) {
-                this.showErrorFn('The value must be from 3 to 20 characters');
+                this.showErrorFn('The value must be from 3 to 20 characters', name);
                 return false;
             }
 
             if (!isValidCharacters) {
                 this.showErrorFn('Only the Latin alphabet is allowed, can contain numbers, ' +
                     'but not consist of them, without spaces, without special characters ' +
-                    '(hyphens and underscores are allowed)'
+                    '(hyphens and underscores are allowed)',
+                    name
                 );
                 return false;
             }
@@ -99,7 +101,8 @@ export class HandleFormService {
             if (!isValidValue) {
                 this.showErrorFn('The Latin alphabet is acceptable, ' +
                     'it can include numbers and special characters like a hyphen, ' +
-                    'there must be a "dog" (@) and a dot after it, but there must be letters before the dot'
+                    'there must be a "dog" (@) and a dot after it, but there must be letters before the dot',
+                    name
                 );
                 return false;
             }
@@ -107,18 +110,18 @@ export class HandleFormService {
             return true;
         }
 
-        if (name === 'password' || name === 'passwordAgain') {
+        if (name === 'password' || name === 'passwordAgain' || name === 'oldPassword' || name === 'newPassword') {
             console.log('value', value);
             const isValidCharacters = /^(.*([A-Z]+.*[0-9]+|[0-9]+.*[A-Z]+).*)+$/.test(value);
             const isValidLength = value.length >= 8 && value.length < 40;
 
             if (!isValidLength) {
-                this.showErrorFn('The value must be from 8 to 40 characters');
+                this.showErrorFn('The value must be from 8 to 40 characters', name);
                 return false;
             }
 
             if (!isValidCharacters) {
-                this.showErrorFn('At least one capital letter and a number are required');
+                this.showErrorFn('At least one capital letter and a number are required', name);
                 return false;
             }
 
@@ -130,7 +133,9 @@ export class HandleFormService {
 
             if (!isValidValue) {
                 this.showErrorFn('The value must be from 10 to 15 characters, ' +
-                    'consists of digits, can start with a plus');
+                    'consists of digits, can start with a plus',
+                    name
+                );
                 return false;
             }
 
@@ -141,7 +146,7 @@ export class HandleFormService {
             const isValidValue = value.length > 0;
 
             if (!isValidValue) {
-                this.showErrorFn('The value must be greater than 0 characters');
+                this.showErrorFn('The value must be greater than 0 characters', name);
                 return false;
             }
 
