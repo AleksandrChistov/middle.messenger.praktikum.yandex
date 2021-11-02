@@ -1,24 +1,23 @@
+import {Props} from "../../core/types";
+import {FormServiceAbstract} from "../../services/form-service-abstract";
 import {TextInput} from "../../components/inputs/text/text-input";
 import {EmailInput} from "../../components/inputs/email/email-input";
 import {PhoneInput} from "../../components/inputs/phone/phone-input";
 import {PasswordInput} from "../../components/inputs/password/password-input";
 import {ErrorMessage} from "../../components/error-message/error-message";
 import {FormButton} from "../../components/form-button/form-button";
-import {HandleFormService} from "../../services/form-service";
-import {Props} from "../../core/types";
 
 export interface SignUpPageProps extends Props {}
 
-class SignUpService {
-    public handleFormService: HandleFormService; // TODO: use abstract class SOLID
+class SignUpService extends FormServiceAbstract {
     public props: SignUpPageProps;
 
     constructor() {
-        this.handleFormService = new HandleFormService(this.showError.bind(this));
+        super();
         this.props = getProps(this.handleFormService);
     }
 
-    showError(errorMessage: string): void {
+    protected showError(errorMessage: string): void {
         this.props.children.ErrorMessage.setProps({
             textError: errorMessage,
             addClass: errorMessage ? 'error-text--display' : '',
