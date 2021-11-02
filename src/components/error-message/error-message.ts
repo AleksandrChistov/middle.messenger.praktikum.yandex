@@ -1,5 +1,5 @@
 import {Block} from "../../core/block";
-import {Events, Props} from "../../core/types";
+import {Props} from "../../core/types";
 import {compileTemplateToElement} from '../../core/utils';
 import templatePug from "./error-message.pug";
 import './error-message.scss';
@@ -7,7 +7,6 @@ import './error-message.scss';
 interface ErrorMessageProps extends Props {
     textError?: string;
     addClass?: string;
-    events?: Events;
 }
 
 export class ErrorMessage extends Block<ErrorMessageProps> {

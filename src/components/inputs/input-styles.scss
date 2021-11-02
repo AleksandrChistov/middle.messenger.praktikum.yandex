@@ -18,6 +18,11 @@
     &:focus {
       outline: none;
     }
+
+    &.invalid {
+      color: $error-color;
+      border: 0.5px solid $error-color;
+    }
   }
 
   &__label {
