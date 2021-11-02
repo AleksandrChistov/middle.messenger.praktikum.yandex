@@ -1,27 +1,27 @@
-import {Block} from "../../../core/block";
-import {Props} from "../../../core/types";
+import {Block} from '../../../core/block';
+import {Props} from '../../../core/types';
 import {compileTemplateToElement} from '../../../core/utils';
-import templatePug from "./phone-input.pug";
+import templatePug from './phone-input.pug';
 import './phone-input.scss';
 
 interface PhoneInputProps extends Props {
-    id: string;
-    name: string;
-    label?: string;
-    labelClass?: string;
-    inputClass?: string;
-    placeholder?: string;
-    required?: boolean;
+	id: string;
+	name: string;
+	label?: string;
+	labelClass?: string;
+	inputClass?: string;
+	placeholder?: string;
+	required?: boolean;
 }
 
 export class PhoneInput extends Block<PhoneInputProps> {
-    constructor(propsObj: PhoneInputProps) {
-        super("div", propsObj);
-    }
+	constructor(propsObj: PhoneInputProps) {
+		super('div', propsObj);
+	}
 
-    render() {
-        const element = compileTemplateToElement(templatePug, this.props);
-        console.log('PhoneInput template', element);
-        return element;
-    }
+	render() {
+		const element = compileTemplateToElement(templatePug, this.props);
+		console.log('PhoneInput template', element);
+		return element;
+	}
 }
