@@ -1,5 +1,5 @@
-@import '../../../static/styles/styles';
-@import '../../components/inputs/input-styles';
+@import "../../../static/styles/styles";
+@import "../../components/inputs/input-styles";
 
 #app {
   main {
@@ -126,7 +126,7 @@
       border: none;
       border-radius: 50%;
       background: $purple;
-      box-shadow: 0 4px 4px rgba($black, 0.25);
+      box-shadow: 0 4px 4px rgba($black / 25%);
 
       &:hover {
         cursor: pointer;

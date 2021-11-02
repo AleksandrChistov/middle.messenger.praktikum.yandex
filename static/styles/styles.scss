@@ -1,11 +1,17 @@
-@import 'colors';
-@import 'variables';
+@import "colors";
+@import "variables";
 
 * {
   box-sizing: border-box;
 }
 
-body, h1, h2, h3, h4, h5, p {
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
   font-family: $basic-font-family;
   margin: 0;
 }
@@ -26,7 +32,7 @@ h1 {
 }
 
 .line {
-  border: 0.7px solid #E8E7FF;
+  border: 0.7px solid #e8e7ff;
   margin-top: 0;
   margin-bottom: 25px;
 }

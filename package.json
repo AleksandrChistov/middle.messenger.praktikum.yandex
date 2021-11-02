@@ -10,6 +10,7 @@
     "build": "parcel build",
     "lint": "eslint src/**",
     "lint fix": "eslint src/** --fix",
+    "stylelint": "stylelint **/*.scss",
     "test": "test"
   },
   "targets": {
@@ -53,6 +54,9 @@
     "eslint-config-xo-typescript": "^0.47.1",
     "parcel": "^2.0.0-rc.0",
     "parcel-transformer-pug-precompile": "^1.0.6",
+    "stylelint": "^14.0.1",
+    "stylelint-config-standard": "^23.0.0",
+    "stylelint-config-standard-scss": "^2.0.1",
     "typescript": "^4.4.4"
   },
   "dependencies": {

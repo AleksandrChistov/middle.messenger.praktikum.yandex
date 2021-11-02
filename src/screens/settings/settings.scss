@@ -1,6 +1,6 @@
-@import '../../../static/styles/styles';
-@import '../../../static/styles/colors';
-@import '../../components/inputs/input-styles';
+@import "../../../static/styles/styles";
+@import "../../../static/styles/colors";
+@import "../../components/inputs/input-styles";
 
 #app {
   .form-container {
@@ -64,7 +64,7 @@
 
       &:hover {
         cursor: pointer;
-        background-color: rgba($black, 0.75);
+        background-color: rgba($black / 75%);
 
         .avatar-button__text {
           display: inline-block;
@@ -77,5 +77,3 @@
     }
   }
 }
-
-
