@@ -1,10 +1,6 @@
 @import '../../../static/styles/styles';
 @import '../../components/inputs/input-styles';
 
-$top-panel-height: 54px;
-$bottom-panel-height: 50px;
-$margin-bottom: 15px;
-
 #app {
   main {
     display: flex;
@@ -17,6 +13,8 @@ $margin-bottom: 15px;
   }
 
   .main {
+    display: flex;
+    flex-direction: column;
     flex-basis: 70%;
   }
 
@@ -41,9 +39,9 @@ $margin-bottom: 15px;
   }
 
   .chat {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    height: calc(100% - #{$top-panel-height} - #{$bottom-panel-height} - #{$margin-bottom});
     padding: 20px 25px 10px;
 
     &__container {
@@ -105,6 +103,16 @@ $margin-bottom: 15px;
     }
   }
 
+  .form {
+    flex-grow: 1;
+    display: flex;
+  }
+
+  [data-component="ErrorMessage"] {
+    margin-left: 85px;
+    margin-bottom: 10px;
+  }
+
   .bottom-panel {
     display: flex;
     justify-content: space-between;
@@ -119,6 +127,10 @@ $margin-bottom: 15px;
       border-radius: 50%;
       background: $purple;
       box-shadow: 0 4px 4px rgba($black, 0.25);
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     &__clip-button {
@@ -139,6 +151,10 @@ $margin-bottom: 15px;
       border-radius: 20px;
       border: none;
       background: $purple;
+
+      &.invalid {
+        color: $error-color;
+      }
 
       &::placeholder {
         color: white;
