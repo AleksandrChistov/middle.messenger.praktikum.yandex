@@ -15,8 +15,6 @@ export class Avatar extends Block<AvatarProps> {
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('Avatar template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 }

@@ -21,9 +21,7 @@ export class Time extends Block<TimeProps> {
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('Time template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 
 	makePropsProxy(props: TimeProps): TimeParsedProps {

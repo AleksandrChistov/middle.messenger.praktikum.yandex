@@ -15,8 +15,6 @@ export class ErrorMessage extends Block<ErrorMessageProps> {
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('ErrorMessage template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 }

@@ -13,7 +13,6 @@ export function compileTemplateToElement(
 		elementBody = parser.parseFromString(template, 'text/html').body;
 
 		Object.keys(children).forEach(tag => {
-			console.log('childTag > ', tag);
 			const childElementTag = elementBody.querySelector(tag);
 
 			if (!childElementTag) {
@@ -23,15 +22,13 @@ export function compileTemplateToElement(
 
 			const childElement = children[tag].getContent();
 			const attributeNames = childElementTag.getAttributeNames();
-			console.log('attributeNames', attributeNames);
 
 			attributeNames.forEach(attrName => {
 				const attrValue = childElementTag.getAttribute(attrName);
-				console.log('attrValue', attrValue);
 
 				if (!attrValue) {
 					console.error(
-						`The value for the ${attrName} attribute name 
+						`The value for the ${attrName} attribute name
 						was not specified in the markup`,
 					);
 					return;

@@ -20,8 +20,6 @@ export class EmailInput extends Block<EmailInputProps> {
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('EmailInput template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 }

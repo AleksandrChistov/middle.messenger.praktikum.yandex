@@ -20,8 +20,6 @@ export class PhoneInput extends Block<PhoneInputProps> {
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('PhoneInput template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 }

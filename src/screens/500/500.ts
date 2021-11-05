@@ -18,13 +18,10 @@ class Page500 extends Block<Page500Props> {
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('500 template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 
 	componentDidMount() {
-		console.log('componentDidMount', this);
 		const root = document.getElementById('app');
 
 		root?.appendChild(this.getContent());

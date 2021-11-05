@@ -9,13 +9,10 @@ class ChatPage extends Block<ChatPageProps> {
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('Chat template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 
 	componentDidMount() {
-		console.log('componentDidMount', this);
 		const root = document.getElementById('app');
 
 		root?.appendChild(this.getContent());

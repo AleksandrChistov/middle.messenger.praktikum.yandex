@@ -21,8 +21,6 @@ export class Message extends Block<MessageProps> {
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('Message template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 }

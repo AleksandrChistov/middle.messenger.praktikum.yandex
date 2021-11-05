@@ -20,8 +20,6 @@ export class SearchInput extends Block<SearchInputProps> {
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('SearchInput template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 }

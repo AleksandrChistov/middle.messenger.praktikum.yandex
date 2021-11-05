@@ -126,7 +126,7 @@ export class Block<T> {
 		return new Proxy<Props>(props, {
 			get: (target: Props, prop: string): unknown => {
 				const value = target[prop] as unknown;
-				console.log('get', value);
+
 				return (typeof value === 'function') ? value.bind(target) : value;
 			},
 			set: (
@@ -135,8 +135,9 @@ export class Block<T> {
 				value: string | Record<string, unknown>,
 			): boolean => {
 				target[prop] = value;
-				console.log('set', value);
+
 				this.eventBus.emit(EventsEnum.FLOW_CDU, {...target}, target);
+
 				return true;
 			},
 			deleteProperty: (target: Props, prop: string): boolean => {

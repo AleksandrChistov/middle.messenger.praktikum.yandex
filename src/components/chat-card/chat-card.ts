@@ -22,8 +22,6 @@ export class ChatCard extends Block<ChatCardProps> {
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('ChatCard template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 }

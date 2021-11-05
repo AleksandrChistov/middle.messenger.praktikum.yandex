@@ -9,13 +9,10 @@ class SignInPage extends Block<SignInPageProps> {
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('SignIn template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 
 	componentDidMount() {
-		console.log('componentDidMount', this);
 		const root = document.getElementById('app');
 
 		root?.appendChild(this.getContent());

@@ -21,8 +21,6 @@ export class PasswordInput extends Block<PasswordInputProps> {
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('Password template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 }

@@ -17,14 +17,12 @@ export class HandleFormService {
 
 	handleFieldFocus(event: Event): void {
 		(event.target as HTMLInputElement).classList.remove('invalid');
-		console.log('remove', event.target); // Remove red outline
 	}
 
 	handleFieldBlur(event: Event): void {
 		const element = event.target as HTMLInputElement;
 
 		const isValid = this.validateInput(element);
-		console.log('isValid > ', isValid);
 
 		if (isValid) {
 			this.showErrorFn('', element.name);
@@ -58,7 +56,6 @@ export class HandleFormService {
 
 	private validateInput(element: HTMLInputElement): boolean {
 		const {name, value} = element;
-		console.log('validateInput', name);
 
 		if (name === 'first_name' || name === 'second_name') {
 			const isValidValue = /^[A-ZА-Я][a-zA-Zа-яА-Я-]+$/.test(value);
@@ -118,7 +115,6 @@ export class HandleFormService {
 			|| name === 'oldPassword'
 			|| name === 'newPassword'
 		) {
-			console.log('value', value);
 			const isValidCharacters = /^(.*([A-Z]+.*[0-9]+|[0-9]+.*[A-Z]+).*)+$/.test(value);
 			const isValidLength = value.length >= 8 && value.length < 40;
 

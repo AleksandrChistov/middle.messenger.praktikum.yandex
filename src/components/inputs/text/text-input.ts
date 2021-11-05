@@ -20,8 +20,6 @@ export class TextInput extends Block<TextInputProps> {
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('TextInput template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 }

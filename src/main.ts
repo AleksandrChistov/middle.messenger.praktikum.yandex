@@ -12,16 +12,6 @@ interface MainPageProps extends Props {
 const props: MainPageProps = {
 	title: 'Chatly is saying hello!',
 	classTitle: 'title',
-	events: {
-		click: [
-			{
-				id: 'title',
-				fn: event => {
-					console.log(event);
-				},
-			},
-		],
-	},
 	children: {
 		linkListComponent: new LinkList({
 			items: [
@@ -60,13 +50,10 @@ class MainPage extends Block<MainPageProps> {
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('Main template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 
 	componentDidMount() {
-		console.log('componentDidMount', this);
 		const root = document.getElementById('app');
 
 		root?.appendChild(this.getContent());

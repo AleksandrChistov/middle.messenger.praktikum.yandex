@@ -13,13 +13,10 @@ interface FormButtonProps extends Props {
 
 export class FormButton extends Block<FormButtonProps> {
 	constructor(propsObj: FormButtonProps) {
-		// Создаём враппер DOM-элемент
 		super('div', propsObj);
 	}
 
 	render() {
-		const element = compileTemplateToElement(templatePug, this.props);
-		console.log('FormButton template', element);
-		return element;
+		return compileTemplateToElement(templatePug, this.props);
 	}
 }
