@@ -160,8 +160,16 @@
         color: white;
       }
 
-      &:focus {
+      &:focus,
+      &:focus-visible {
         outline: none;
+        box-shadow: 0 0 1px 1px $purple inset;
+        background: $white;
+        color: $black;
+
+        &::placeholder {
+          color: $purple;
+        }
       }
     }
   }

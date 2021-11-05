@@ -14,8 +14,10 @@
     line-height: 16px;
     color: $black;
 
-    &:focus {
+    &:focus,
+    &:focus-visible {
       outline: none;
+      box-shadow: 0 0 1px 1px $purple;
     }
 
     &.invalid {
