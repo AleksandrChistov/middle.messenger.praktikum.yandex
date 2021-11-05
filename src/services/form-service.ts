@@ -12,7 +12,10 @@ export class HandleFormService {
 		const form = event.target as HTMLFormElement;
 
 		const formData = this.serializeForm(form);
-		console.log('formValue', formData);
+
+    if (formData) {
+		  console.log('formValue', formData);
+    }
 	}
 
 	handleFieldFocus(event: Event): void {
@@ -149,7 +152,7 @@ export class HandleFormService {
 			const isValidValue = value.length > 0;
 
 			if (!isValidValue) {
-				this.showErrorFn('The value must be greater than 0 characters', name);
+				this.showErrorFn('The message field cannot be empty', name);
 				return false;
 			}
 
