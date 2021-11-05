@@ -4,7 +4,7 @@
   "description": "project on vanila js",
   "main": "app.js",
   "scripts": {
-    "start": "parcel & npm run server",
+    "start": "parcel build & npm run server",
     "start:dev": "parcel --open",
     "server": "node server/app.js",
     "build": "parcel build",
