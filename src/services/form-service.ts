@@ -74,7 +74,7 @@ export class HandleFormService {
 		const {name, value} = element;
 
 		if (name === FieldName.FirstName || name === FieldName.SecondName) {
-			const isValidValue = /^[A-ZА-Я][a-zA-Zа-яА-Я-]+$/.test(value);
+			const isValidValue = /^[A-ZА-Я][a-zA-Zа-яА-Я-]*$/.test(value);
 
 			if (!isValidValue) {
 				this.showErrorFn('Latin or Cyrillic letters are allowed, '
@@ -110,7 +110,7 @@ export class HandleFormService {
 		}
 
 		if (name === FieldName.Email) {
-			const isValidValue = /^([\w-]+@[a-zA-Z]+.[a-z]+)$/.test(value);
+			const isValidValue = /^([\w-.]+@[a-zA-Z]+.[a-z]+)$/.test(value);
 
 			if (!isValidValue) {
 				this.showErrorFn('The Latin alphabet is acceptable, '
