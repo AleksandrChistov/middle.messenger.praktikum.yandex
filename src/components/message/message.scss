@@ -10,7 +10,7 @@
       background-color: $purple;
     }
 
-    [data-component="Avatar"] {
+    .message__avatar {
       margin-right: 0;
       margin-left: 20px;
     }
@@ -19,7 +19,7 @@
       color: $white;
     }
 
-    [data-component="Time"] {
+    .message__time {
       color: $gray;
     }
   }
@@ -32,7 +32,7 @@
     box-shadow: 0 5px 13px rgba($black, 14%);
   }
 
-  [data-component="Avatar"] {
+  &__avatar {
     margin-right: 20px;
   }
 
@@ -44,7 +44,7 @@
     color: $dark-gray;
   }
 
-  [data-component="Time"] {
+  &__time {
     text-align: right;
     color: $purple;
   }

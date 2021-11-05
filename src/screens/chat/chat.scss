@@ -16,6 +16,11 @@
     display: flex;
     flex-direction: column;
     flex-basis: 70%;
+
+    &__error {
+      margin-left: 85px;
+      margin-bottom: 10px;
+    }
   }
 
   .search-container {
@@ -25,7 +30,7 @@
     padding: 20px 16px;
     background-color: $purple;
 
-    [data-component="SearchInput"] {
+    &__search {
       width: 100%;
     }
   }
@@ -52,13 +57,13 @@
       overflow: hidden;
     }
 
-    & > [data-component="Time"] {
+    &__time {
       text-align: center;
       margin-bottom: 20px;
       color: $gray;
     }
 
-    [data-component="Message"] {
+    &__message {
       margin-bottom: 20px;
     }
 
@@ -80,12 +85,12 @@
     padding: 9px 25px;
     background-color: $background-color;
 
-    &__avatar {
+    &__avatar-container {
       display: flex;
       align-items: center;
     }
 
-    [data-component="Avatar"] {
+    &__avatar {
       margin-right: 10px;
     }
 
@@ -106,11 +111,6 @@
   .form-message {
     flex-grow: 1;
     display: flex;
-  }
-
-  [data-component="ErrorMessage"] {
-    margin-left: 85px;
-    margin-bottom: 10px;
   }
 
   .bottom-panel {

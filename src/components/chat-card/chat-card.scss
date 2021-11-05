@@ -8,7 +8,7 @@
   background-color: $background-color;
   border-bottom: 1px solid $light-gray;
 
-  [data-component="Avatar"] {
+  &__avatar {
     margin-right: 10px;
   }
 
@@ -36,7 +36,7 @@
     color: $gray;
   }
 
-  [data-component="Time"] {
+  &__time {
     margin-bottom: 5px;
     color: $gray;
   }

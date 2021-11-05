@@ -26,15 +26,7 @@ export function compileTemplateToElement(
 			attributeNames.forEach(attrName => {
 				const attrValue = childElementTag.getAttribute(attrName);
 
-				if (!attrValue) {
-					console.error(
-						`The value for the ${attrName} attribute name
-						was not specified in the markup`,
-					);
-					return;
-				}
-
-				childElement.setAttribute(attrName, attrValue);
+				childElement.setAttribute(attrName, attrValue ?? '');
 			});
 
 			childElementTag.replaceWith(childElement);
