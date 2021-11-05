@@ -16,27 +16,27 @@ const props: MainPageProps = {
 		linkListComponent: new LinkList({
 			items: [
 				{
-					href: '/src/screens/signin/signin.html',
+					href: '/src/screens/signin',
 					value: 'Sign in',
 				},
 				{
-					href: '/src/screens/signup/signup.html',
+					href: '/src/screens/signup',
 					value: 'Sign up',
 				},
 				{
-					href: '/src/screens/settings/settings.html',
+					href: '/src/screens/settings',
 					value: 'User settings',
 				},
 				{
-					href: '/src/screens/chat/chat.html',
+					href: '/src/screens/chat',
 					value: 'Chat (stub)',
 				},
 				{
-					href: '/src/screens/404/404.html',
+					href: '/src/screens/404',
 					value: '404',
 				},
 				{
-					href: '/src/screens/500/500.html',
+					href: '/src/screens/500',
 					value: '500',
 				},
 			],
