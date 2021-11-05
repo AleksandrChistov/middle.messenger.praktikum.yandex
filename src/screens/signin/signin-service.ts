@@ -1,6 +1,6 @@
 import {Props} from '../../core/types';
 import {FormServiceAbstract} from '../../services/form-service-abstract';
-import {HandleFormService} from '../../services/form-service';
+import {FieldName, HandleFormService} from '../../services/form-service';
 import welcomeImg from '../../../static/assets/img/welcome.png';
 import {TextInput} from '../../components/inputs/text/text-input';
 import {PasswordInput} from '../../components/inputs/password/password-input';
@@ -34,14 +34,14 @@ function getProps(handleFormService: HandleFormService): SignInPageProps {
 			textInputComponent: new TextInput({
 				label: 'Login',
 				id: 'login',
-				name: 'login',
+				name: FieldName.Login,
 				inputClass: 'mb-5',
 				required: true,
 			}),
 			passwordInputComponent: new PasswordInput({
 				label: 'Password',
 				id: 'password',
-				name: 'password',
+				name: FieldName.Password,
 				inputContainerClass: 'mb-5',
 				required: true,
 			}),

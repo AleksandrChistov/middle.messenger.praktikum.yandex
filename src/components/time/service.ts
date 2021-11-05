@@ -1,7 +1,7 @@
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const dayMs = 86400000;
-const twoDaysMs = 172800000;
-const weekMs = 604800000;
+const twoDaysMs = dayMs * 2;
+const weekMs = dayMs * 7;
 
 export function getDateString(date: Date): string {
 	let resultDateString: string;

@@ -1,6 +1,6 @@
 import {Props} from '../../core/types';
 import {FormServiceAbstract} from '../../services/form-service-abstract';
-import {HandleFormService} from '../../services/form-service';
+import {FieldName, HandleFormService} from '../../services/form-service';
 import {TextInput} from '../../components/inputs/text/text-input';
 import {PasswordInput} from '../../components/inputs/password/password-input';
 import {ErrorMessage} from '../../components/error-message/error-message';
@@ -19,9 +19,9 @@ class SettingsService extends FormServiceAbstract {
 	}
 
 	protected showError(errorMessage: string, inputName: string): void {
-		const isFormPassword = inputName === 'password'
-			|| inputName === 'oldPassword'
-			|| inputName === 'newPassword';
+		const isFormPassword = inputName === FieldName.Password
+			|| inputName === FieldName.OldPassword
+			|| inputName === FieldName.NewPassword;
 		const formComponent = isFormPassword ? 'errorMessageComponent2' : 'errorMessageComponent1';
 
 		if (this.props.children) {
@@ -39,14 +39,14 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
 			textInputComponent1: new TextInput({
 				label: 'Name',
 				id: 'first_name',
-				name: 'first_name',
+				name: FieldName.FirstName,
 				inputClass: 'mb-5',
 				required: true,
 			}),
 			textInputComponent2: new TextInput({
 				label: 'Surname',
 				id: 'second_name',
-				name: 'second_name',
+				name: FieldName.SecondName,
 				inputClass: 'mb-5',
 				required: true,
 			}),
@@ -60,21 +60,21 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
 			textInputComponent4: new TextInput({
 				label: 'Login',
 				id: 'login',
-				name: 'login',
+				name: FieldName.Login,
 				inputClass: 'mb-5',
 				required: true,
 			}),
 			emailInputComponent: new EmailInput({
 				label: 'Email',
 				id: 'email',
-				name: 'email',
+				name: FieldName.Email,
 				inputClass: 'mb-5',
 				required: true,
 			}),
 			phoneInputComponent: new PhoneInput({
 				label: 'Phone',
 				id: 'phone',
-				name: 'phone',
+				name: FieldName.Phone,
 				inputClass: 'mb-5',
 				required: true,
 			}),
@@ -89,21 +89,21 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
 			passwordInputComponent1: new PasswordInput({
 				label: 'Old password',
 				id: 'oldPassword',
-				name: 'oldPassword',
+				name: FieldName.OldPassword,
 				inputContainerClass: 'mb-5',
 				required: true,
 			}),
 			passwordInputComponent2: new PasswordInput({
 				label: 'Password',
 				id: 'password',
-				name: 'password',
+				name: FieldName.Password,
 				inputContainerClass: 'mb-5',
 				required: true,
 			}),
 			passwordInputComponent3: new PasswordInput({
 				label: 'Password (again)',
 				id: 'newPassword',
-				name: 'newPassword',
+				name: FieldName.NewPassword,
 				inputContainerClass: 'mb-5',
 				required: true,
 			}),

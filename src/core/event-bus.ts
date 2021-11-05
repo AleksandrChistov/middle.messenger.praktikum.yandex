@@ -17,7 +17,7 @@ export class EventBus {
 
 	off(event: string, callback: AnyFunc) {
 		if (!this.listeners[event]) {
-			throw new Error(`Нет события: ${event}`);
+			throw new Error(`There is no event: ${event}`);
 		}
 
 		this.listeners[event] = this.listeners[event].filter(fn => fn !== callback);
@@ -25,7 +25,7 @@ export class EventBus {
 
 	emit(event: string, ...args: any[]) {
 		if (!this.listeners[event]) {
-			throw new Error(`Нет события: ${event}`);
+			throw new Error(`There is no event: ${event}`);
 		}
 
 		this.listeners[event].forEach(fn => {

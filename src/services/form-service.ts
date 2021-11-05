@@ -1,4 +1,17 @@
-type ShowErrorFn = (...args: any[]) => void;
+export enum FieldName {
+  FirstName = 'first_name',
+  SecondName = 'second_name',
+  Login = 'login',
+  Email = 'email',
+  Password = 'password',
+  PasswordAgain = 'passwordAgain',
+  OldPassword = 'oldPassword',
+  NewPassword = 'newPassword',
+  Phone = 'phone',
+  Message = 'message',
+}
+
+type ShowErrorFn = (text: string, fieldName: string) => void;
 
 export class HandleFormService {
 	private readonly showErrorFn: ShowErrorFn;
@@ -60,7 +73,7 @@ export class HandleFormService {
 	private validateInput(element: HTMLInputElement): boolean {
 		const {name, value} = element;
 
-		if (name === 'first_name' || name === 'second_name') {
+		if (name === FieldName.FirstName || name === FieldName.SecondName) {
 			const isValidValue = /^[A-ZА-Я][a-zA-Zа-яА-Я-]+$/.test(value);
 
 			if (!isValidValue) {
@@ -75,7 +88,7 @@ export class HandleFormService {
 			return true;
 		}
 
-		if (name === 'login') {
+		if (name === FieldName.Login) {
 			const isValidCharacters = /^([0-9]*[a-zA-Z\-_][0-9]*)+$/.test(value);
 			const isValidLength = value.length >= 3 && value.length < 20;
 
@@ -96,7 +109,7 @@ export class HandleFormService {
 			return true;
 		}
 
-		if (name === 'email') {
+		if (name === FieldName.Email) {
 			const isValidValue = /^([\w-]+@[a-zA-Z]+.[a-z]+)$/.test(value);
 
 			if (!isValidValue) {
@@ -113,10 +126,10 @@ export class HandleFormService {
 		}
 
 		if (
-			name === 'password'
-			|| name === 'passwordAgain'
-			|| name === 'oldPassword'
-			|| name === 'newPassword'
+			name === FieldName.Password
+			|| name === FieldName.PasswordAgain
+			|| name === FieldName.OldPassword
+			|| name === FieldName.NewPassword
 		) {
 			const isValidCharacters = /^(.*([A-Z]+.*[0-9]+|[0-9]+.*[A-Z]+).*)+$/.test(value);
 			const isValidLength = value.length >= 8 && value.length < 40;
@@ -134,7 +147,7 @@ export class HandleFormService {
 			return true;
 		}
 
-		if (name === 'phone') {
+		if (name === FieldName.Phone) {
 			const isValidValue = /^\+*[\d]{10,15}$/.test(value);
 
 			if (!isValidValue) {
@@ -148,7 +161,7 @@ export class HandleFormService {
 			return true;
 		}
 
-		if (name === 'message') {
+		if (name === FieldName.Message) {
 			const isValidValue = value.length > 0;
 
 			if (!isValidValue) {

@@ -42,7 +42,6 @@ export class Block<T> {
 		// Может переопределять пользователь, необязательно трогать
 	}
 
-	// Может переопределять пользователь, необязательно трогать
 	componentDidUpdate(oldProps: Props, newProps: Props): boolean {
 		return oldProps !== newProps;
 	}
@@ -55,12 +54,10 @@ export class Block<T> {
 		Object.assign(this.props, nextProps);
 	}
 
-	// Может переопределять пользователь, необязательно трогать
 	render(): DocumentFragment {
 		throw new Error('The render method must be implemented');
 	}
 
-	// Может переопределять пользователь, необязательно трогать
 	makePropsProxy(_: Props): Props | null {
 		return null;
 	}

@@ -1,6 +1,6 @@
 import {Props} from '../../core/types';
 import {FormServiceAbstract} from '../../services/form-service-abstract';
-import {HandleFormService} from '../../services/form-service';
+import {FieldName, HandleFormService} from '../../services/form-service';
 import {TextInput} from '../../components/inputs/text/text-input';
 import {EmailInput} from '../../components/inputs/email/email-input';
 import {PhoneInput} from '../../components/inputs/phone/phone-input';
@@ -32,49 +32,49 @@ function getProps(handleFormService: HandleFormService): SignUpPageProps {
 			textInputComponent1: new TextInput({
 				label: 'Name',
 				id: 'first_name',
-				name: 'first_name',
+				name: FieldName.FirstName,
 				inputClass: 'mb-5',
 				required: true,
 			}),
 			textInputComponent2: new TextInput({
 				label: 'Surname',
 				id: 'second_name',
-				name: 'second_name',
+				name: FieldName.SecondName,
 				inputClass: 'mb-5',
 				required: true,
 			}),
 			textInputComponent3: new TextInput({
 				label: 'Login',
 				id: 'login',
-				name: 'login',
+				name: FieldName.Login,
 				inputClass: 'mb-5',
 				required: true,
 			}),
 			emailInputComponent: new EmailInput({
 				label: 'Email',
 				id: 'email',
-				name: 'email',
+				name: FieldName.Email,
 				inputClass: 'mb-5',
 				required: true,
 			}),
 			phoneInputComponent: new PhoneInput({
 				label: 'Phone',
 				id: 'phone',
-				name: 'phone',
+				name: FieldName.Phone,
 				inputClass: 'mb-5',
 				required: true,
 			}),
 			passwordInputComponent1: new PasswordInput({
 				label: 'Password',
 				id: 'password',
-				name: 'password',
+				name: FieldName.Password,
 				inputClass: 'mb-5',
 				required: true,
 			}),
 			passwordInputComponent2: new PasswordInput({
 				label: 'Password (again)',
 				id: 'passwordAgain',
-				name: 'passwordAgain',
+				name: FieldName.PasswordAgain,
 				inputClass: 'mb-5',
 				required: true,
 			}),

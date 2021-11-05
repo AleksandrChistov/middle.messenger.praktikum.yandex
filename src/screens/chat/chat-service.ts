@@ -1,6 +1,6 @@
 import {Props} from '../../core/types';
 import {FormServiceAbstract} from '../../services/form-service-abstract';
-import {HandleFormService} from '../../services/form-service';
+import {FieldName, HandleFormService} from '../../services/form-service';
 import settingsImg from '../../../static/assets/icons/settings.svg';
 import vertEllipsisImg from '../../../static/assets/icons/vert-ellipsis.svg';
 import cartImg from '../../../static/assets/icons/cart.svg';
@@ -15,6 +15,7 @@ import {Message} from '../../components/message/message';
 
 export interface ChatPageProps extends Props {
 	authorName: string;
+  messageFieldName: string;
 	settingsImgSrc: string;
 	vertEllipsisImgSrc: string;
 	cartImgSrc: string;
@@ -39,6 +40,7 @@ class ChatService extends FormServiceAbstract {
 function getProps(handleFormService: HandleFormService): ChatPageProps {
 	return {
 		authorName: 'Savannah Nguyen',
+    messageFieldName: FieldName.Message,
 		settingsImgSrc: settingsImg as string,
 		vertEllipsisImgSrc: vertEllipsisImg as string,
 		cartImgSrc: cartImg as string,
