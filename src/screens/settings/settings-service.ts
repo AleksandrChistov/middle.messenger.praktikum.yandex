@@ -3,7 +3,7 @@ import {FormServiceAbstract} from '../../services/form-service-abstract';
 import {FieldName, HandleFormService} from '../../services/form-service';
 import {TextInput} from '../../components/inputs/text/text-input';
 import {PasswordInput} from '../../components/inputs/password/password-input';
-import {ErrorMessage} from '../../components/error-message/error-message';
+import {ERROR_ACTIVE_CLASS, ErrorMessage} from '../../components/error-message/error-message';
 import {FormButton} from '../../components/form-button/form-button';
 import {EmailInput} from '../../components/inputs/email/email-input';
 import {PhoneInput} from '../../components/inputs/phone/phone-input';
@@ -27,7 +27,7 @@ class SettingsService extends FormServiceAbstract {
 		if (this.props.children) {
 			this.props.children[formComponent].setProps({
 				textError: errorMessage,
-				addClass: errorMessage ? 'error-text--display' : '',
+				addClass: errorMessage ? ERROR_ACTIVE_CLASS : '',
 			});
 		}
 	}

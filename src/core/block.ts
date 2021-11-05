@@ -67,11 +67,11 @@ export class Block<T> {
 	}
 
 	show(): void {
-		this.getContent().style.display = 'block';
+    this.getContent().classList.remove('hidden');
 	}
 
 	hide(): void {
-		this.getContent().style.display = 'none';
+    this.getContent().classList.add('hidden');
 	}
 
 	get element(): HTMLElement {

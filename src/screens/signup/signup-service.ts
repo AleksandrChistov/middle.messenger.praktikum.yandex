@@ -5,7 +5,7 @@ import {TextInput} from '../../components/inputs/text/text-input';
 import {EmailInput} from '../../components/inputs/email/email-input';
 import {PhoneInput} from '../../components/inputs/phone/phone-input';
 import {PasswordInput} from '../../components/inputs/password/password-input';
-import {ErrorMessage} from '../../components/error-message/error-message';
+import {ERROR_ACTIVE_CLASS, ErrorMessage} from '../../components/error-message/error-message';
 import {FormButton} from '../../components/form-button/form-button';
 
 export interface SignUpPageProps extends Props {}
@@ -21,7 +21,7 @@ class SignUpService extends FormServiceAbstract {
 	protected showError(errorMessage: string): void {
 		this.props.children?.errorMessageComponent.setProps({
 			textError: errorMessage,
-			addClass: errorMessage ? 'error-text--display' : '',
+			addClass: errorMessage ? ERROR_ACTIVE_CLASS : '',
 		});
 	}
 }

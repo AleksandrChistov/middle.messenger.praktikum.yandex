@@ -6,7 +6,7 @@ import vertEllipsisImg from '../../../static/assets/icons/vert-ellipsis.svg';
 import cartImg from '../../../static/assets/icons/cart.svg';
 import avatarImg1 from '../../../static/assets/img/avatar1.png';
 import avatarImg2 from '../../../static/assets/img/avatar2.png';
-import {ErrorMessage} from '../../components/error-message/error-message';
+import {ERROR_ACTIVE_CLASS, ErrorMessage} from '../../components/error-message/error-message';
 import {SearchInput} from '../../components/inputs/search/search-input';
 import {ChatCard} from '../../components/chat-card/chat-card';
 import {Avatar} from '../../components/avatar/avatar';
@@ -32,7 +32,7 @@ class ChatService extends FormServiceAbstract {
 	protected showError(errorMessage: string): void {
 		this.props.children?.errorMessageComponent.setProps({
 			textError: errorMessage,
-			addClass: errorMessage ? 'error-text--display' : '',
+			addClass: errorMessage ? ERROR_ACTIVE_CLASS : '',
 		});
 	}
 }

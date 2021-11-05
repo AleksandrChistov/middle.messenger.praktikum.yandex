@@ -4,6 +4,8 @@ import {compileTemplateToElement} from '../../core/utils';
 import templatePug from './error-message.pug';
 import './error-message.scss';
 
+export const ERROR_ACTIVE_CLASS = 'error-text--display';
+
 interface ErrorMessageProps extends Props {
 	textError?: string;
 	addClass?: string;
