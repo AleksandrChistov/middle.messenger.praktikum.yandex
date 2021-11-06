@@ -1,29 +1,53 @@
-import {Props} from '../../core/types';
-import {FormServiceAbstract} from '../../services/form-service-abstract';
-import {FieldName, HandleFormService} from '../../services/form-service';
-import welcomeImg from '../../../static/assets/img/welcome.png';
+import {Children, Props} from '../../core/types';
+import {HandleFormService, Invalid} from '../../services/form-service';
+import {FieldName, FormValidationService} from "../../services/form-validation-service";
+import {getErrorMessageFieldName} from "../../utils";
+import {FIELD_ERROR_TEXT} from "../../constants";
+import {FieldNameValueType} from "../../types";
 import {TextInput} from '../../components/inputs/text/text-input';
 import {PasswordInput} from '../../components/inputs/password/password-input';
-import {ERROR_ACTIVE_CLASS, ErrorMessage} from '../../components/error-message/error-message';
+import {
+  ERROR_ACTIVE_CLASS,
+  ErrorMessage,
+  ErrorMessageProps
+} from '../../components/error-message/error-message';
 import {FormButton} from '../../components/form-button/form-button';
+import welcomeImg from '../../../static/assets/img/welcome.png';
 
 export interface SignInPageProps extends Props {
 	welcomeImgSrc: string;
+  children: Children;
 }
 
-class SignInService extends FormServiceAbstract {
+class SignInService {
 	public props: SignInPageProps;
+	public handleFormService: HandleFormService;
 
 	constructor() {
-		super();
+    const formValidationService = new FormValidationService();
+    this.handleFormService = new HandleFormService(formValidationService, this.showError.bind(this));
 		this.props = getProps(this.handleFormService);
 	}
 
-	protected showError(errorMessage: string): void {
-		this.props.children?.errorMessageComponent.setProps({
-			textError: errorMessage,
-			addClass: errorMessage ? ERROR_ACTIVE_CLASS : '',
-		});
+	private showError(fieldName: FieldNameValueType, invalid: Invalid): void {
+    const fieldErrorObj = FIELD_ERROR_TEXT[fieldName];
+
+    if (!fieldErrorObj) {
+      throw new Error(`Error text for field ${fieldName} not found`);
+    }
+
+    const errorMessageComponent = this.props.children[getErrorMessageFieldName(fieldName)];
+
+    if (!errorMessageComponent) {
+      throw new Error(`Component named ${getErrorMessageFieldName(fieldName)} not found`);
+    }
+
+    const textError = invalid?.length ? fieldErrorObj.length : fieldErrorObj.text;
+
+    errorMessageComponent.setProps<ErrorMessageProps>({
+      addClass: Boolean(invalid) ? ERROR_ACTIVE_CLASS : '',
+      textError: textError || '',
+    });
 	}
 }
 
@@ -38,6 +62,9 @@ function getProps(handleFormService: HandleFormService): SignInPageProps {
 				inputClass: 'mb-5',
 				required: true,
 			}),
+      [getErrorMessageFieldName(FieldName.Login)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			passwordInputComponent: new PasswordInput({
 				label: 'Password',
 				id: 'password',
@@ -45,13 +72,13 @@ function getProps(handleFormService: HandleFormService): SignInPageProps {
 				inputContainerClass: 'mb-5',
 				required: true,
 			}),
-			errorMessageComponent: new ErrorMessage({
-				addClass: 'form__error-text',
-			}),
+      [getErrorMessageFieldName(FieldName.Password)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			formButtonComponent: new FormButton({
 				type: 'submit',
 				text: 'Sign in',
-				addClass: 'mt-30 mb-20',
+				addClass: 'mt-20 mb-20',
 			}),
 		},
 		events: {

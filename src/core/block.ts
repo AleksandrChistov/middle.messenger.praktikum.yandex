@@ -46,7 +46,7 @@ export class Block<T> {
 		return oldProps !== newProps;
 	}
 
-	setProps(nextProps: T): void {
+	setProps<T>(nextProps: T): void {
 		if (!nextProps) {
 			return;
 		}

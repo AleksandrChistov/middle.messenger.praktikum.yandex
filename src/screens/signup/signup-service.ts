@@ -84,7 +84,7 @@ function getProps(handleFormService: HandleFormService): SignUpPageProps {
 			formButtonComponent: new FormButton({
 				type: 'submit',
 				text: 'Sign up',
-				addClass: 'mt-30',
+				addClass: 'mt-20',
 			}),
 		},
 		events: {

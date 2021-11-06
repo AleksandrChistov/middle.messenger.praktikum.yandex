@@ -84,7 +84,7 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
 			formButtonComponent1: new FormButton({
 				type: 'submit',
 				text: 'Change data',
-				addClass: 'mt-30',
+				addClass: 'mt-20',
 			}),
 			passwordInputComponent1: new PasswordInput({
 				label: 'Old password',
@@ -113,7 +113,7 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
 			formButtonComponent2: new FormButton({
 				type: 'submit',
 				text: 'Change password',
-				addClass: 'mt-30',
+				addClass: 'mt-20',
 			}),
 		},
 		events: {

@@ -6,7 +6,7 @@ import './error-message.scss';
 
 export const ERROR_ACTIVE_CLASS = 'error-text--display';
 
-interface ErrorMessageProps extends Props {
+export interface ErrorMessageProps extends Props {
 	textError?: string;
 	addClass?: string;
 }
