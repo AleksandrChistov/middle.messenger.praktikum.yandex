@@ -1,20 +1,12 @@
 import {Children, Props} from '../../core/types';
-import {HandleFormService, Invalid} from '../../services/form-service';
-import {
-  FieldName,
-  FieldNameValueType,
-  FormValidationService
-} from "../../services/form-validation-service";
+import {HandleFormService} from '../../services/form-service';
+import {FieldName} from "../../services/form-validation-service";
+import {ShowErrorService} from "../../services/show-error-service";
 import {getErrorMessageFieldName} from "../../utils";
-import {FIELD_ERROR_TEXT} from "../../constants";
 import {TextInput} from '../../components/inputs/text/text-input';
 import {PasswordInput} from '../../components/inputs/password/password-input';
 import {FormButton} from '../../components/form-button/form-button';
-import {
-  ERROR_ACTIVE_CLASS,
-  ErrorMessage,
-  ErrorMessageProps
-} from '../../components/error-message/error-message';
+import {ErrorMessage} from '../../components/error-message/error-message';
 import welcomeImg from '../../../static/assets/img/welcome.png';
 
 export interface SignInPageProps extends Props {
@@ -22,35 +14,12 @@ export interface SignInPageProps extends Props {
   children: Children;
 }
 
-class SignInService {
+class SignInService extends ShowErrorService {
 	public props: SignInPageProps;
-	public handleFormService: HandleFormService;
 
 	constructor() {
-    const formValidationService = new FormValidationService();
-    this.handleFormService = new HandleFormService(formValidationService, this.showError.bind(this));
+    super();
 		this.props = getProps(this.handleFormService);
-	}
-
-	private showError(fieldName: FieldNameValueType, invalid: Invalid): void {
-    const fieldErrorObj = FIELD_ERROR_TEXT[fieldName];
-
-    if (!fieldErrorObj) {
-      throw new Error(`Error text for field ${fieldName} not found`);
-    }
-
-    const errorMessageComponent = this.props.children[getErrorMessageFieldName(fieldName)];
-
-    if (!errorMessageComponent) {
-      throw new Error(`Component named ${getErrorMessageFieldName(fieldName)} not found`);
-    }
-
-    const textError = invalid?.length ? fieldErrorObj.length : fieldErrorObj.text;
-
-    errorMessageComponent.setProps<ErrorMessageProps>({
-      addClass: Boolean(invalid) ? ERROR_ACTIVE_CLASS : '',
-      textError: textError || '',
-    });
 	}
 }
 
