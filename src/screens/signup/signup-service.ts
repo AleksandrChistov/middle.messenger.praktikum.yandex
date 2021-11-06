@@ -1,29 +1,54 @@
-import {Props} from '../../core/types';
-import {FormServiceAbstract} from '../../services/form-service-abstract';
-import {FieldName, HandleFormService} from '../../services/form-service';
+import {Children, Props} from '../../core/types';
+import {HandleFormService, Invalid} from '../../services/form-service';
+import {FieldName, FormValidationService} from "../../services/form-validation-service";
+import {getErrorMessageFieldName} from "../../utils";
+import {FIELD_ERROR_TEXT} from "../../constants";
+import {FieldNameValueType} from "../../types";
 import {TextInput} from '../../components/inputs/text/text-input';
 import {EmailInput} from '../../components/inputs/email/email-input';
 import {PhoneInput} from '../../components/inputs/phone/phone-input';
 import {PasswordInput} from '../../components/inputs/password/password-input';
-import {ERROR_ACTIVE_CLASS, ErrorMessage} from '../../components/error-message/error-message';
 import {FormButton} from '../../components/form-button/form-button';
+import {
+  ERROR_ACTIVE_CLASS,
+  ErrorMessage,
+  ErrorMessageProps
+} from '../../components/error-message/error-message';
 
-export interface SignUpPageProps extends Props {}
+export interface SignUpPageProps extends Props {
+  children: Children;
+}
 
-class SignUpService extends FormServiceAbstract {
-	public props: SignUpPageProps;
+class SignUpService {
+  public props: SignUpPageProps;
+  public handleFormService: HandleFormService;
 
 	constructor() {
-		super();
-		this.props = getProps(this.handleFormService);
+    const formValidationService = new FormValidationService();
+    this.handleFormService = new HandleFormService(formValidationService, this.showError.bind(this));
+    this.props = getProps(this.handleFormService);
 	}
 
-	protected showError(errorMessage: string): void {
-		this.props.children?.errorMessageComponent.setProps({
-			textError: errorMessage,
-			addClass: errorMessage ? ERROR_ACTIVE_CLASS : '',
-		});
-	}
+  private showError(fieldName: FieldNameValueType, invalid: Invalid): void {
+    const fieldErrorObj = FIELD_ERROR_TEXT[fieldName];
+
+    if (!fieldErrorObj) {
+      throw new Error(`Error text for field ${fieldName} not found`);
+    }
+
+    const errorMessageComponent = this.props.children[getErrorMessageFieldName(fieldName)];
+
+    if (!errorMessageComponent) {
+      throw new Error(`Component named ${getErrorMessageFieldName(fieldName)} not found`);
+    }
+
+    const textError = invalid?.length ? fieldErrorObj.length : fieldErrorObj.text;
+
+    errorMessageComponent.setProps<ErrorMessageProps>({
+      addClass: Boolean(invalid) ? ERROR_ACTIVE_CLASS : '',
+      textError: textError || '',
+    });
+  }
 }
 
 function getProps(handleFormService: HandleFormService): SignUpPageProps {
@@ -36,6 +61,9 @@ function getProps(handleFormService: HandleFormService): SignUpPageProps {
 				inputClass: 'mb-5',
 				required: true,
 			}),
+      [getErrorMessageFieldName(FieldName.FirstName)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			textInputComponent2: new TextInput({
 				label: 'Surname',
 				id: 'second_name',
@@ -43,6 +71,9 @@ function getProps(handleFormService: HandleFormService): SignUpPageProps {
 				inputClass: 'mb-5',
 				required: true,
 			}),
+      [getErrorMessageFieldName(FieldName.SecondName)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			textInputComponent3: new TextInput({
 				label: 'Login',
 				id: 'login',
@@ -50,6 +81,9 @@ function getProps(handleFormService: HandleFormService): SignUpPageProps {
 				inputClass: 'mb-5',
 				required: true,
 			}),
+      [getErrorMessageFieldName(FieldName.Login)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			emailInputComponent: new EmailInput({
 				label: 'Email',
 				id: 'email',
@@ -57,6 +91,9 @@ function getProps(handleFormService: HandleFormService): SignUpPageProps {
 				inputClass: 'mb-5',
 				required: true,
 			}),
+      [getErrorMessageFieldName(FieldName.Email)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			phoneInputComponent: new PhoneInput({
 				label: 'Phone',
 				id: 'phone',
@@ -64,6 +101,9 @@ function getProps(handleFormService: HandleFormService): SignUpPageProps {
 				inputClass: 'mb-5',
 				required: true,
 			}),
+      [getErrorMessageFieldName(FieldName.Phone)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			passwordInputComponent1: new PasswordInput({
 				label: 'Password',
 				id: 'password',
@@ -71,6 +111,9 @@ function getProps(handleFormService: HandleFormService): SignUpPageProps {
 				inputClass: 'mb-5',
 				required: true,
 			}),
+      [getErrorMessageFieldName(FieldName.Password)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			passwordInputComponent2: new PasswordInput({
 				label: 'Password (again)',
 				id: 'passwordAgain',
@@ -78,9 +121,9 @@ function getProps(handleFormService: HandleFormService): SignUpPageProps {
 				inputClass: 'mb-5',
 				required: true,
 			}),
-			errorMessageComponent: new ErrorMessage({
-				addClass: 'form__error-text',
-			}),
+      [getErrorMessageFieldName(FieldName.PasswordAgain)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			formButtonComponent: new FormButton({
 				type: 'submit',
 				text: 'Sign up',

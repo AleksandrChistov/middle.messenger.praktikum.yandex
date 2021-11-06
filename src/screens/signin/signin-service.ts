@@ -6,12 +6,12 @@ import {FIELD_ERROR_TEXT} from "../../constants";
 import {FieldNameValueType} from "../../types";
 import {TextInput} from '../../components/inputs/text/text-input';
 import {PasswordInput} from '../../components/inputs/password/password-input';
+import {FormButton} from '../../components/form-button/form-button';
 import {
   ERROR_ACTIVE_CLASS,
   ErrorMessage,
   ErrorMessageProps
 } from '../../components/error-message/error-message';
-import {FormButton} from '../../components/form-button/form-button';
 import welcomeImg from '../../../static/assets/img/welcome.png';
 
 export interface SignInPageProps extends Props {
