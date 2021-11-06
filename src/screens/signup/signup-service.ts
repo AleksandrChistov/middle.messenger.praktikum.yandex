@@ -1,9 +1,12 @@
 import {Children, Props} from '../../core/types';
 import {HandleFormService, Invalid} from '../../services/form-service';
-import {FieldName, FormValidationService} from "../../services/form-validation-service";
+import {
+  FieldName,
+  FieldNameValueType,
+  FormValidationService
+} from "../../services/form-validation-service";
 import {getErrorMessageFieldName} from "../../utils";
 import {FIELD_ERROR_TEXT} from "../../constants";
-import {FieldNameValueType} from "../../types";
 import {TextInput} from '../../components/inputs/text/text-input';
 import {EmailInput} from '../../components/inputs/email/email-input';
 import {PhoneInput} from '../../components/inputs/phone/phone-input';

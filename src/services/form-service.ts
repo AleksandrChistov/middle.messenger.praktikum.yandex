@@ -2,6 +2,7 @@ export type Invalid = { text?: true; length?: true; } | null;
 
 export interface IFormValidationService {
   validateInput: (element: HTMLInputElement) => Invalid;
+  isFieldHasValidation: (fieldName: string) => boolean;
 }
 
 type ShowErrorFn = (fieldName: string, invalid: Invalid) => void;
@@ -49,6 +50,12 @@ export class HandleFormService {
 		const isFormValid = elementsArray
       .filter((element: HTMLInputElement) => Boolean(element.name))
 			.every((element: HTMLInputElement) => {
+        const isFieldHasValidation = this.formValidationService.isFieldHasValidation(element.name);
+
+        if (!isFieldHasValidation) {
+          return true;
+        }
+
         const invalid = this.formValidationService.validateInput(element);
 
         this.showErrorFn(element.name, invalid);

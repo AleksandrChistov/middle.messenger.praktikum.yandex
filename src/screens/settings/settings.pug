@@ -5,14 +5,17 @@ div.form-container
         h1="Your profile"
         hr.line
         textInputComponent1
+        first_nameErrorMessage
         textInputComponent2
+        second_nameErrorMessage
         textInputComponent3
         textInputComponent4
+        loginErrorMessage
         emailInputComponent
+        emailErrorMessage
         phoneInputComponent
-        div(class="form__button-container")
-            errorMessageComponent1
-            formButtonComponent1
+        phoneErrorMessage
+        formButtonComponent1
     form(class="form form--relative" id="form-password")
         a(href="../signin" class="form__escape-icon")
             include ../../../static/assets/icons/escape.svg
@@ -20,8 +23,9 @@ div.form-container
             span(class="avatar-button__text")="Change avatar"
         hr.line
         passwordInputComponent1
+        oldPasswordErrorMessage
         passwordInputComponent2
+        passwordErrorMessage
         passwordInputComponent3
-        div(class="form__button-container")
-            errorMessageComponent2
-            formButtonComponent2
+        newPasswordErrorMessage
+        formButtonComponent2

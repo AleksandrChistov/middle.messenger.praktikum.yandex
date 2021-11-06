@@ -1,36 +1,57 @@
-import {Props} from '../../core/types';
-import {FormServiceAbstract} from '../../services/form-service-abstract';
-import {FieldName, HandleFormService} from '../../services/form-service';
+import {Children, Props} from '../../core/types';
+import {HandleFormService, Invalid} from '../../services/form-service';
+import {
+  FieldName,
+  FieldNameValueType,
+  FormValidationService
+} from "../../services/form-validation-service";
+import {getErrorMessageFieldName} from "../../utils";
+import {FIELD_ERROR_TEXT} from "../../constants";
 import {TextInput} from '../../components/inputs/text/text-input';
 import {PasswordInput} from '../../components/inputs/password/password-input';
-import {ERROR_ACTIVE_CLASS, ErrorMessage} from '../../components/error-message/error-message';
 import {FormButton} from '../../components/form-button/form-button';
 import {EmailInput} from '../../components/inputs/email/email-input';
 import {PhoneInput} from '../../components/inputs/phone/phone-input';
+import {
+  ERROR_ACTIVE_CLASS,
+  ErrorMessage,
+  ErrorMessageProps
+} from '../../components/error-message/error-message';
 
-export interface SettingsPageProps extends Props {}
+export interface SettingsPageProps extends Props {
+  children: Children;
+}
 
-class SettingsService extends FormServiceAbstract {
+class SettingsService {
 	public props: SettingsPageProps;
+  public handleFormService: HandleFormService;
 
 	constructor() {
-		super();
-		this.props = getProps(this.handleFormService);
+    const formValidationService = new FormValidationService();
+    this.handleFormService = new HandleFormService(formValidationService, this.showError.bind(this));
+    this.props = getProps(this.handleFormService);
 	}
 
-	protected showError(errorMessage: string, inputName: string): void {
-		const isFormPassword = inputName === FieldName.Password
-			|| inputName === FieldName.OldPassword
-			|| inputName === FieldName.NewPassword;
-		const formComponent = isFormPassword ? 'errorMessageComponent2' : 'errorMessageComponent1';
+  private showError(fieldName: FieldNameValueType, invalid: Invalid): void {
+    const fieldErrorObj = FIELD_ERROR_TEXT[fieldName];
 
-		if (this.props.children) {
-			this.props.children[formComponent].setProps({
-				textError: errorMessage,
-				addClass: errorMessage ? ERROR_ACTIVE_CLASS : '',
-			});
-		}
-	}
+    if (!fieldErrorObj) {
+      throw new Error(`Error text for field ${fieldName} not found`);
+    }
+
+    const errorMessageComponent = this.props.children[getErrorMessageFieldName(fieldName)];
+
+    if (!errorMessageComponent) {
+      throw new Error(`Component named ${getErrorMessageFieldName(fieldName)} not found`);
+    }
+
+    const textError = invalid?.length ? fieldErrorObj.length : fieldErrorObj.text;
+
+    errorMessageComponent.setProps<ErrorMessageProps>({
+      addClass: Boolean(invalid) ? ERROR_ACTIVE_CLASS : '',
+      textError: textError || '',
+    });
+  }
 }
 
 function getProps(handleFormService: HandleFormService): SettingsPageProps {
@@ -43,6 +64,9 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
 				inputClass: 'mb-5',
 				required: true,
 			}),
+      [getErrorMessageFieldName(FieldName.FirstName)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			textInputComponent2: new TextInput({
 				label: 'Surname',
 				id: 'second_name',
@@ -50,6 +74,9 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
 				inputClass: 'mb-5',
 				required: true,
 			}),
+      [getErrorMessageFieldName(FieldName.SecondName)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			textInputComponent3: new TextInput({
 				label: 'Display name',
 				id: 'display_name',
@@ -64,6 +91,9 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
 				inputClass: 'mb-5',
 				required: true,
 			}),
+      [getErrorMessageFieldName(FieldName.Login)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			emailInputComponent: new EmailInput({
 				label: 'Email',
 				id: 'email',
@@ -71,6 +101,9 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
 				inputClass: 'mb-5',
 				required: true,
 			}),
+      [getErrorMessageFieldName(FieldName.Email)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			phoneInputComponent: new PhoneInput({
 				label: 'Phone',
 				id: 'phone',
@@ -78,9 +111,9 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
 				inputClass: 'mb-5',
 				required: true,
 			}),
-			errorMessageComponent1: new ErrorMessage({
-				addClass: 'form__error-text',
-			}),
+      [getErrorMessageFieldName(FieldName.Phone)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			formButtonComponent1: new FormButton({
 				type: 'submit',
 				text: 'Change data',
@@ -93,6 +126,9 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
 				inputContainerClass: 'mb-5',
 				required: true,
 			}),
+      [getErrorMessageFieldName(FieldName.OldPassword)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			passwordInputComponent2: new PasswordInput({
 				label: 'Password',
 				id: 'password',
@@ -100,6 +136,9 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
 				inputContainerClass: 'mb-5',
 				required: true,
 			}),
+      [getErrorMessageFieldName(FieldName.Password)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			passwordInputComponent3: new PasswordInput({
 				label: 'Password (again)',
 				id: 'newPassword',
@@ -107,9 +146,9 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
 				inputContainerClass: 'mb-5',
 				required: true,
 			}),
-			errorMessageComponent2: new ErrorMessage({
-				addClass: 'form__error-text',
-			}),
+      [getErrorMessageFieldName(FieldName.NewPassword)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 			formButtonComponent2: new FormButton({
 				type: 'submit',
 				text: 'Change password',
