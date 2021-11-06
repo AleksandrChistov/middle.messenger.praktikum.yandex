@@ -1,17 +1,27 @@
-import {Props} from '../../core/types';
-import {FormServiceAbstract} from '../../services/form-service-abstract';
-import {FieldName, HandleFormService} from '../../services/form-service';
+import {Children, Props} from '../../core/types';
+import {HandleFormService, Invalid} from '../../services/form-service';
+import {
+  FieldName,
+  FieldNameValueType,
+  FormValidationService
+} from "../../services/form-validation-service";
+import {getErrorMessageFieldName} from "../../utils";
+import {FIELD_ERROR_TEXT} from "../../constants";
+import {SearchInput} from '../../components/inputs/search/search-input';
+import {ChatCard} from '../../components/chat-card/chat-card';
+import {Message} from '../../components/message/message';
+import {Avatar} from '../../components/avatar/avatar';
+import {Time} from '../../components/time/time';
+import {
+  ERROR_ACTIVE_CLASS,
+  ErrorMessage,
+  ErrorMessageProps
+} from '../../components/error-message/error-message';
 import settingsImg from '../../../static/assets/icons/settings.svg';
 import vertEllipsisImg from '../../../static/assets/icons/vert-ellipsis.svg';
 import cartImg from '../../../static/assets/icons/cart.svg';
 import avatarImg1 from '../../../static/assets/img/avatar1.png';
 import avatarImg2 from '../../../static/assets/img/avatar2.png';
-import {ERROR_ACTIVE_CLASS, ErrorMessage} from '../../components/error-message/error-message';
-import {SearchInput} from '../../components/inputs/search/search-input';
-import {ChatCard} from '../../components/chat-card/chat-card';
-import {Avatar} from '../../components/avatar/avatar';
-import {Time} from '../../components/time/time';
-import {Message} from '../../components/message/message';
 
 export interface ChatPageProps extends Props {
 	authorName: string;
@@ -19,22 +29,39 @@ export interface ChatPageProps extends Props {
 	settingsImgSrc: string;
 	vertEllipsisImgSrc: string;
 	cartImgSrc: string;
+  children: Children;
 }
 
-class ChatService extends FormServiceAbstract {
+class ChatService {
 	public props: ChatPageProps;
+  public handleFormService: HandleFormService;
 
 	constructor() {
-		super();
-		this.props = getProps(this.handleFormService);
+    const formValidationService = new FormValidationService();
+    this.handleFormService = new HandleFormService(formValidationService, this.showError.bind(this));
+    this.props = getProps(this.handleFormService);
 	}
 
-	protected showError(errorMessage: string): void {
-		this.props.children?.errorMessageComponent.setProps({
-			textError: errorMessage,
-			addClass: errorMessage ? ERROR_ACTIVE_CLASS : '',
-		});
-	}
+  private showError(fieldName: FieldNameValueType, invalid: Invalid): void {
+    const fieldErrorObj = FIELD_ERROR_TEXT[fieldName];
+
+    if (!fieldErrorObj) {
+      throw new Error(`Error text for field ${fieldName} not found`);
+    }
+
+    const errorMessageComponent = this.props.children[getErrorMessageFieldName(fieldName)];
+
+    if (!errorMessageComponent) {
+      throw new Error(`Component named ${getErrorMessageFieldName(fieldName)} not found`);
+    }
+
+    const textError = invalid?.length ? fieldErrorObj.length : fieldErrorObj.text;
+
+    errorMessageComponent.setProps<ErrorMessageProps>({
+      addClass: Boolean(invalid) ? ERROR_ACTIVE_CLASS : '',
+      textError: textError || '',
+    });
+  }
 }
 
 function getProps(handleFormService: HandleFormService): ChatPageProps {
@@ -118,9 +145,9 @@ function getProps(handleFormService: HandleFormService): ChatPageProps {
 					}),
 				},
 			}),
-			errorMessageComponent: new ErrorMessage({
-				addClass: 'form__error-text',
-			}),
+      [getErrorMessageFieldName(FieldName.Message)]: new ErrorMessage({
+        addClass: 'form__error-text',
+      }),
 		},
 		events: {
 			focus: [
@@ -128,14 +155,6 @@ function getProps(handleFormService: HandleFormService): ChatPageProps {
 					id: 'message',
 					fn: event => {
 						handleFormService.handleFieldFocus(event);
-					},
-				},
-			],
-			blur: [
-				{
-					id: 'message',
-					fn: event => {
-						handleFormService.handleFieldBlur(event);
 					},
 				},
 			],
