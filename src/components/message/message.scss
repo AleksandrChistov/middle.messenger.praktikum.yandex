@@ -1,0 +1,51 @@
+@import "../../../static/styles/colors";
+
+.message {
+  display: flex;
+
+  &.message--you {
+    flex-direction: row-reverse;
+
+    .message__card {
+      background-color: $purple;
+    }
+
+    .message__avatar {
+      margin-right: 0;
+      margin-left: 20px;
+    }
+
+    .message__text {
+      color: $white;
+    }
+
+    .message__time {
+      color: $gray;
+    }
+  }
+
+  &__card {
+    max-width: 355px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: $white;
+    box-shadow: 0 5px 13px rgba($black, 14%);
+  }
+
+  &__avatar {
+    margin-right: 20px;
+  }
+
+  &__text {
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    color: $dark-gray;
+  }
+
+  &__time {
+    text-align: right;
+    color: $purple;
+  }
+}

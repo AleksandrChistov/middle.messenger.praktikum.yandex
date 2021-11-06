@@ -9,45 +9,10 @@
     <link rel="icon" type="image/svg+xml" href="static/assets/icons/favicon/favicon.svg">
     <link rel="icon" type="image/png" href="static/assets/icons/favicon/favicon.png">
     <link rel="stylesheet" href="static/styles/fonts.scss">
-    <style>
-        div {
-            width: 500px;
-            max-width: 100%;
-            margin: 0 auto;
-        }
-        h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 42px;
-            font-weight: 400;
-            color: #7364FF;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        ul li {
-            margin-bottom: 15px;
-            padding-left: 20px;
-        }
-        ul a {
-            font-family: 'Open Sans', sans-serif;
-            text-decoration: none;
-            font-size: 18px;
-        }
-        ul a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="static/main.scss">
 </head>
 <body>
-    <div>
-        <h1 class="title">Chatly is saying hello!</h1>
-        <ul>
-            <li><a href="src/screens/signin/signin.pug">Sign in</a></li>
-            <li><a href="src/screens/signup/signup.pug">Sign up</a></li>
-            <li><a href="src/screens/settings/settings.pug">User settings</a></li>
-            <li><a href="src/screens/chat/chat.pug">Chat (stub)</a></li>
-            <li><a href="src/screens/404/404.pug">404</a></li>
-            <li><a href="src/screens/500/500.pug">500</a></li>
-        </ul>
-    </div>
+    <div id="app"></div>
+    <script src="src/main.ts" type="module"></script>
 </body>
 </html>

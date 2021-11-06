@@ -1,41 +1,31 @@
-extends ../components/html-head/html-head.pug
-include ../../components/inputs/text/text-input.pug
-include ../../components/inputs/email/email-input.pug
-include ../../components/inputs/phone/phone-input.pug
-include ../../components/inputs/password/password-input.pug
-include ../../components/error-form/error-form
-include ../../components/form-button/form-button.pug
-
-block title
-    title='Chatly - user settings'
-block links
-    link(rel="stylesheet", href="settings.scss")
-
-block content
-    div.form-container
-        form.form
-            a(href="../chat/chat.pug" class="arrow-back")
-                include ../../../static/assets/icons/arrow-back.svg
-            h1="Your profile"
-            hr.line
-            +textInput("Name", "first_name", "first_name", "mb-5")
-            +textInput("Surname", "second_name", "second_name", "mb-5")
-            +textInput("Display name", "display_name", "display_name", "mb-5")
-            +textInput("Login", "login", "login", "mb-5")
-            +emailInput("Email", "email", "email", "mb-5")
-            +phoneInput("Phone", "phone", "phone", "mb-5")
-            div(class="form__button-container")
-                +errorMessage(null, "form__error-text")
-                +formButton("submit", "Change data", "mt-30")
-        form.form.form--relative
-            a(href="../signin/signin.pug" class="form__escape-icon")
-                include ../../../static/assets/icons/escape.svg
-            button(type="button" class="avatar-button")
-                span(class="avatar-button__text")="Change avatar"
-            hr.line
-            +passwordInput("Old password", "oldPassword", "oldPassword", "mb-5")
-            +passwordInput("Password", "password", "password", "mb-5")
-            +passwordInput("Password (again)", "newPassword", "newPassword", "mb-5")
-            div(class="form__button-container")
-                +errorMessage(null, "form__error-text")
-                +formButton("submit","Change password", "mt-30")
+div.form-container
+    form(class="form" id="form-profile")
+        a(href="../chat" class="arrow-back")
+            include ../../../static/assets/icons/arrow-back.svg
+        h1="Your profile"
+        hr.line
+        textInputComponent1
+        first_nameErrorMessage
+        textInputComponent2
+        second_nameErrorMessage
+        textInputComponent3
+        textInputComponent4
+        loginErrorMessage
+        emailInputComponent
+        emailErrorMessage
+        phoneInputComponent
+        phoneErrorMessage
+        formButtonComponent1
+    form(class="form form--relative" id="form-password")
+        a(href="../signin" class="form__escape-icon")
+            include ../../../static/assets/icons/escape.svg
+        button(type="button" class="avatar-button")
+            span(class="avatar-button__text")="Change avatar"
+        hr.line
+        passwordInputComponent1
+        oldPasswordErrorMessage
+        passwordInputComponent2
+        passwordErrorMessage
+        passwordInputComponent3
+        newPasswordErrorMessage
+        formButtonComponent2

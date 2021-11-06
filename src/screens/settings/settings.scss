@@ -1,81 +1,71 @@
-@import '../../../static/styles/styles';
-@import '../../../static/styles/colors';
-@import '../../components/inputs/input-styles';
-@import '../../components/inputs/text/text-input';
-@import '../../components/inputs/email/email-input';
-@import '../../components/inputs/phone/phone-input';
-@import '../../components/inputs/password/password-input';
-@import '../../components/error-form/error-form';
-@import '../../components/form-button/form-button';
+@import "../../../static/styles/styles";
+@import "../../../static/styles/colors";
+@import "../../components/inputs/input-styles";
 
-.form-container {
-  display: flex;
-  width: 828px;
-  margin: 0 auto;
-  border-radius: 20px;
-  background: $background-color;
-}
-
-.form {
-  max-width: 100%;
-  width: 414px;
-  margin: 0 auto;
-  padding: 33px;
-  border-radius: 20px;
-
-  &--relative {
-    position: relative;
-  }
-
-  &__escape-icon {
-    position: absolute;
-    top: 33px;
-    right: 33px;
-  }
-
-  &__button-container {
-    position: relative;
-  }
-
-  &__error-text {
-    position: absolute;
-  }
-
-  .avatar-button {
-    width: 96px;
-    height: 96px;
-    margin: 0 auto 10px;
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background-image: url("../../../static/assets/icons/avatar.svg");
-    background-repeat: no-repeat;
-    background-color: transparent;
-    background-blend-mode: overlay;
+#app {
+  .form-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 828px;
+    margin: 0 auto;
+    border-radius: 20px;
+    background: $background-color;
+  }
 
-    &__text {
-      display: none;
-      width: 50px;
-      font-family: $basic-font-family;
-      font-weight: 600;
-      font-size: 13px;
-      line-height: 16px;
-      text-align: center;
-      color: $white;
+  .form {
+    max-width: 100%;
+    width: 414px;
+    margin: 0 auto;
+    padding: 33px;
+    border-radius: 20px;
+
+    &--relative {
+      position: relative;
     }
 
-    &:hover {
-      cursor: pointer;
-      background-color: rgba($black, 0.75);
+    &__escape-icon {
+      position: absolute;
+      top: 33px;
+      right: 33px;
+    }
 
-      .avatar-button__text {
-        display: inline-block;
+    .avatar-button {
+      width: 96px;
+      height: 96px;
+      margin: 0 auto 10px;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background-image: url("../../../static/assets/icons/avatar.svg");
+      background-repeat: no-repeat;
+      background-color: transparent;
+      background-blend-mode: overlay;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &__text {
+        display: none;
+        width: 50px;
+        font-family: $basic-font-family;
+        font-weight: 600;
+        font-size: 13px;
+        line-height: 16px;
+        text-align: center;
+        color: $white;
+      }
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgba($black, 75%);
+
+        .avatar-button__text {
+          display: inline-block;
+        }
       }
     }
+
+    .display-block {
+      display: block;
+    }
   }
 }
-
-

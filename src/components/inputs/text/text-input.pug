@@ -1,14 +1,14 @@
-mixin textInput(label, id, name, inputClass, labelClass, placeholder)
-    div.input
-        if label
-            label(
-                class=`input__label ${labelClass || ""}`
-                for=id
-                )= label
-        input(
-            type="text"
-            class=`input__field ${inputClass || ""}`
-            id=id
-            name=name
-            placeholder=placeholder
-        )
+div.input
+    if label
+        label(
+            class=`input__label ${labelClass || ""}`
+            for=id
+            )= label
+    input(
+        type="text"
+        class=`input__field ${inputClass || ""}`
+        id=id
+        name=name
+        placeholder=placeholder
+        required=required
+    )

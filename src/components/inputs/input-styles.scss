@@ -1,5 +1,5 @@
-@import '../../../static/styles/colors';
-@import '../../../static/styles/variables';
+@import "../../../static/styles/colors";
+@import "../../../static/styles/variables";
 
 .input {
   &__field {
@@ -8,15 +8,21 @@
     border: 0.5px solid $gray;
     border-radius: 10px;
     padding: 0 15px;
-
     font-family: $basic-font-family;
     font-weight: 400;
     font-size: 12px;
     line-height: 16px;
     color: $black;
 
-    &:focus {
+    &:focus,
+    &:focus-visible {
       outline: none;
+      box-shadow: 0 0 1px 1px $purple;
+    }
+
+    &.invalid {
+      color: $error-color;
+      border: 0.5px solid $error-color;
     }
   }
 

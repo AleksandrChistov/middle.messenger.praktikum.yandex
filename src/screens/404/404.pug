@@ -1,13 +1,5 @@
-extends ../components/html-head/html-head.pug
-
-block title
-    title='Chatly - 404 error page'
-block links
-    link(rel="stylesheet", href="404.scss")
-
-block content
-    section.error-section
-        a(href="../chat/chat.pug")
-            include ../../../static/assets/icons/arrow-back.svg
-            span(class="error-section__text")="Back to the chats"
-        img(class="error-section__img" src="../../../static/assets/img/404.png" alt="Error 404")
+section.error-section
+    a(href="../chat")
+        include ../../../static/assets/icons/arrow-back.svg
+        span(class="error-section__text")="Back to the chats"
+    img(class="error-section__img" src=errorImgSrc alt="Error 404")

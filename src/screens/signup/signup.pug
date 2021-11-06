@@ -1,29 +1,20 @@
-extends ../components/html-head/html-head.pug
-include ../../components/inputs/text/text-input.pug
-include ../../components/inputs/email/email-input.pug
-include ../../components/inputs/phone/phone-input.pug
-include ../../components/inputs/password/password-input.pug
-include ../../components/error-form/error-form
-include ../../components/form-button/form-button.pug
-
-block title
-    title='Chatly - sign up form'
-block links
-    link(rel="stylesheet", href="signup.scss")
-
-block content
-    form.form
-        a(href="../signin/signin.pug" class="arrow-back")
-            include ../../../static/assets/icons/arrow-back.svg
-        h1="Sign up"
-        hr.line
-        +textInput("Name", "first_name", "first_name", "mb-5")
-        +textInput("Surname", "second_name", "second_name", "mb-5")
-        +textInput("Login", "login", "login", "mb-5")
-        +emailInput("Email", "email", "email", "mb-5")
-        +phoneInput("Phone", "phone", "phone", "mb-5")
-        +passwordInput("Password", "password", "password", "mb-5")
-        +passwordInput("Password (again)", "newPassword", "newPassword", "mb-5")
-        div(class="form__button-container")
-            +errorMessage(null, "form__error-text")
-            +formButton("submit", "Sign up", "mt-30")
+form(class="form" id="form")
+    a(href="../signin" class="arrow-back")
+        include ../../../static/assets/icons/arrow-back.svg
+    h1="Sign up"
+    hr.line
+    textInputComponent1
+    first_nameErrorMessage
+    textInputComponent2
+    second_nameErrorMessage
+    textInputComponent3
+    loginErrorMessage
+    emailInputComponent
+    emailErrorMessage
+    phoneInputComponent
+    phoneErrorMessage
+    passwordInputComponent1
+    passwordErrorMessage
+    passwordInputComponent2
+    passwordAgainErrorMessage
+    formButtonComponent

@@ -4,21 +4,25 @@
   "description": "project on vanila js",
   "main": "app.js",
   "scripts": {
-    "start": "parcel build & node server/app.js",
-    "start:dev": "parcel",
+    "start": "parcel build & npm run server",
+    "start:dev": "parcel --open",
+    "server": "node server/app.js",
     "build": "parcel build",
+    "lint": "eslint src/**",
+    "lint fix": "eslint src/** --fix",
+    "stylelint": "stylelint **/*.scss",
     "test": "test"
   },
   "targets": {
     "frontend": {
       "source": [
-        "./src/screens/signin/signin.pug",
-        "./src/screens/signup/signup.pug",
-        "./src/screens/settings/settings.pug",
-        "./src/screens/chat/chat.pug",
-        "./src/screens/404/404.pug",
-        "./src/screens/500/500.pug",
-        "index.html"
+        "index.html",
+        "./src/screens/signin/index.html",
+        "./src/screens/signup/index.html",
+        "./src/screens/settings/index.html",
+        "./src/screens/404/index.html",
+        "./src/screens/500/index.html",
+        "./src/screens/chat/index.html"
       ],
       "distDir": "./dist"
     }
@@ -43,7 +47,17 @@
     "@parcel/transformer-image": "^2.0.0-rc.0",
     "@parcel/transformer-pug": "^2.0.0-rc.0",
     "@parcel/transformer-sass": "^2.0.0-rc.0",
-    "parcel": "^2.0.0-rc.0"
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "eslint": "^8.1.0",
+    "eslint-config-xo": "^0.39.0",
+    "eslint-config-xo-typescript": "^0.47.1",
+    "parcel": "^2.0.0-rc.0",
+    "parcel-transformer-pug-precompile": "^1.0.6",
+    "stylelint": "^14.0.1",
+    "stylelint-config-standard": "^23.0.0",
+    "stylelint-config-standard-scss": "^2.0.1",
+    "typescript": "^4.4.4"
   },
   "dependencies": {
     "express": "^4.17.1"

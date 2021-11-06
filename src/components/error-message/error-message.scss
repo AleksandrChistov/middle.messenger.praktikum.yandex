@@ -9,4 +9,8 @@
   line-height: 20px;
   color: $error-color;
   margin: 0;
+
+  &--display {
+    display: block;
+  }
 }

@@ -8,5 +8,5 @@ const DIST_PATH = path.join(__dirname, '/../dist');
 app.use(express.static(DIST_PATH));
 
 app.listen(PORT, () => {
-    console.log('Listening on port 3000...');
+    console.log(`Listening on port ${PORT}...`);
 });

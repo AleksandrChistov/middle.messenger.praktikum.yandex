@@ -1,0 +1,15 @@
+div.input
+    if label
+        label(
+            class=`input__label ${labelClass || ""}`
+            for=id
+        )= label
+    div(class=`input-container ${inputContainerClass || ""}`)
+        button(type="button" class="input-container__search-icon")
+        input(
+            type="search"
+            class=`input__field input-container__search-field ${inputClass || ""}`
+            id=id
+            name=name
+            placeholder=placeholder
+        )
