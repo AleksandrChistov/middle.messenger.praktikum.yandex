@@ -32,7 +32,7 @@ export class Block<T> {
 
 		this.props = this._makePropsProxy(props);
 
-		this._registerEvents(this.eventBus);
+		this._registerEventBusEvents(this.eventBus);
 		this.eventBus.emit(EventsEnum.INIT);
 	}
 
@@ -78,16 +78,27 @@ export class Block<T> {
     this.getContent().classList.add('hidden');
 	}
 
+  destroy(): void {
+    this._componentWillUnmount();
+  }
+
 	get element(): HTMLElement {
 		return this._element;
 	}
 
-	_registerEvents(eventBus: EventBus) {
+	_registerEventBusEvents(eventBus: EventBus) {
 		eventBus.on(EventsEnum.INIT, this.init.bind(this));
 		eventBus.on(EventsEnum.FLOW_CDM, this._componentDidMount.bind(this));
 		eventBus.on(EventsEnum.FLOW_CDU, this._componentDidUpdate.bind(this));
 		eventBus.on(EventsEnum.FLOW_RENDER, this._render.bind(this));
 	}
+
+  _removeEventBusEvents() {
+    this.eventBus.off(EventsEnum.INIT, this.init.bind(this));
+    this.eventBus.off(EventsEnum.FLOW_CDM, this._componentDidMount.bind(this));
+    this.eventBus.off(EventsEnum.FLOW_CDU, this._componentDidUpdate.bind(this));
+    this.eventBus.off(EventsEnum.FLOW_RENDER, this._render.bind(this));
+  }
 
 	_createResources() {
 		const {tagName} = this._meta;
@@ -106,6 +117,16 @@ export class Block<T> {
 		this.componentDidMount();
 		this.eventBus.emit(EventsEnum.FLOW_RENDER);
 	}
+
+  _componentWillUnmount() {
+    this._removeEventBusEvents();
+    this._removeEvents();
+    const root = document.getElementById(this._meta.rootId);
+
+    if (root) {
+      root.innerHTML = '';
+    }
+  }
 
 	_componentDidUpdate(oldProps: Props, newProps: Props): void {
 		const response = this.componentDidUpdate(oldProps, newProps);
