@@ -13,7 +13,7 @@ router
   .use("/sign-up", SignUpPage)
   .use("/settings", SettingsPage)
   .use("/messenger", ChatPage)
-  .use("/404", Page404)
   .use("/500", Page500)
+  .setFallBack("/404", Page404)
   .start();
 

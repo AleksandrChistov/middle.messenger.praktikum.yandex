@@ -4,6 +4,7 @@ export class Router {
   private static __instance: Router;
   private _currentRoute: Route | null;
   private _rootQuery: string;
+  private _fallBackPathName: string;
 
   private _routes: Route[];
   private _history: History;
@@ -27,6 +28,12 @@ export class Router {
     return this;
   }
 
+  setFallBack(pathname, block) {
+    this.use(pathname, block);
+    this._fallBackPathName = pathname;
+    return this;
+  }
+
   start() {
     window.onpopstate = (event) => {
       this._onRoute(event.currentTarget.location.pathname);
@@ -36,7 +43,7 @@ export class Router {
   }
 
   _onRoute(pathname) {
-    const route = this.getRoute(pathname);
+    const route = this.getRoute(pathname) || this.getRoute(this._fallBackPathName);
 
     if (!route) {
       return;
