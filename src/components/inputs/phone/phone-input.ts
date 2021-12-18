@@ -16,7 +16,7 @@ interface PhoneInputProps extends Props {
 
 export class PhoneInput extends Block<PhoneInputProps> {
 	constructor(propsObj: PhoneInputProps) {
-		super('div', propsObj);
+		super('div', 'phone-input-block', propsObj);
 	}
 
 	render() {

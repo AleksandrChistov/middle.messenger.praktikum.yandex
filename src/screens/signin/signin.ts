@@ -6,7 +6,7 @@ import {SignInPageProps, props} from './signin-service';
 
 export class SignInPage extends Block<SignInPageProps> {
 	constructor(propsObj: SignInPageProps = props, rootId) {
-		super('main', propsObj, rootId);
+		super('main', 'signin-page-block', propsObj, rootId);
 	}
 
 	render() {

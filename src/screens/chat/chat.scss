@@ -1,11 +1,9 @@
 @import "../../../static/styles/colors";
 @import "../../../static/styles/variables";
 
-#app {
-  main {
-    display: flex;
-    height: 100vh;
-  }
+.chat-page-block {
+  display: flex;
+  height: 100vh;
 
   .sidebar {
     flex-basis: 30%;

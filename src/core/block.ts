@@ -5,6 +5,7 @@ type Meta = {
 	tagName: string;
 	props: Props;
   rootId: string;
+  containerClassName: string;
 };
 
 export enum EventsEnum {
@@ -20,12 +21,13 @@ export class Block<T> {
 	private _element: HTMLElement;
 	protected readonly _meta: Meta;
 
-	constructor(tagName = 'div', props: Props = {}, rootId: string = 'app') {
+	constructor(tagName = 'div', containerClassName: string, props: Props = {}, rootId: string = 'app') {
 		this.eventBus = new EventBus();
 		this._meta = {
 			tagName,
-			props,
-      rootId
+      containerClassName,
+      props,
+      rootId,
 		};
 
 		this.props = this._makePropsProxy(props);
@@ -36,7 +38,7 @@ export class Block<T> {
 
 	init() {
 		this._createResources();
-		this._addComponentNameAttribute();
+		this._addComponentAttributes();
 		this.eventBus.emit(EventsEnum.FLOW_CDM);
 	}
 
@@ -92,8 +94,12 @@ export class Block<T> {
 		this._element = this._createDocumentElement(tagName);
 	}
 
-	_addComponentNameAttribute() {
+	_addComponentAttributes() {
 		this._element.setAttribute('data-component', this.constructor.name);
+
+    if (this._meta.containerClassName) {
+      this._element.classList.add(this._meta.containerClassName);
+    }
 	}
 
 	_componentDidMount() {

@@ -11,7 +11,7 @@ interface AvatarProps extends Props {
 
 export class Avatar extends Block<AvatarProps> {
 	constructor(propsObj: AvatarProps) {
-		super('div', propsObj);
+		super('div', 'avatar-block', propsObj);
 	}
 
 	render() {

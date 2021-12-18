@@ -18,7 +18,7 @@ interface ChatCardProps extends Props {
 
 export class ChatCard extends Block<ChatCardProps> {
 	constructor(propsObj: ChatCardProps) {
-		super('div', propsObj);
+		super('div', 'chat-card-block', propsObj);
 	}
 
 	render() {

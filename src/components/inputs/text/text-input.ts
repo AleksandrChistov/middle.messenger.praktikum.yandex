@@ -16,7 +16,7 @@ interface TextInputProps extends Props {
 
 export class TextInput extends Block<TextInputProps> {
 	constructor(propsObj: TextInputProps) {
-		super('div', propsObj);
+		super('div', 'text-input-block', propsObj);
 	}
 
 	render() {

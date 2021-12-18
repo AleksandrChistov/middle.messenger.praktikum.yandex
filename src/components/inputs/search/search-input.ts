@@ -16,7 +16,7 @@ interface SearchInputProps extends Props {
 
 export class SearchInput extends Block<SearchInputProps> {
 	constructor(propsObj: SearchInputProps) {
-		super('div', propsObj);
+		super('div', 'search-input-block', propsObj);
 	}
 
 	render() {

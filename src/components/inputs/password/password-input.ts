@@ -17,7 +17,7 @@ interface PasswordInputProps extends Props {
 
 export class PasswordInput extends Block<PasswordInputProps> {
 	constructor(propsObj: PasswordInputProps) {
-		super('div', propsObj);
+		super('div', 'password-input-block', propsObj);
 	}
 
 	render() {

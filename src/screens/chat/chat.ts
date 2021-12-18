@@ -6,7 +6,7 @@ import {ChatPageProps, props} from './chat-service';
 
 export class ChatPage extends Block<ChatPageProps> {
 	constructor(propsObj: ChatPageProps = props, rootId) {
-		super('main', propsObj, rootId);
+		super('main', 'chat-page-block', propsObj, rootId);
 	}
 
 	render() {

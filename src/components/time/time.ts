@@ -17,7 +17,7 @@ interface TimeParsedProps extends Props {
 
 export class Time extends Block<TimeProps> {
 	constructor(propsObj: TimeProps) {
-		super('div', propsObj);
+		super('div', 'time-block', propsObj);
 	}
 
 	render() {

@@ -16,7 +16,7 @@ interface EmailInputProps extends Props {
 
 export class EmailInput extends Block<EmailInputProps> {
 	constructor(propsObj: EmailInputProps) {
-		super('div', propsObj);
+		super('div', 'email-input-block', propsObj);
 	}
 
 	render() {

@@ -1,34 +1,37 @@
 @import "../../../../static/styles/colors";
+@import "../input-styles";
 
-.input {
-  &-container {
-    position: relative;
+.search-input-block {
+  .input {
+    &-container {
+      position: relative;
 
-    &__search-icon {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      left: 24px;
-      width: 24px;
-      height: 24px;
-      border: none;
-      padding: 0;
-      background: url("../../../../static/assets/icons/search.svg") center center no-repeat;
+      &__search-icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 24px;
+        width: 24px;
+        height: 24px;
+        border: none;
+        padding: 0;
+        background: url("../../../../static/assets/icons/search.svg") center center no-repeat;
 
-      &:hover {
-        cursor: pointer;
+        &:hover {
+          cursor: pointer;
+        }
       }
-    }
 
-    &__search-field {
-      height: 32px;
-      padding-left: 48px;
-      line-height: 12px;
-      font-weight: 600;
-      color: $gray;
-
-      &::placeholder {
+      &__search-field {
+        height: 32px;
+        padding-left: 48px;
+        line-height: 12px;
+        font-weight: 600;
         color: $gray;
+
+        &::placeholder {
+          color: $gray;
+        }
       }
     }
   }

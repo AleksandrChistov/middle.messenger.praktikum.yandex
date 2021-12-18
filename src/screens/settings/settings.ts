@@ -6,7 +6,7 @@ import {props, SettingsPageProps} from './settings-service';
 
 export class SettingsPage extends Block<SettingsPageProps> {
 	constructor(propsObj: SettingsPageProps = props, rootId) {
-		super('main', propsObj, rootId);
+		super('main', 'settings-page-block', propsObj, rootId);
 	}
 
 	render() {

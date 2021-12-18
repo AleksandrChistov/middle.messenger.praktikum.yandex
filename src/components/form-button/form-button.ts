@@ -13,7 +13,7 @@ interface FormButtonProps extends Props {
 
 export class FormButton extends Block<FormButtonProps> {
 	constructor(propsObj: FormButtonProps) {
-		super('div', propsObj);
+		super('div', 'form-button-block', propsObj);
 	}
 
 	render() {

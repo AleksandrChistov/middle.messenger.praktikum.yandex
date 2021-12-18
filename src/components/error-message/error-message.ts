@@ -13,7 +13,7 @@ export interface ErrorMessageProps extends Props {
 
 export class ErrorMessage extends Block<ErrorMessageProps> {
 	constructor(propsObj: ErrorMessageProps) {
-		super('div', propsObj);
+		super('div', 'error-message-block', propsObj);
 	}
 
 	render() {

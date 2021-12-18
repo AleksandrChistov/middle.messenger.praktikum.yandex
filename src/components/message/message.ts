@@ -17,7 +17,7 @@ interface MessageProps extends Props {
 
 export class Message extends Block<MessageProps> {
 	constructor(propsObj: MessageProps) {
-		super('div', propsObj);
+		super('div', 'message-block', propsObj);
 	}
 
 	render() {
