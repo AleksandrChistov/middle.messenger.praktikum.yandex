@@ -43,3 +43,7 @@ export function compileTemplateToElement(
 
 	return fragment;
 }
+
+export function isEqual(newPathname: string, currentPathname: string): boolean {
+  return newPathname === currentPathname;
+}
