@@ -1,6 +1,6 @@
 div.form-container
     form(class="form" id="form-profile")
-        a(href="../chat" class="arrow-back")
+        a(href="#" id="goToChat" class="arrow-back")
             include ../../../static/assets/icons/arrow-back.svg
         h1="Your profile"
         hr.line
@@ -17,7 +17,7 @@ div.form-container
         phoneErrorMessage
         formButtonComponent1
     form(class="form form--relative" id="form-password")
-        a(href="../signin" class="form__escape-icon")
+        a(href="#" id="goToSignIn" class="form__escape-icon")
             include ../../../static/assets/icons/escape.svg
         button(type="button" class="avatar-button")
             span(class="avatar-button__text")="Change avatar"

@@ -9,6 +9,7 @@ import {FormButton} from '../../components/form-button/form-button';
 import {EmailInput} from '../../components/inputs/email/email-input';
 import {PhoneInput} from '../../components/inputs/phone/phone-input';
 import {ErrorMessage} from '../../components/error-message/error-message';
+import {router} from "../../index";
 
 export interface SettingsPageProps extends Props {
   children: Children;
@@ -125,6 +126,22 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
 			}),
 		},
 		events: {
+      click: [
+        {
+          id: 'goToChat',
+          fn: event => {
+            event.preventDefault();
+            router.go('/messenger');
+          },
+        },
+        {
+          id: 'goToSignIn',
+          fn: event => {
+            event.preventDefault();
+            router.go('/');
+          },
+        },
+      ],
 			focus: [
 				{
 					id: 'first_name',
