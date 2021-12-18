@@ -81,7 +81,6 @@ function getProps(handleFormService: HandleFormService): SignUpPageProps {
 				label: 'Password',
 				id: 'password',
 				name: FieldName.Password,
-				inputClass: 'mb-5',
 				required: true,
 			}),
       [getErrorMessageFieldName(FieldName.Password)]: new ErrorMessage({
@@ -91,7 +90,6 @@ function getProps(handleFormService: HandleFormService): SignUpPageProps {
 				label: 'Password (again)',
 				id: 'passwordAgain',
 				name: FieldName.PasswordAgain,
-				inputClass: 'mb-5',
 				required: true,
 			}),
       [getErrorMessageFieldName(FieldName.PasswordAgain)]: new ErrorMessage({

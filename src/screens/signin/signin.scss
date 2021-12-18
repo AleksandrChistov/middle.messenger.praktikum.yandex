@@ -51,6 +51,14 @@
       box-shadow: none;
       background: transparent;
       color: $purple;
+      max-width: 100%;
+      width: 348px;
+      height: 40px;
+      border-radius: 20px;
+      font-family: $basic-font-family;
+      font-size: 18px;
+      text-align: center;
+      letter-spacing: -0.02em;
     }
   }
 }

@@ -26,6 +26,11 @@ export function compileTemplateToElement(
 			attributeNames.forEach(attrName => {
 				const attrValue = childElementTag.getAttribute(attrName);
 
+        if (attrName === 'class') {
+          childElement.classList.add(attrValue ?? '');
+          return;
+        }
+
 				childElement.setAttribute(attrName, attrValue ?? '');
 			});
 
