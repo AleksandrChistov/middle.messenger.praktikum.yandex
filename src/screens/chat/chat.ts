@@ -1,11 +1,12 @@
 import {Block} from '../../core/block';
 import {compileTemplateToElement} from '../../core/utils';
 import templatePug from './chat.pug';
+import './chat.scss';
 import {ChatPageProps, props} from './chat-service';
 
-class ChatPage extends Block<ChatPageProps> {
-	constructor(propsObj: ChatPageProps) {
-		super('main', propsObj);
+export class ChatPage extends Block<ChatPageProps> {
+	constructor(propsObj: ChatPageProps = props, rootId) {
+		super('main', propsObj, rootId);
 	}
 
 	render() {
@@ -13,10 +14,8 @@ class ChatPage extends Block<ChatPageProps> {
 	}
 
 	componentDidMount() {
-		const root = document.getElementById('app');
+		const root = document.getElementById(this._meta.rootId);
 
 		root?.appendChild(this.getContent());
 	}
 }
-
-new ChatPage(props);

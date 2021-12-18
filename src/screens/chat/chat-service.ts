@@ -14,6 +14,7 @@ import vertEllipsisImg from '../../../static/assets/icons/vert-ellipsis.svg';
 import cartImg from '../../../static/assets/icons/cart.svg';
 import avatarImg1 from '../../../static/assets/img/avatar1.png';
 import avatarImg2 from '../../../static/assets/img/avatar2.png';
+import {router} from "../../index";
 
 export interface ChatPageProps extends Props {
 	authorName: string;
@@ -119,6 +120,15 @@ function getProps(handleFormService: HandleFormService): ChatPageProps {
       }),
 		},
 		events: {
+      click: [
+        {
+          id: 'goToSettings',
+          fn: event => {
+            event.preventDefault();
+            router.go('/settings');
+          },
+        },
+      ],
 			focus: [
 				{
 					id: 'message',
