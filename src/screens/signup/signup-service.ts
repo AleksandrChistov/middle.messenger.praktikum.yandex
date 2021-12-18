@@ -9,6 +9,7 @@ import {PhoneInput} from '../../components/inputs/phone/phone-input';
 import {PasswordInput} from '../../components/inputs/password/password-input';
 import {FormButton} from '../../components/form-button/form-button';
 import {ErrorMessage} from '../../components/error-message/error-message';
+import {router} from "../../index";
 
 export interface SignUpPageProps extends Props {
   children: Children;
@@ -103,6 +104,15 @@ function getProps(handleFormService: HandleFormService): SignUpPageProps {
 			}),
 		},
 		events: {
+      click: [
+        {
+          id: 'goToSignIn',
+          fn: event => {
+            event.preventDefault();
+            router.go('/');
+          },
+        },
+      ],
 			focus: [
 				{
 					id: 'first_name',

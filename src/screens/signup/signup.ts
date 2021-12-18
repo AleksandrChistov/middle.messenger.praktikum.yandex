@@ -3,9 +3,9 @@ import {compileTemplateToElement} from '../../core/utils';
 import templatePug from './signup.pug';
 import {SignUpPageProps, props} from './signup-service';
 
-class SignUpPage extends Block<SignUpPageProps> {
-	constructor(propsObj: SignUpPageProps) {
-		super('main', propsObj);
+export class SignUpPage extends Block<SignUpPageProps> {
+	constructor(propsObj: SignUpPageProps = props, rootId) {
+		super('main', propsObj, rootId);
 	}
 
 	render() {
@@ -13,10 +13,8 @@ class SignUpPage extends Block<SignUpPageProps> {
 	}
 
 	componentDidMount() {
-		const root = document.getElementById('app');
+		const root = document.getElementById(this._meta.rootId);
 
 		root?.appendChild(this.getContent());
 	}
 }
-
-new SignUpPage(props);
