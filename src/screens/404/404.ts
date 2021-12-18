@@ -2,7 +2,9 @@ import {Block} from '../../core/block';
 import {Props} from '../../core/types';
 import {compileTemplateToElement} from '../../core/utils';
 import templatePug from './404.pug';
+import './404.scss';
 import errorImg from '../../../static/assets/img/404.png';
+import {router} from "../../index";
 
 interface Page404Props extends Props {
 	errorImgSrc: string;
@@ -10,11 +12,22 @@ interface Page404Props extends Props {
 
 const props: Page404Props = {
 	errorImgSrc: errorImg as string,
+  events: {
+    click: [
+      {
+        id: 'goToChat',
+        fn: event => {
+          event.preventDefault();
+          router.go('/');
+        },
+      },
+    ],
+  }
 };
 
-class Page404 extends Block<Page404Props> {
-	constructor(propsObj: Page404Props) {
-		super('main', propsObj);
+export class Page404 extends Block<Page404Props> {
+	constructor(propsObj: Page404Props = props, rootId) {
+		super('main', 'page-404-block', propsObj, rootId);
 	}
 
 	render() {
@@ -22,10 +35,8 @@ class Page404 extends Block<Page404Props> {
 	}
 
 	componentDidMount() {
-		const root = document.getElementById('app');
+		const root = document.getElementById(this._meta.rootId);
 
 		root?.appendChild(this.getContent());
 	}
 }
-
-new Page404(props);
