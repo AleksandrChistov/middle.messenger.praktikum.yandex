@@ -1,11 +1,12 @@
 import {Block} from '../../core/block';
 import {compileTemplateToElement} from '../../core/utils';
 import templatePug from './signin.pug';
+import './signin.scss';
 import {SignInPageProps, props} from './signin-service';
 
-class SignInPage extends Block<SignInPageProps> {
-	constructor(propsObj: SignInPageProps) {
-		super('main', propsObj);
+export class SignInPage extends Block<SignInPageProps> {
+	constructor(propsObj: SignInPageProps = props, rootId) {
+		super('main', propsObj, rootId);
 	}
 
 	render() {
@@ -13,10 +14,8 @@ class SignInPage extends Block<SignInPageProps> {
 	}
 
 	componentDidMount() {
-		const root = document.getElementById('app');
+		const root = document.getElementById(this._meta.rootId);
 
 		root?.appendChild(this.getContent());
 	}
 }
-
-new SignInPage(props);

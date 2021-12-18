@@ -8,6 +8,7 @@ import {PasswordInput} from '../../components/inputs/password/password-input';
 import {FormButton} from '../../components/form-button/form-button';
 import {ErrorMessage} from '../../components/error-message/error-message';
 import welcomeImg from '../../../static/assets/img/welcome.png';
+import {router} from "../../index";
 
 export interface SignInPageProps extends Props {
 	welcomeImgSrc: string;
@@ -54,6 +55,15 @@ function getProps(handleFormService: HandleFormService): SignInPageProps {
 			}),
 		},
 		events: {
+      click: [
+        {
+          id: 'goToSignUp',
+          fn: event => {
+            event.preventDefault();
+            router.go('/sign-up');
+          },
+        },
+      ],
 			focus: [
 				{
 					id: 'login',
