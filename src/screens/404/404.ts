@@ -18,7 +18,7 @@ const props: Page404Props = {
         id: 'goToChat',
         fn: event => {
           event.preventDefault();
-          router.go('/');
+          router.go('/messenger');
         },
       },
     ],
