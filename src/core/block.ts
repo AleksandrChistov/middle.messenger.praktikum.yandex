@@ -4,6 +4,7 @@ import {Props} from './types';
 type Meta = {
 	tagName: string;
 	props: Props;
+  rootId: string;
 };
 
 export enum EventsEnum {
@@ -17,13 +18,14 @@ export class Block<T> {
 	props: Props;
 	protected eventBus: EventBus;
 	private _element: HTMLElement;
-	private readonly _meta: Meta;
+	protected readonly _meta: Meta;
 
-	constructor(tagName = 'div', props: Props = {}) {
+	constructor(tagName = 'div', props: Props = {}, rootId: string = 'app') {
 		this.eventBus = new EventBus();
 		this._meta = {
 			tagName,
 			props,
+      rootId
 		};
 
 		this.props = this._makePropsProxy(props);
