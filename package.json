@@ -4,7 +4,7 @@
   "description": "project on vanila js",
   "main": "app.js",
   "scripts": {
-    "start": "parcel build & npm run server",
+    "start": "parcel --open & npm run server",
     "start:dev": "parcel --open",
     "server": "node server/app.js",
     "build": "parcel build",
@@ -16,13 +16,7 @@
   "targets": {
     "frontend": {
       "source": [
-        "index.html",
-        "./src/screens/signin/index.html",
-        "./src/screens/signup/index.html",
-        "./src/screens/settings/index.html",
-        "./src/screens/404/index.html",
-        "./src/screens/500/index.html",
-        "./src/screens/chat/index.html"
+        "index.html"
       ],
       "distDir": "./dist"
     }
