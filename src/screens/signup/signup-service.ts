@@ -1,6 +1,6 @@
 import {Children, Props} from '../../core/types';
-import {HandleFormService} from '../../services/form-service';
-import {FieldName} from "../../services/form-validation-service";
+import {HandleFormService} from '../../services/form-services/form-service';
+import {FieldName} from "../../services/form-services/form-validation-service";
 import {ShowErrorService} from "../../services/show-error-service";
 import {getErrorMessageFieldName} from "../../utils";
 import {TextInput} from '../../components/inputs/text/text-input';
@@ -10,6 +10,7 @@ import {PasswordInput} from '../../components/inputs/password/password-input';
 import {FormButton} from '../../components/form-button/form-button';
 import {ErrorMessage} from '../../components/error-message/error-message';
 import {router} from "../../index";
+import {UserSignUpController} from "../../controllers/auth-controllers/signup-controller";
 
 export interface SignUpPageProps extends Props {
   children: Children;
@@ -203,7 +204,13 @@ function getProps(handleFormService: HandleFormService): SignUpPageProps {
 				{
 					id: 'form',
 					fn: event => {
-						handleFormService.handleFormSubmit(event);
+						const formData = handleFormService.handleFormSubmit(event);
+
+            if (!formData) {
+              return;
+            }
+
+            UserSignUpController.signUp(formData);
 					},
 				},
 			],
