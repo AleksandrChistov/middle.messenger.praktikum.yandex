@@ -14,3 +14,7 @@ export type Props = {
 	events?: Events;
 	children?: Children;
 };
+
+export type Indexed<T = unknown> = {
+  [key in string]: T;
+};
