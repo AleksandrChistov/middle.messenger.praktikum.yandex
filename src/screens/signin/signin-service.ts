@@ -1,6 +1,6 @@
 import {Children, Props} from '../../core/types';
-import {HandleFormService} from '../../services/form-service';
-import {FieldName} from "../../services/form-validation-service";
+import {HandleFormService} from '../../services/form-services/form-service';
+import {FieldName} from "../../services/form-services/form-validation-service";
 import {ShowErrorService} from "../../services/show-error-service";
 import {getErrorMessageFieldName} from "../../utils";
 import {TextInput} from '../../components/inputs/text/text-input';
@@ -9,6 +9,7 @@ import {FormButton} from '../../components/form-button/form-button';
 import {ErrorMessage} from '../../components/error-message/error-message';
 import welcomeImg from '../../../static/assets/img/welcome.png';
 import {router} from "../../index";
+import {UserSignInController} from "../../controllers/auth-controllers/signin-controller";
 
 export interface SignInPageProps extends Props {
 	welcomeImgSrc: string;
@@ -96,7 +97,13 @@ function getProps(handleFormService: HandleFormService): SignInPageProps {
 				{
 					id: 'form',
 					fn: event => {
-						handleFormService.handleFormSubmit(event);
+						const formData = handleFormService.handleFormSubmit(event);
+
+            if (!formData) {
+              return;
+            }
+            // запрашиваем данные у контроллера
+            UserSignInController.signIn(formData);
 					},
 				},
 			],
