@@ -1,4 +1,5 @@
-import {Props} from './types';
+import {Indexed, Props} from './types';
+import {isObject} from "../utils";
 
 export function compileTemplateToElement(
 	templatePugFn: (locals: Props) => string,
@@ -51,4 +52,26 @@ export function compileTemplateToElement(
 
 export function isEqual(newPathname: string, currentPathname: string): boolean {
   return newPathname === currentPathname;
+}
+
+export function set(object: Indexed | unknown, path: string, value: unknown): Indexed | unknown {
+  if (isObject(object)) {
+    return object;
+  }
+
+  const pathArray = path.split('.');
+
+  pathArray.reduce((acc: Indexed, key: string, idx: number) => {
+    if (idx === pathArray.length - 1) {
+      acc[key] = value;
+    }
+
+    if (!acc[key]) {
+      acc[key] = {};
+    }
+
+    return acc[key] as Indexed;
+  }, object as Indexed)
+
+  return object;
 }
