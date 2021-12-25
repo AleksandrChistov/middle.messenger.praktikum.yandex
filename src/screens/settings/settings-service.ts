@@ -1,6 +1,6 @@
 import {Children, Props} from '../../core/types';
-import {HandleFormService} from '../../services/form-service';
-import {FieldName} from "../../services/form-validation-service";
+import {HandleFormService} from '../../services/form-services/form-service';
+import {FieldName} from "../../services/form-services/form-validation-service";
 import {ShowErrorService} from "../../services/show-error-service";
 import {getErrorMessageFieldName} from "../../utils";
 import {TextInput} from '../../components/inputs/text/text-input';
@@ -10,6 +10,7 @@ import {EmailInput} from '../../components/inputs/email/email-input';
 import {PhoneInput} from '../../components/inputs/phone/phone-input';
 import {ErrorMessage} from '../../components/error-message/error-message';
 import {router} from "../../index";
+import {UserLogOutController} from "../../controllers/auth-controllers/logout-controller";
 
 export interface SettingsPageProps extends Props {
   children: Children;
@@ -135,10 +136,10 @@ function getProps(handleFormService: HandleFormService): SettingsPageProps {
           },
         },
         {
-          id: 'goToSignIn',
+          id: 'logout',
           fn: event => {
             event.preventDefault();
-            router.go('/');
+            UserLogOutController.logOut();
           },
         },
       ],
