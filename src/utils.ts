@@ -1,4 +1,4 @@
-import {FieldNameValueType} from "./services/form-validation-service";
+import {FieldNameValueType} from "./services/form-services/form-validation-service";
 import {Indexed} from "./core/types";
 
 export function getErrorMessageFieldName(fieldName: FieldNameValueType): string {

@@ -1,6 +1,6 @@
-import {HandleFormService, Invalid} from "./form-service";
-import {FieldNameValueType, FormValidationService} from "./form-validation-service";
-import {FIELD_ERROR_TEXT} from "../constants";
+import {HandleFormService, Invalid} from "./form-services/form-service";
+import {FieldNameValueType, FormValidationService} from "./form-services/form-validation-service";
+import {FIELD_ERROR_TEXT} from "./form-services/constants";
 import {getErrorMessageFieldName} from "../utils";
 import {ERROR_ACTIVE_CLASS, ErrorMessageProps} from "../components/error-message/error-message";
 import {Props} from "../core/types";

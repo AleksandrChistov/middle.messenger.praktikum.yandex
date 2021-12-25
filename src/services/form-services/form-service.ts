@@ -16,15 +16,11 @@ export class HandleFormService {
     this.showErrorFn = showErrorFn;
 	}
 
-	handleFormSubmit(event: Event): void {
+	handleFormSubmit(event: Event): Record<string, unknown> | null {
 		event.preventDefault();
 		const form = event.target as HTMLFormElement;
 
-		const formData = this.serializeForm(form);
-
-    if (formData) {
-		  console.log('formValue', formData);
-    }
+		return this.serializeForm(form);
 	}
 
 	handleFieldFocus(event: Event): void {
