@@ -1,116 +1,120 @@
-import {Children, Props} from '../../core/types';
-import {HandleFormService} from '../../services/form-services/form-service';
-import {FieldName} from "../../services/form-services/form-validation-service";
+import {Events} from '../../core/types';
 import {ShowErrorService} from "../../services/show-error-service";
-import {getErrorMessageFieldName} from "../../utils";
-import {TextInput} from '../../components/inputs/text/text-input';
-import {PasswordInput} from '../../components/inputs/password/password-input';
-import {FormButton} from '../../components/form-button/form-button';
-import {ErrorMessage} from '../../components/error-message/error-message';
-import welcomeImg from '../../../static/assets/img/welcome.png';
+import {ERROR_ACTIVE_CLASS} from '../../components/error-message/error-message';
 import {router} from "../../index";
 import {UserSignInController} from "../../controllers/auth-controllers/signin-controller";
+import store from "../../store/store";
+import {FIELD_ERROR_TEXT, FieldName} from "../../services/form-services/constants";
+import {Invalid} from "../../services/form-services/form-service";
 
-export interface SignInPageProps extends Props {
-	welcomeImgSrc: string;
-  children: Children;
-}
 
 class SignInService extends ShowErrorService {
-	public props: SignInPageProps;
+  private _showError(path: string, eventName: string, error: Invalid, fieldName: FieldName): void {
+    const LoginErrorText = FIELD_ERROR_TEXT[fieldName];
+    const textError = error?.text ? LoginErrorText.text : LoginErrorText.length;
 
-	constructor() {
-    super();
-		this.props = getProps(this.handleFormService);
-	}
-}
+    const errorProps = {
+      addClass: ERROR_ACTIVE_CLASS,
+      textError: textError
+    }
 
-function getProps(handleFormService: HandleFormService): SignInPageProps {
-	return {
-		welcomeImgSrc: welcomeImg as string,
-		children: {
-			textInputComponent: new TextInput({
-				label: 'Login',
-				id: 'login',
-				name: FieldName.Login,
-				inputClass: 'mb-5',
-				required: true,
-			}),
-      [getErrorMessageFieldName(FieldName.Login)]: new ErrorMessage({
-        addClass: 'form__error-text',
-      }),
-			passwordInputComponent: new PasswordInput({
-				label: 'Password',
-				id: 'password',
-				name: FieldName.Password,
-				inputContainerClass: 'mb-5',
-				required: true,
-			}),
-      [getErrorMessageFieldName(FieldName.Password)]: new ErrorMessage({
-        addClass: 'form__error-text',
-      }),
-			formButtonComponent: new FormButton({
-				type: 'submit',
-				text: 'Sign in',
-				addClass: 'mt-20 mb-20',
-			}),
-		},
-		events: {
-      click: [
-        {
-          id: 'goToSignUp',
-          fn: event => {
-            event.preventDefault();
-            router.go('/sign-up');
-          },
+    store.set(path, errorProps, eventName);
+  }
+
+  private _hideError(path: string, eventName: string): void {
+    const errorProps = {
+      addClass: '',
+      textError: ''
+    }
+    store.set(path, errorProps, eventName);
+  }
+
+  public signinEvents: Events = {
+    click: [
+      {
+        id: 'goToSignUp',
+        fn: event => {
+          event.preventDefault();
+          router.go('/sign-up');
         },
-      ],
-			focus: [
-				{
-					id: 'login',
-					fn: event => {
-						handleFormService.handleFieldFocus(event);
-					},
-				},
-				{
-					id: 'password',
-					fn: event => {
-						handleFormService.handleFieldFocus(event);
-					},
-				},
-			],
-			blur: [
-				{
-					id: 'login',
-					fn: event => {
-						handleFormService.handleFieldBlur(event);
-					},
-				},
-				{
-					id: 'password',
-					fn: event => {
-						handleFormService.handleFieldBlur(event);
-					},
-				},
-			],
-			submit: [
-				{
-					id: 'form',
-					fn: event => {
-						const formData = handleFormService.handleFormSubmit(event);
+      },
+    ],
+    focus: [
+      {
+        id: 'login',
+        fn: event => {
+          this.handleFormService.handleFieldFocus(event);
+        },
+      },
+      {
+        id: 'password',
+        fn: event => {
+          this.handleFormService.handleFieldFocus(event);
+        },
+      },
+    ],
+    blur: [
+      {
+        id: 'login',
+        fn: event => {
+          const error = this.handleFormService.handleFieldBlur(event);
 
-            if (!formData) {
-              return;
+          if (!error) {
+            this._hideError('signInPage.errorLogin', 'errorLogin');
+          } else {
+            this._showError('signInPage.errorLogin', 'errorLogin', error, FieldName.Login);
+          }
+        },
+      },
+      {
+        id: 'password',
+        fn: event => {
+          const error = this.handleFormService.handleFieldBlur(event);
+
+          if (!error) {
+            this._hideError('signInPage.errorPassword', 'errorPassword');
+          } else {
+            this._showError('signInPage.errorPassword', 'errorPassword', error, FieldName.Password);
+          }
+        },
+      },
+    ],
+    submit: [
+      {
+        id: 'form',
+        fn: event => {
+          event.preventDefault();
+          const formValidElements = this.handleFormService.validateForm(event);
+
+          const isFormValid = formValidElements.every(element => {
+            if (!element) return true;
+
+            if (!element.invalid && element.dataName) {
+              this._hideError(`signInPage.${element.dataName}`, element.dataName);
+              return true;
+            } else {
+              this._showError(`signInPage.${element.dataName}`, element.dataName, element.invalid, element.fieldName);
+              return false;
             }
-            // запрашиваем данные у контроллера
-            UserSignInController.signIn(formData);
-					},
-				},
-			],
-		},
-	};
+          })
+
+          if (!isFormValid) {
+            return;
+          }
+
+          const formData = this.handleFormService.handleFormSubmit(event);
+
+          if (!formData) {
+            return;
+          }
+
+          UserSignInController.signIn(formData);
+        },
+      },
+    ],
+  }
 }
 
 const signInService = new SignInService();
 
-export const {props} = signInService;
+export const {signinEvents} = signInService;

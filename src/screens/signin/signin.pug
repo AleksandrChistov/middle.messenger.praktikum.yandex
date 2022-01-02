@@ -4,9 +4,9 @@ form(class="form" id="form")
     img(class="form__img" src=welcomeImgSrc alt="Welcome to Chatly")
     hr.line
     h1(class="form__title")="Sign in"
-    textInputComponent
-    loginErrorMessage
-    passwordInputComponent
-    passwordErrorMessage
-    formButtonComponent
+    TextInputComponent(data="loginInput")
+    ErrorMessageComponent(data="errorLogin" error-for=loginInput.id)
+    PasswordInputComponent(data="passwordInput")
+    ErrorMessageComponent(data="errorPassword" error-for=passwordInput.id)
+    FormButtonComponent(data="formButton")
     a(href="#" id="goToSignUp" class="form-button form__button-signup")="Sign up"
