@@ -1,10 +1,10 @@
 import {Block} from '../../../core/block';
 import {Props} from '../../../core/types';
-import {compileTemplateToElement} from '../../../core/utils';
+import {compileTemplateToElement} from '../../../core/utils/compile-template';
 import templatePug from './search-input.pug';
 import './search-input.scss';
 
-interface SearchInputProps extends Props {
+export interface SearchInputProps extends Props {
 	id: string;
 	name: string;
 	label?: string;

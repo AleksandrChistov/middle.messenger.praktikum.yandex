@@ -1,14 +1,13 @@
 import {Block} from '../../core/block';
-import {Events, Props} from '../../core/types';
-import {compileTemplateToElement} from '../../core/utils';
+import {Props} from '../../core/types';
+import {compileTemplateToElement} from '../../core/utils/compile-template';
 import templatePug from './form-button.pug';
 import './form-button.scss';
 
-interface FormButtonProps extends Props {
+export interface FormButtonProps extends Props {
 	type?: string;
 	text?: string;
 	addClass?: string;
-	events?: Events;
 }
 
 export class FormButton extends Block<FormButtonProps> {

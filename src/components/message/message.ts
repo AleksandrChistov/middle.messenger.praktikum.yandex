@@ -1,18 +1,16 @@
 import {Block} from '../../core/block';
 import {Props} from '../../core/types';
-import {compileTemplateToElement} from '../../core/utils';
+import {compileTemplateToElement} from '../../core/utils/compile-template';
 import templatePug from './message.pug';
-import {Avatar} from '../avatar/avatar';
-import {Time} from '../time/time';
+import {AvatarProps} from '../avatar/avatar';
+import {TimeProps} from '../time/time';
 import './message.scss';
 
-interface MessageProps extends Props {
+export interface MessageProps extends Props {
 	you: boolean;
 	text: string;
-	children: {
-		avatarComponent: InstanceType<typeof Avatar>;
-		timeComponent: InstanceType<typeof Time>;
-	};
+  avatar: AvatarProps;
+  time: TimeProps;
 }
 
 export class Message extends Block<MessageProps> {

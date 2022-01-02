@@ -1,11 +1,11 @@
 import {Block, EventsEnum} from '../../core/block';
 import {Props} from '../../core/types';
-import {compileTemplateToElement} from '../../core/utils';
+import {compileTemplateToElement} from '../../core/utils/compile-template';
 import templatePug from './time.pug';
 import {getDateString} from './service';
 import './time.scss';
 
-interface TimeProps extends Props {
+export interface TimeProps extends Props {
 	type: 'time-card' | 'time-main';
 	date: Date;
 }
