@@ -1,223 +1,210 @@
-import {Children, Props} from '../../core/types';
-import {HandleFormService} from '../../services/form-services/form-service';
+import {Events} from '../../core/types';
+import {Invalid} from '../../services/form-services/form-service';
 import {FieldName} from "../../services/form-services/form-validation-service";
 import {ShowErrorService} from "../../services/show-error-service";
-import {getErrorMessageFieldName} from "../../utils";
-import {TextInput} from '../../components/inputs/text/text-input';
-import {EmailInput} from '../../components/inputs/email/email-input';
-import {PhoneInput} from '../../components/inputs/phone/phone-input';
-import {PasswordInput} from '../../components/inputs/password/password-input';
-import {FormButton} from '../../components/form-button/form-button';
-import {ErrorMessage} from '../../components/error-message/error-message';
+import {ERROR_ACTIVE_CLASS} from '../../components/error-message/error-message';
 import {router} from "../../index";
 import {UserSignUpController} from "../../controllers/auth-controllers/signup-controller";
-
-export interface SignUpPageProps extends Props {
-  children: Children;
-}
+import {FIELD_ERROR_TEXT} from "../../services/form-services/constants";
+import store from "../../store/store";
 
 class SignUpService extends ShowErrorService {
-  public props: SignUpPageProps;
+  private _showError(path: string, eventName: string, error: Invalid, fieldName: FieldName): void {
+    const LoginErrorText = FIELD_ERROR_TEXT[fieldName];
+    const textError = error?.text ? LoginErrorText.text : LoginErrorText.length;
 
-	constructor() {
-    super();
-    this.props = getProps(this.handleFormService);
-	}
-}
+    const errorProps = {
+      addClass: ERROR_ACTIVE_CLASS,
+      textError: textError
+    }
 
-function getProps(handleFormService: HandleFormService): SignUpPageProps {
-	return {
-		children: {
-			textInputComponent1: new TextInput({
-				label: 'Name',
-				id: 'first_name',
-				name: FieldName.FirstName,
-				inputClass: 'mb-5',
-				required: true,
-			}),
-      [getErrorMessageFieldName(FieldName.FirstName)]: new ErrorMessage({
-        addClass: 'form__error-text',
-      }),
-			textInputComponent2: new TextInput({
-				label: 'Surname',
-				id: 'second_name',
-				name: FieldName.SecondName,
-				inputClass: 'mb-5',
-				required: true,
-			}),
-      [getErrorMessageFieldName(FieldName.SecondName)]: new ErrorMessage({
-        addClass: 'form__error-text',
-      }),
-			textInputComponent3: new TextInput({
-				label: 'Login',
-				id: 'login',
-				name: FieldName.Login,
-				inputClass: 'mb-5',
-				required: true,
-			}),
-      [getErrorMessageFieldName(FieldName.Login)]: new ErrorMessage({
-        addClass: 'form__error-text',
-      }),
-			emailInputComponent: new EmailInput({
-				label: 'Email',
-				id: 'email',
-				name: FieldName.Email,
-				inputClass: 'mb-5',
-				required: true,
-			}),
-      [getErrorMessageFieldName(FieldName.Email)]: new ErrorMessage({
-        addClass: 'form__error-text',
-      }),
-			phoneInputComponent: new PhoneInput({
-				label: 'Phone',
-				id: 'phone',
-				name: FieldName.Phone,
-				inputClass: 'mb-5',
-				required: true,
-			}),
-      [getErrorMessageFieldName(FieldName.Phone)]: new ErrorMessage({
-        addClass: 'form__error-text',
-      }),
-			passwordInputComponent1: new PasswordInput({
-				label: 'Password',
-				id: 'password',
-				name: FieldName.Password,
-				required: true,
-			}),
-      [getErrorMessageFieldName(FieldName.Password)]: new ErrorMessage({
-        addClass: 'form__error-text',
-      }),
-			passwordInputComponent2: new PasswordInput({
-				label: 'Password (again)',
-				id: 'passwordAgain',
-				name: FieldName.PasswordAgain,
-				required: true,
-			}),
-      [getErrorMessageFieldName(FieldName.PasswordAgain)]: new ErrorMessage({
-        addClass: 'form__error-text',
-      }),
-			formButtonComponent: new FormButton({
-				type: 'submit',
-				text: 'Sign up',
-				addClass: 'mt-20',
-			}),
-		},
-		events: {
-      click: [
-        {
-          id: 'goToSignIn',
-          fn: event => {
-            event.preventDefault();
-            router.go('/');
-          },
+    store.set(path, errorProps, eventName);
+  }
+
+  private _hideError(path: string, eventName: string): void {
+    const errorProps = {
+      addClass: '',
+      textError: ''
+    }
+    store.set(path, errorProps, eventName);
+  }
+
+  public signupEvents: Events = {
+    click: [
+      {
+        id: 'goToSignIn',
+        fn: event => {
+          event.preventDefault();
+          router.go('/');
         },
-      ],
-			focus: [
-				{
-					id: 'first_name',
-					fn: event => {
-						handleFormService.handleFieldFocus(event);
-					},
-				},
-				{
-					id: 'second_name',
-					fn: event => {
-						handleFormService.handleFieldFocus(event);
-					},
-				},
-				{
-					id: 'login',
-					fn: event => {
-						handleFormService.handleFieldFocus(event);
-					},
-				},
-				{
-					id: 'email',
-					fn: event => {
-						handleFormService.handleFieldFocus(event);
-					},
-				},
-				{
-					id: 'phone',
-					fn: event => {
-						handleFormService.handleFieldFocus(event);
-					},
-				},
-				{
-					id: 'password',
-					fn: event => {
-						handleFormService.handleFieldFocus(event);
-					},
-				},
-				{
-					id: 'passwordAgain',
-					fn: event => {
-						handleFormService.handleFieldFocus(event);
-					},
-				},
-			],
-			blur: [
-				{
-					id: 'first_name',
-					fn: event => {
-						handleFormService.handleFieldBlur(event);
-					},
-				},
-				{
-					id: 'second_name',
-					fn: event => {
-						handleFormService.handleFieldBlur(event);
-					},
-				},
-				{
-					id: 'login',
-					fn: event => {
-						handleFormService.handleFieldBlur(event);
-					},
-				},
-				{
-					id: 'email',
-					fn: event => {
-						handleFormService.handleFieldBlur(event);
-					},
-				},
-				{
-					id: 'phone',
-					fn: event => {
-						handleFormService.handleFieldBlur(event);
-					},
-				},
-				{
-					id: 'password',
-					fn: event => {
-						handleFormService.handleFieldBlur(event);
-					},
-				},
-				{
-					id: 'passwordAgain',
-					fn: event => {
-						handleFormService.handleFieldBlur(event);
-					},
-				},
-			],
-			submit: [
-				{
-					id: 'form',
-					fn: event => {
-						const formData = handleFormService.handleFormSubmit(event);
+      },
+    ],
+    focus: [
+      {
+        id: 'first_name',
+        fn: event => {
+          this.handleFormService.handleFieldFocus(event);
+        },
+      },
+      {
+        id: 'second_name',
+        fn: event => {
+          this.handleFormService.handleFieldFocus(event);
+        },
+      },
+      {
+        id: 'login',
+        fn: event => {
+          this.handleFormService.handleFieldFocus(event);
+        },
+      },
+      {
+        id: 'email',
+        fn: event => {
+          this.handleFormService.handleFieldFocus(event);
+        },
+      },
+      {
+        id: 'phone',
+        fn: event => {
+          this.handleFormService.handleFieldFocus(event);
+        },
+      },
+      {
+        id: 'password',
+        fn: event => {
+          this.handleFormService.handleFieldFocus(event);
+        },
+      },
+      {
+        id: 'passwordAgain',
+        fn: event => {
+          this.handleFormService.handleFieldFocus(event);
+        },
+      },
+    ],
+    blur: [
+      {
+        id: 'first_name',
+        fn: event => {
+          const error = this.handleFormService.handleFieldBlur(event);
 
-            if (!formData) {
-              return;
+          if (!error) {
+            this._hideError('signUpPage.errorName', 'errorName');
+          } else {
+            this._showError('signUpPage.errorName', 'errorName', error, FieldName.FirstName);
+          }
+        },
+      },
+      {
+        id: 'second_name',
+        fn: event => {
+          const error = this.handleFormService.handleFieldBlur(event);
+
+          if (!error) {
+            this._hideError('signUpPage.errorSurname', 'errorSurname');
+          } else {
+            this._showError('signUpPage.errorSurname', 'errorSurname', error, FieldName.SecondName);
+          }
+        },
+      },
+      {
+        id: 'login',
+        fn: event => {
+          const error = this.handleFormService.handleFieldBlur(event);
+
+          if (!error) {
+            this._hideError('signUpPage.errorLogin', 'errorLogin');
+          } else {
+            this._showError('signUpPage.errorLogin', 'errorLogin', error, FieldName.Login);
+          }
+        },
+      },
+      {
+        id: 'email',
+        fn: event => {
+          const error = this.handleFormService.handleFieldBlur(event);
+
+          if (!error) {
+            this._hideError('signUpPage.errorEmail', 'errorEmail');
+          } else {
+            this._showError('signUpPage.errorEmail', 'errorEmail', error, FieldName.Email);
+          }
+        },
+      },
+      {
+        id: 'phone',
+        fn: event => {
+          const error = this.handleFormService.handleFieldBlur(event);
+
+          if (!error) {
+            this._hideError('signUpPage.errorPhone', 'errorPhone');
+          } else {
+            this._showError('signUpPage.errorPhone', 'errorPhone', error, FieldName.Phone);
+          }
+        },
+      },
+      {
+        id: 'password',
+        fn: event => {
+          const error = this.handleFormService.handleFieldBlur(event);
+
+          if (!error) {
+            this._hideError('signUpPage.errorPassword', 'errorPassword');
+          } else {
+            this._showError('signUpPage.errorPassword', 'errorPassword', error, FieldName.Password);
+          }
+        },
+      },
+      {
+        id: 'passwordAgain',
+        fn: event => {
+          const error = this.handleFormService.handleFieldBlur(event);
+
+          if (!error) {
+            this._hideError('signUpPage.errorPasswordAgain', 'errorPasswordAgain');
+          } else {
+            this._showError('signUpPage.errorPasswordAgain', 'errorPasswordAgain', error, FieldName.PasswordAgain);
+          }
+        },
+      },
+    ],
+    submit: [
+      {
+        id: 'form',
+        fn: event => {
+          event.preventDefault();
+          const formValidElements = this.handleFormService.validateForm(event);
+
+          const isFormValid = formValidElements.every(element => {
+            if (!element) return true;
+
+            if (!element.invalid && element.dataName) { // remove dataName and swap hide and show
+              this._hideError(`signUpPage.${element.dataName}`, element.dataName);
+              return true;
+            } else {
+              this._showError(`signUpPage.${element.dataName}`, element.dataName, element.invalid, element.fieldName);
+              return false;
             }
+          })
 
-            UserSignUpController.signUp(formData);
-					},
-				},
-			],
-		},
-	};
+          if (!isFormValid) {
+            return;
+          }
+
+          const formData = this.handleFormService.handleFormSubmit(event);
+
+          if (!formData) {
+            return;
+          }
+
+          UserSignUpController.signUp(formData);
+        },
+      },
+    ],
+  }
 }
 
 const signUpService = new SignUpService();
 
-export const {props} = signUpService;
+export const {signupEvents} = signUpService;
