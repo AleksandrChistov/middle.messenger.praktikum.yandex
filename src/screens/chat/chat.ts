@@ -1,12 +1,16 @@
 import {Block} from '../../core/block';
-import {compileTemplateToElement} from '../../core/utils';
+import {compileTemplateToElement} from "../../core/utils/compile-template";
 import templatePug from './chat.pug';
 import './chat.scss';
-import {ChatPageProps, props} from './chat-service';
+import {ChatPageProps} from "./types";
+import {CHAT_INITIAL_STATE} from "../../store/initialState/chat-initial-state";
+import {Events} from "../../core/types";
+import {chatEvents} from "./chat-service";
+
 
 export class ChatPage extends Block<ChatPageProps> {
-	constructor(propsObj: ChatPageProps = props, rootId) {
-		super('main', 'chat-page-block', propsObj, rootId);
+	constructor(propsObj: ChatPageProps = CHAT_INITIAL_STATE, events: Events = chatEvents, rootId?: string) {
+		super('main', 'chat-page-block', propsObj, events, rootId);
 	}
 
 	render() {
