@@ -9,11 +9,7 @@ export type Events = Record<string, ElementEvent[]>;
 
 export type Children = Record<string, InstanceType<typeof Block>>;
 
-export type Props = {
-	[key: string]: any;
-	events?: Events;
-	children?: Children;
-};
+export type Props = Indexed;
 
 export type Indexed<T = unknown> = {
   [key in string]: T;
