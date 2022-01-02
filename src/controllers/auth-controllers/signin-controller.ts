@@ -1,7 +1,8 @@
 import {Options, ResponseType} from "../../services/http-service";
 import {router} from "../../index";
-import {SignInAPI, SignInErrorResponse} from "../../api/auth-api/signin-api";
+import {SignInAPI} from "../../api/auth-api/signin-api";
 import {Indexed} from "../../core/types";
+import {ErrorResponse} from "../../api/types";
 
 const validationKeys = ['login', 'password'];
 
@@ -23,7 +24,7 @@ export class UserSignInController {
       }
 
       signInAPI.create(prepareDataToRequest(data))
-        .then((response: SignInErrorResponse | null) => {
+        .then((response: ErrorResponse | null) => {
           // Останавливаем крутилку
           if (response) {
             throw new Error(response.reason);
