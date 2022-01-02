@@ -1,12 +1,12 @@
-import {isEqual} from "../utils";
 import {Block} from "../block";
 import {Props} from "../types";
+import {isEqual} from "../utils/is-equal";
 
 type RouteProps = {
   rootQuery: string;
 }
 
-type BlockInheritor = new (propsObj: Props | undefined, rootId: string) => InstanceType<typeof Block>;
+type BlockInheritor = new (propsObj: Props | undefined, events: Event | undefined, rootId?: string) => InstanceType<typeof Block>;
 
 export class Route {
   private _pathname: string;
@@ -38,6 +38,6 @@ export class Route {
   }
 
   render() {
-    this._block = new this._blockClass(undefined, this._props.rootQuery);
+    this._block = new this._blockClass(undefined, undefined, this._props.rootQuery);
   }
 }
