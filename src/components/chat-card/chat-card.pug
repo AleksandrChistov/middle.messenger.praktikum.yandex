@@ -1,10 +1,10 @@
 section.chat-card
-    avatarComponent(class="chat-card__avatar")
+    AvatarComponent(data="avatar" class="chat-card__avatar")
     div.chat-card__content
         h3(class="chat-card__name")=authorName
         if textMessage
             p(class="chat-card__text")=textMessage
     div.chat-card__addons
-        timeComponent(class="chat-card__time")
+        TimeComponent(data="time" class="chat-card__time")
         if messageCount
             span(class="chat-card__count")=messageCount

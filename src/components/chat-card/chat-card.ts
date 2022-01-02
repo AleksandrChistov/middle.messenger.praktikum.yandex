@@ -1,19 +1,17 @@
 import {Block} from '../../core/block';
 import {Props} from '../../core/types';
-import {compileTemplateToElement} from '../../core/utils';
+import {compileTemplateToElement} from '../../core/utils/compile-template';
 import templatePug from './chat-card.pug';
-import {Avatar} from '../avatar/avatar';
-import {Time} from '../time/time';
+import {AvatarProps} from '../avatar/avatar';
+import {TimeProps} from '../time/time';
 import './chat-card.scss';
 
-interface ChatCardProps extends Props {
+export interface ChatCardProps extends Props {
 	authorName: string;
 	textMessage?: string;
 	messageCount?: string;
-	children: {
-		avatarComponent: InstanceType<typeof Avatar>;
-		timeComponent: InstanceType<typeof Time>;
-	};
+  avatar: AvatarProps;
+  time: TimeProps;
 }
 
 export class ChatCard extends Block<ChatCardProps> {
