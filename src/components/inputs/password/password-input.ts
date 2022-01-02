@@ -1,12 +1,14 @@
 import {Block} from '../../../core/block';
 import {Props} from '../../../core/types';
-import {compileTemplateToElement} from '../../../core/utils';
+import {compileTemplateToElement} from '../../../core/utils/compile-template';
 import templatePug from './password-input.pug';
 import './password-input.scss';
+import {FieldName} from '../../../services/form-services/form-validation-service';
 
-interface PasswordInputProps extends Props {
+export interface PasswordInputProps extends Props {
 	id: string;
-	name: string;
+	name: FieldName;
+	value?: string;
 	label?: string;
 	labelClass?: string;
 	inputContainerClass?: string;
