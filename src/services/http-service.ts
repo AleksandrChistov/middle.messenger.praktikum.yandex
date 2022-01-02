@@ -33,7 +33,7 @@ export class Http {
   }
 
 	async get<T>(url: string, options: Options = {} as Options): Promise<T> {
-		const stringData = queryStringify(options.data);
+		const stringData = options.data ? queryStringify(options.data) : null;
 		const processedUrl = stringData ? url + stringData : url;
 
 		return this.request<T>(processedUrl, {...options, method: Methods.GET}, options.timeout);
