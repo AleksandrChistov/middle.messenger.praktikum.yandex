@@ -67,7 +67,7 @@ export class Block<T> {
 	}
 
   subscribeToStoreEvent(eventName: string, callback: (path: string) => void): void {
-    store.on(eventName, callback.bind(this));
+    store.on(eventName, callback);
   }
 
 	makePropsProxy(_: Props): Props | null {
