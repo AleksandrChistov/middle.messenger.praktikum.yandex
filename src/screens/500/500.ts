@@ -1,33 +1,28 @@
 import {Block} from '../../core/block';
-import {Props} from '../../core/types';
-import {compileTemplateToElement} from '../../core/utils';
+import {compileTemplateToElement} from '../../core/utils/compile-template';
 import templatePug from './500.pug';
 import './500.scss';
-import errorImg from '../../../static/assets/img/500.png';
-import {router} from "../../index";
+import {router} from '../../index';
+import {Events} from '../../core/types';
+import {Page500Props} from './types';
+import {PAGE_500_INITIAL_STATE} from '../../store/initialState/500-initial-state';
 
-interface Page500Props extends Props {
-	errorImgSrc: string;
-}
 
-const props: Page500Props = {
-	errorImgSrc: errorImg as string,
-  events: {
-    click: [
-      {
-        id: 'goToChat',
-        fn: event => {
-          event.preventDefault();
-          router.go('/messenger');
-        },
+const page500Events: Events = {
+  click: [
+    {
+      id: 'goToChat',
+      fn: event => {
+        event.preventDefault();
+        router.go('/messenger');
       },
-    ],
-  }
+    },
+  ],
 };
 
 export class Page500 extends Block<Page500Props> {
-	constructor(propsObj: Page500Props = props, rootId) {
-		super('main', 'page-500-block', propsObj, rootId);
+	constructor(propsObj: Page500Props = PAGE_500_INITIAL_STATE, events: Events = page500Events, rootId?: string) {
+		super('main', 'page-500-block', propsObj, events, rootId);
 	}
 
 	render() {
