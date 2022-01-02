@@ -1,9 +1,12 @@
 import {EventBus} from './event-bus';
-import {Props} from './types';
+import {Events, Props} from './types';
+import {cloneDeep, isDeepEqual} from "../utils";
+import store from "../store/store";
 
 type Meta = {
 	tagName: string;
 	props: Props;
+  events: Events;
   rootId: string;
   containerClassName: string;
 };
@@ -21,12 +24,13 @@ export class Block<T> {
 	private _element: HTMLElement;
 	protected readonly _meta: Meta;
 
-	constructor(tagName = 'div', containerClassName: string, props: Props = {}, rootId: string = 'app') {
+	constructor(tagName = 'div', containerClassName: string, props: Props = {}, events: Events = {}, rootId: string = 'app') {
 		this.eventBus = new EventBus();
 		this._meta = {
 			tagName,
       containerClassName,
       props,
+      events,
       rootId,
 		};
 
@@ -47,7 +51,7 @@ export class Block<T> {
 	}
 
 	componentDidUpdate(oldProps: Props, newProps: Props): boolean {
-		return oldProps !== newProps;
+		return isDeepEqual(oldProps, newProps);
 	}
 
 	setProps<T>(nextProps: T): void {
@@ -61,6 +65,10 @@ export class Block<T> {
 	render(): DocumentFragment {
 		throw new Error('The render method must be implemented');
 	}
+
+  subscribeToStoreEvent(eventName: string, callback: (path: string) => void): void {
+    store.on(eventName, callback.bind(this));
+  }
 
 	makePropsProxy(_: Props): Props | null {
 		return null;
@@ -129,8 +137,9 @@ export class Block<T> {
   }
 
 	_componentDidUpdate(oldProps: Props, newProps: Props): void {
-		const response = this.componentDidUpdate(oldProps, newProps);
-		if (response) {
+		const isEqual = this.componentDidUpdate(oldProps, newProps);
+
+		if (!isEqual) {
 			this.eventBus.emit(EventsEnum.FLOW_RENDER);
 		}
 	}
@@ -160,9 +169,10 @@ export class Block<T> {
 				prop: string,
 				value: string | Record<string, unknown>,
 			): boolean => {
+				const targetCopy = cloneDeep(target);
 				target[prop] = value;
 
-				this.eventBus.emit(EventsEnum.FLOW_CDU, {...target}, target);
+        this.eventBus.emit(EventsEnum.FLOW_CDU, targetCopy, target);
 
 				return true;
 			},
@@ -180,13 +190,15 @@ export class Block<T> {
 	}
 
 	_addEvents() {
-		const {events = {}} = this.props;
+		const {events = {}} = this._meta;
 
 		Object.entries(events).forEach(([eventName, eventArray = []]) => {
 			eventArray.forEach(({id, fn}) => {
 				const nodeElement = this.element.querySelector(`#${id}`);
-				if (!nodeElement) {
-					throw new Error(`AddEvents function failed with the element id ${id}`);
+
+        if (!nodeElement) {
+					console.error(`AddEvents function has not been able to find an element with id ${id}`);
+          return;
 				}
 
 				nodeElement.addEventListener(eventName, fn);
@@ -195,12 +207,13 @@ export class Block<T> {
 	}
 
 	_removeEvents() {
-		const {events = {}} = this.props;
+		const {events = {}} = this._meta;
 
 		Object.entries(events).forEach(([eventName, eventArray = []]) => {
 			eventArray.forEach(({id, fn}) => {
 				const nodeElement = this.element.querySelector(`#${id}`);
-				if (nodeElement) {
+
+        if (nodeElement) {
 					nodeElement.removeEventListener(eventName, fn);
 				}
 			});
