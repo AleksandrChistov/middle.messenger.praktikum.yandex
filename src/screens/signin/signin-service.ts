@@ -6,6 +6,8 @@ import {UserSignInController} from "../../controllers/auth-controllers/signin-co
 import store from "../../store/store";
 import {FIELD_ERROR_TEXT, FieldName} from "../../services/form-services/constants";
 import {Invalid} from "../../services/form-services/form-service";
+import {getEventName} from "../../core/utils/get-event-name";
+import {SIGNIN_PAGE_EVENT_NAME} from "./signin";
 
 
 class SignInService extends ShowErrorService {
@@ -60,9 +62,9 @@ class SignInService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('signInPage.errorLogin', 'errorLogin');
+            this._hideError('signInPage.errorLogin', getEventName(SIGNIN_PAGE_EVENT_NAME, 'errorLogin'));
           } else {
-            this._showError('signInPage.errorLogin', 'errorLogin', error, FieldName.Login);
+            this._showError('signInPage.errorLogin', getEventName(SIGNIN_PAGE_EVENT_NAME, 'errorLogin'), error, FieldName.Login);
           }
         },
       },
@@ -72,9 +74,9 @@ class SignInService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('signInPage.errorPassword', 'errorPassword');
+            this._hideError('signInPage.errorPassword', getEventName(SIGNIN_PAGE_EVENT_NAME, 'errorPassword'));
           } else {
-            this._showError('signInPage.errorPassword', 'errorPassword', error, FieldName.Password);
+            this._showError('signInPage.errorPassword', getEventName(SIGNIN_PAGE_EVENT_NAME, 'errorPassword'), error, FieldName.Password);
           }
         },
       },
@@ -90,10 +92,10 @@ class SignInService extends ShowErrorService {
             if (!element) return true;
 
             if (!element.invalid && element.dataName) {
-              this._hideError(`signInPage.${element.dataName}`, element.dataName);
+              this._hideError(`signInPage.${element.dataName}`, getEventName(SIGNIN_PAGE_EVENT_NAME, element.dataName));
               return true;
             } else {
-              this._showError(`signInPage.${element.dataName}`, element.dataName, element.invalid, element.fieldName);
+              this._showError(`signInPage.${element.dataName}`, getEventName(SIGNIN_PAGE_EVENT_NAME, element.dataName), element.invalid, element.fieldName);
               return false;
             }
           })

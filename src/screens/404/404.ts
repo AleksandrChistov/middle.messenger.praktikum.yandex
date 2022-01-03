@@ -26,11 +26,11 @@ export class Page404 extends Block<Page404Props> {
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props);
+		return compileTemplateToElement(templatePug, this.props, '');
 	}
 
 	componentDidMount() {
-		const root = document.getElementById(this._meta.rootId);
+		const root = document.getElementById(this._meta.rootId || 'app');
 
 		root?.appendChild(this.getContent());
 	}

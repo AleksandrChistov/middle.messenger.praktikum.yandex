@@ -1,6 +1,7 @@
 import {Block, EventsEnum} from '../../core/block';
 import {Props} from '../../core/types';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
+import {mapStateToPropsCallBack} from '../../store/utils';
 import templatePug from './time.pug';
 import {getDateString} from './service';
 import './time.scss';
@@ -16,12 +17,14 @@ interface TimeParsedProps extends Props {
 }
 
 export class Time extends Block<TimeProps> {
-	constructor(propsObj: TimeProps) {
+	constructor(propsObj: TimeProps, eventName: string) {
 		super('div', 'time-block', propsObj);
+
+    this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props);
+		return compileTemplateToElement(templatePug, this.props, '');
 	}
 
 	makePropsProxy(props: TimeProps): TimeParsedProps {

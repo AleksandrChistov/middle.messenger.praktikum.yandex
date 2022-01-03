@@ -10,23 +10,24 @@ import {mapStateToPropsCallBack} from '../../store/utils';
 import {UserInfoController} from '../../controllers/user-profile-controller/get-user-info-controller';
 
 
-export const UPDATE_USER_PROFILE = 'Update User Profile';
+export const UPDATE_USER_PROFILE_EVENT_NAME = 'Update User Profile';
+export const SETTINGS_PAGE_EVENT_NAME = 'SettingsPage';
 
 export class SettingsPage extends Block<SettingsPageProps> {
 	constructor(propsObj: SettingsPageProps = SETTINGS_INITIAL_STATE, events: Events = settingsEvents, rootId?: string) {
 		super('main', 'settings-page-block', propsObj, events, rootId);
 
-    this.subscribeToStoreEvent(UPDATE_USER_PROFILE, mapStateToPropsCallBack.bind(this));
+    this.subscribeToStoreEvent(UPDATE_USER_PROFILE_EVENT_NAME, mapStateToPropsCallBack);
 
     UserInfoController.getInfo();
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props);
+		return compileTemplateToElement(templatePug, this.props, SETTINGS_PAGE_EVENT_NAME);
 	}
 
 	componentDidMount() {
-		const root = document.getElementById(this._meta.rootId);
+		const root = document.getElementById(this._meta.rootId || 'app');
 
 		root?.appendChild(this.getContent());
 	}

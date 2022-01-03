@@ -8,6 +8,8 @@ import {UserLogOutController} from "../../controllers/auth-controllers/logout-co
 import {FIELD_ERROR_TEXT} from "../../services/form-services/constants";
 import store from "../../store/store";
 import {ChangeUserProfileController} from "../../controllers/user-profile-controller/change-user-profile-controller";
+import {SETTINGS_PAGE_EVENT_NAME} from "./settings";
+import {getEventName} from "../../core/utils/get-event-name";
 
 
 class SettingsService extends ShowErrorService {
@@ -105,9 +107,9 @@ class SettingsService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('settingsPage.errorName', 'errorName');
+            this._hideError('settingsPage.errorName', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorName'));
           } else {
-            this._showError('settingsPage.errorName', 'errorName', error, FieldName.FirstName);
+            this._showError('settingsPage.errorName', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorName'), error, FieldName.FirstName);
           }
         },
       },
@@ -117,9 +119,9 @@ class SettingsService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('settingsPage.errorSurname', 'errorSurname');
+            this._hideError('settingsPage.errorSurname', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorSurname'));
           } else {
-            this._showError('settingsPage.errorSurname', 'errorSurname', error, FieldName.SecondName);
+            this._showError('settingsPage.errorSurname', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorSurname'), error, FieldName.SecondName);
           }
         },
       },
@@ -129,9 +131,9 @@ class SettingsService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('settingsPage.errorLogin', 'errorLogin');
+            this._hideError('settingsPage.errorLogin', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorLogin'));
           } else {
-            this._showError('settingsPage.errorLogin', 'errorLogin', error, FieldName.Login);
+            this._showError('settingsPage.errorLogin', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorLogin'), error, FieldName.Login);
           }
         },
       },
@@ -141,9 +143,9 @@ class SettingsService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('settingsPage.errorEmail', 'errorEmail');
+            this._hideError('settingsPage.errorEmail', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorEmail'));
           } else {
-            this._showError('settingsPage.errorEmail', 'errorEmail', error, FieldName.Email);
+            this._showError('settingsPage.errorEmail', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorEmail'), error, FieldName.Email);
           }
         },
       },
@@ -153,9 +155,9 @@ class SettingsService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('settingsPage.errorPhone', 'errorPhone');
+            this._hideError('settingsPage.errorPhone', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorPhone'));
           } else {
-            this._showError('settingsPage.errorPhone', 'errorPhone', error, FieldName.Phone);
+            this._showError('settingsPage.errorPhone', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorPhone'), error, FieldName.Phone);
           }
         },
       },
@@ -165,9 +167,9 @@ class SettingsService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('settingsPage.errorOldPassword', 'errorOldPassword');
+            this._hideError('settingsPage.errorOldPassword', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorOldPassword'));
           } else {
-            this._showError('settingsPage.errorOldPassword', 'errorOldPassword', error, FieldName.OldPassword);
+            this._showError('settingsPage.errorOldPassword', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorOldPassword'), error, FieldName.OldPassword);
           }
         },
       },
@@ -177,9 +179,9 @@ class SettingsService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('settingsPage.errorPassword', 'errorPassword');
+            this._hideError('settingsPage.errorPassword', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorPassword'));
           } else {
-            this._showError('settingsPage.errorPassword', 'errorPassword', error, FieldName.Password);
+            this._showError('settingsPage.errorPassword', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorPassword'), error, FieldName.Password);
           }
         },
       },
@@ -189,9 +191,9 @@ class SettingsService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('settingsPage.errorPasswordAgain', 'errorPasswordAgain');
+            this._hideError('settingsPage.errorPasswordAgain', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorPasswordAgain'));
           } else {
-            this._showError('settingsPage.errorPasswordAgain', 'errorPasswordAgain', error, FieldName.PasswordAgain);
+            this._showError('settingsPage.errorPasswordAgain', getEventName(SETTINGS_PAGE_EVENT_NAME, 'errorPasswordAgain'), error, FieldName.PasswordAgain);
           }
         },
       },
@@ -207,10 +209,10 @@ class SettingsService extends ShowErrorService {
             if (!element) return true;
 
             if (!element.invalid && element.dataName) {
-              this._hideError(`settingsPage.${element.dataName}`, element.dataName);
+              this._hideError(`settingsPage.${element.dataName}`, getEventName(SETTINGS_PAGE_EVENT_NAME, element.dataName));
               return true;
             } else {
-              this._showError(`settingsPage.${element.dataName}`, element.dataName, element.invalid, element.fieldName);
+              this._showError(`settingsPage.${element.dataName}`, getEventName(SETTINGS_PAGE_EVENT_NAME, element.dataName), element.invalid, element.fieldName);
               return false;
             }
           })
@@ -238,10 +240,10 @@ class SettingsService extends ShowErrorService {
             if (!element) return true;
 
             if (!element.invalid && element.dataName) {
-              this._hideError(`settingsPage.${element.dataName}`, element.dataName);
+              this._hideError(`settingsPage.${element.dataName}`, getEventName(SETTINGS_PAGE_EVENT_NAME, element.dataName));
               return true;
             } else {
-              this._showError(`settingsPage.${element.dataName}`, element.dataName, element.invalid, element.fieldName);
+              this._showError(`settingsPage.${element.dataName}`, getEventName(SETTINGS_PAGE_EVENT_NAME, element.dataName), element.invalid, element.fieldName);
               return false;
             }
           })

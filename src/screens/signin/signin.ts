@@ -8,17 +8,19 @@ import {SignInPageProps} from "./types";
 import {signinEvents} from "./signin-service";
 
 
+export const SIGNIN_PAGE_EVENT_NAME = 'SignInPage';
+
 export class SignInPage extends Block<SignInPageProps> {
 	constructor(propsObj: SignInPageProps = SIGNIN_INITIAL_STATE, events: Events = signinEvents, rootId?: string) {
 		super('main', 'signin-page-block', propsObj, events, rootId);
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props);
+		return compileTemplateToElement(templatePug, this.props, SIGNIN_PAGE_EVENT_NAME);
 	}
 
 	componentDidMount() {
-		const root = document.getElementById(this._meta.rootId);
+		const root = document.getElementById(this._meta.rootId || 'app');
 
 		root?.appendChild(this.getContent());
 	}

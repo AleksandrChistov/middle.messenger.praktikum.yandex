@@ -2,11 +2,14 @@ import {Block} from "../block";
 import {REGISTERED_COMPONENTS} from "../registered-components";
 import {Props} from "../types";
 import {isArray} from "../../utils";
-import {mapStateToPropsCallBack} from "../../store/utils";
+import {getEventName} from "./get-event-name";
+import {set} from "./set-values-to-object";
+import {componentsState, ComponentState} from "../components-state";
 
 export function compileTemplateToElement(
   templatePugFn: (locals: Props) => string,
   props: Props,
+  pageEventName: string,
 ): DocumentFragment {
   const parser = new DOMParser();
   const template: string = templatePugFn(props);
@@ -39,21 +42,23 @@ export function compileTemplateToElement(
 
         data = (data.props || data) as Props;
 
+        const path = getPathFromArray([pageEventName, dataName]);
+
         if (isArray(data)) {
           const childComponents = Object.values(data)
-            .map((value) => {
-              const component = getComponentInstance(componentName, value);
+            .map((value: Props) => {
+              const component = getComponent(componentName, pageEventName, dataName, value);
 
-              component.subscribeToStoreEvent(dataName, mapStateToPropsCallBack.bind(component));
+              set(componentsState, path, component);
 
               return component;
             });
 
           setAttributes(element, childComponents);
         } else {
-          const childComponent = getComponentInstance(componentName, data);
+          const childComponent = getComponent(componentName, pageEventName, dataName, data);
 
-          childComponent.subscribeToStoreEvent(dataName, mapStateToPropsCallBack.bind(childComponent));
+          set(componentsState, path, childComponent);
 
           setAttributes(element, [childComponent]);
         }
@@ -72,8 +77,8 @@ export function compileTemplateToElement(
   return fragment;
 }
 
-function getComponentInstance(componentName: string, data: unknown): InstanceType<typeof Block> {
-  return new REGISTERED_COMPONENTS[componentName](data);
+function getComponentInstance(componentName: string, props: unknown, eventName: string): InstanceType<typeof Block> {
+  return new REGISTERED_COMPONENTS[componentName](props, eventName);
 }
 
 function setAttributes(childElementTag: Element, childComponents: InstanceType<typeof Block>[]): void {
@@ -97,4 +102,24 @@ function setAttributes(childElementTag: Element, childComponents: InstanceType<t
   });
 
   childElementTag.replaceWith(...childElements);
+}
+
+function getComponent(componentName: string, pageEventName: string, dataName: string, value: Props): InstanceType<typeof Block> {
+  let component = getValueFromObjectByPath(componentsState, getPathFromArray([pageEventName, dataName]));
+
+  if (component) {
+    component.destroy();
+  }
+
+  return getComponentInstance(componentName, value, getEventName(pageEventName, dataName));
+}
+
+function getPathFromArray(paths: string[]): string {
+  return paths.reduce((acc, path) => `${acc}.${path}`);
+}
+
+function getValueFromObjectByPath(state: ComponentState, path: string): InstanceType<typeof Block> | undefined {
+  const pathArray = path.split('.');
+
+  return pathArray.reduce((acc: ComponentState, key: string) => acc && acc[key], state);
 }

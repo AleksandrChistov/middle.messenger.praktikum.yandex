@@ -7,6 +7,9 @@ import {router} from "../../index";
 import {UserSignUpController} from "../../controllers/auth-controllers/signup-controller";
 import {FIELD_ERROR_TEXT} from "../../services/form-services/constants";
 import store from "../../store/store";
+import {getEventName} from "../../core/utils/get-event-name";
+import {SIGNUP_PAGE_EVENT_NAME} from "./signup";
+
 
 class SignUpService extends ShowErrorService {
   private _showError(path: string, eventName: string, error: Invalid, fieldName: FieldName): void {
@@ -90,9 +93,9 @@ class SignUpService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('signUpPage.errorName', 'errorName');
+            this._hideError('signUpPage.errorName', getEventName(SIGNUP_PAGE_EVENT_NAME, 'errorName'));
           } else {
-            this._showError('signUpPage.errorName', 'errorName', error, FieldName.FirstName);
+            this._showError('signUpPage.errorName', getEventName(SIGNUP_PAGE_EVENT_NAME, 'errorName'), error, FieldName.FirstName);
           }
         },
       },
@@ -102,9 +105,9 @@ class SignUpService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('signUpPage.errorSurname', 'errorSurname');
+            this._hideError('signUpPage.errorSurname', getEventName(SIGNUP_PAGE_EVENT_NAME, 'errorSurname'));
           } else {
-            this._showError('signUpPage.errorSurname', 'errorSurname', error, FieldName.SecondName);
+            this._showError('signUpPage.errorSurname', getEventName(SIGNUP_PAGE_EVENT_NAME, 'errorSurname'), error, FieldName.SecondName);
           }
         },
       },
@@ -114,9 +117,9 @@ class SignUpService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('signUpPage.errorLogin', 'errorLogin');
+            this._hideError('signUpPage.errorLogin', getEventName(SIGNUP_PAGE_EVENT_NAME, 'errorLogin'));
           } else {
-            this._showError('signUpPage.errorLogin', 'errorLogin', error, FieldName.Login);
+            this._showError('signUpPage.errorLogin', getEventName(SIGNUP_PAGE_EVENT_NAME, 'errorLogin'), error, FieldName.Login);
           }
         },
       },
@@ -126,9 +129,9 @@ class SignUpService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('signUpPage.errorEmail', 'errorEmail');
+            this._hideError('signUpPage.errorEmail', getEventName(SIGNUP_PAGE_EVENT_NAME, 'errorEmail'));
           } else {
-            this._showError('signUpPage.errorEmail', 'errorEmail', error, FieldName.Email);
+            this._showError('signUpPage.errorEmail', getEventName(SIGNUP_PAGE_EVENT_NAME, 'errorEmail'), error, FieldName.Email);
           }
         },
       },
@@ -138,9 +141,9 @@ class SignUpService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('signUpPage.errorPhone', 'errorPhone');
+            this._hideError('signUpPage.errorPhone', getEventName(SIGNUP_PAGE_EVENT_NAME, 'errorPhone'));
           } else {
-            this._showError('signUpPage.errorPhone', 'errorPhone', error, FieldName.Phone);
+            this._showError('signUpPage.errorPhone', getEventName(SIGNUP_PAGE_EVENT_NAME, 'errorPhone'), error, FieldName.Phone);
           }
         },
       },
@@ -150,9 +153,9 @@ class SignUpService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('signUpPage.errorPassword', 'errorPassword');
+            this._hideError('signUpPage.errorPassword', getEventName(SIGNUP_PAGE_EVENT_NAME, 'errorPassword'));
           } else {
-            this._showError('signUpPage.errorPassword', 'errorPassword', error, FieldName.Password);
+            this._showError('signUpPage.errorPassword', getEventName(SIGNUP_PAGE_EVENT_NAME, 'errorPassword'), error, FieldName.Password);
           }
         },
       },
@@ -162,9 +165,9 @@ class SignUpService extends ShowErrorService {
           const error = this.handleFormService.handleFieldBlur(event);
 
           if (!error) {
-            this._hideError('signUpPage.errorPasswordAgain', 'errorPasswordAgain');
+            this._hideError('signUpPage.errorPasswordAgain', getEventName(SIGNUP_PAGE_EVENT_NAME, 'errorPasswordAgain'));
           } else {
-            this._showError('signUpPage.errorPasswordAgain', 'errorPasswordAgain', error, FieldName.PasswordAgain);
+            this._showError('signUpPage.errorPasswordAgain', getEventName(SIGNUP_PAGE_EVENT_NAME, 'errorPasswordAgain'), error, FieldName.PasswordAgain);
           }
         },
       },
@@ -179,11 +182,11 @@ class SignUpService extends ShowErrorService {
           const isFormValid = formValidElements.every(element => {
             if (!element) return true;
 
-            if (!element.invalid && element.dataName) { // remove dataName and swap hide and show
-              this._hideError(`signUpPage.${element.dataName}`, element.dataName);
+            if (!element.invalid && element.dataName) {
+              this._hideError(`signUpPage.${element.dataName}`, getEventName(SIGNUP_PAGE_EVENT_NAME, element.dataName));
               return true;
             } else {
-              this._showError(`signUpPage.${element.dataName}`, element.dataName, element.invalid, element.fieldName);
+              this._showError(`signUpPage.${element.dataName}`, getEventName(SIGNUP_PAGE_EVENT_NAME, element.dataName), element.invalid, element.fieldName);
               return false;
             }
           })

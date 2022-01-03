@@ -7,17 +7,20 @@ import {SignUpPageProps} from './types';
 import {Events} from '../../core/types';
 import {signupEvents} from './signup-service';
 
+
+export const SIGNUP_PAGE_EVENT_NAME = 'SignUpPage';
+
 export class SignUpPage extends Block<SignUpPageProps> {
 	constructor(propsObj: SignUpPageProps = SIGNUP_INITIAL_STATE, events: Events = signupEvents, rootId?: string) {
 		super('main', 'signup-page-block', propsObj, events, rootId);
   }
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props);
+		return compileTemplateToElement(templatePug, this.props, SIGNUP_PAGE_EVENT_NAME);
 	}
 
 	componentDidMount() {
-		const root = document.getElementById(this._meta.rootId);
+		const root = document.getElementById(this._meta.rootId || 'app');
 
 		root?.appendChild(this.getContent());
 	}
