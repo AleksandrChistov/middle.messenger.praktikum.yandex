@@ -7,7 +7,7 @@ import {
 } from "../../api/user-profile-api/change-user-profile-api";
 import store from "../../store/store";
 import {SettingsPageProps} from "../../screens/settings/types";
-import {UPDATE_USER_PROFILE} from "../../screens/settings/settings";
+import {UPDATE_USER_PROFILE_EVENT_NAME} from "../../screens/settings/settings";
 
 const validationKeys = ['first_name', 'second_name', 'display_name', 'login', 'email', 'phone'];
 
@@ -39,7 +39,7 @@ export class ChangeUserProfileController {
             throw new Error(response.reason);
           }
 
-          store.set('settingsPage', prepareDataToStore(response), UPDATE_USER_PROFILE);
+          store.set('settingsPage', prepareDataToStore(response), UPDATE_USER_PROFILE_EVENT_NAME);
         })
         .catch((error) => {
           console.error(error, data);

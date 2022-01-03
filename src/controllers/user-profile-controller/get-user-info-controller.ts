@@ -3,7 +3,7 @@ import {Indexed} from "../../core/types";
 import {GetUserInfoAPI, UserInfoResponse} from "../../api/user-profile-api/get-user-info-api";
 import {ErrorResponse} from "../../api/types";
 import store from "../../store/store";
-import {UPDATE_USER_PROFILE} from "../../screens/settings/settings";
+import {UPDATE_USER_PROFILE_EVENT_NAME} from "../../screens/settings/settings";
 import {UserProfileResponse} from "../../api/user-profile-api/change-user-profile-api";
 import {SettingsPageProps} from "../../screens/settings/types";
 
@@ -21,7 +21,7 @@ export class UserInfoController {
             throw new Error(response.reason);
           }
 
-          store.set('settingsPage', prepareDataToStore(response), UPDATE_USER_PROFILE);
+          store.set('settingsPage', prepareDataToStore(response), UPDATE_USER_PROFILE_EVENT_NAME);
         })
         .catch((error) => {
           console.error(error);
