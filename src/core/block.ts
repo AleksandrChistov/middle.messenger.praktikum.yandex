@@ -3,11 +3,18 @@ import {Events, Props} from './types';
 import {cloneDeep, isDeepEqual} from "../utils";
 import store from "../store/store";
 
+type StoreEvents = StoreEvent[];
+
+type StoreEvent = {
+  eventName: string;
+  callback: (path: string) => void;
+}
+
 type Meta = {
 	tagName: string;
 	props: Props;
   events: Events;
-  rootId: string;
+  rootId?: string;
   containerClassName: string;
 };
 
@@ -23,8 +30,9 @@ export class Block<T> {
 	protected eventBus: EventBus;
 	private _element: HTMLElement;
 	protected readonly _meta: Meta;
+	private _storeEvents: StoreEvents = [];
 
-	constructor(tagName = 'div', containerClassName: string, props: Props = {}, events: Events = {}, rootId: string = 'app') {
+	constructor(tagName = 'div', containerClassName: string, props: Props = {}, events: Events = {}, rootId?: string) {
 		this.eventBus = new EventBus();
 		this._meta = {
 			tagName,
@@ -67,7 +75,8 @@ export class Block<T> {
 	}
 
   subscribeToStoreEvent(eventName: string, callback: (path: string) => void): void {
-    store.on(eventName, callback);
+    store.on(eventName, callback, this);
+    this._storeEvents.push({eventName, callback});
   }
 
 	makePropsProxy(_: Props): Props | null {
@@ -95,17 +104,17 @@ export class Block<T> {
 	}
 
 	_registerEventBusEvents(eventBus: EventBus) {
-		eventBus.on(EventsEnum.INIT, this.init.bind(this));
-		eventBus.on(EventsEnum.FLOW_CDM, this._componentDidMount.bind(this));
-		eventBus.on(EventsEnum.FLOW_CDU, this._componentDidUpdate.bind(this));
-		eventBus.on(EventsEnum.FLOW_RENDER, this._render.bind(this));
+		eventBus.on(EventsEnum.INIT, this.init, this);
+		eventBus.on(EventsEnum.FLOW_CDM, this._componentDidMount, this);
+		eventBus.on(EventsEnum.FLOW_CDU, this._componentDidUpdate, this);
+		eventBus.on(EventsEnum.FLOW_RENDER, this._render, this);
 	}
 
   _removeEventBusEvents() {
-    this.eventBus.off(EventsEnum.INIT, this.init.bind(this));
-    this.eventBus.off(EventsEnum.FLOW_CDM, this._componentDidMount.bind(this));
-    this.eventBus.off(EventsEnum.FLOW_CDU, this._componentDidUpdate.bind(this));
-    this.eventBus.off(EventsEnum.FLOW_RENDER, this._render.bind(this));
+    this.eventBus.off(EventsEnum.INIT, this.init, this);
+    this.eventBus.off(EventsEnum.FLOW_CDM, this._componentDidMount, this);
+    this.eventBus.off(EventsEnum.FLOW_CDU, this._componentDidUpdate, this);
+    this.eventBus.off(EventsEnum.FLOW_RENDER, this._render, this);
   }
 
 	_createResources() {
@@ -127,9 +136,8 @@ export class Block<T> {
 	}
 
   _componentWillUnmount() {
-    this._removeEventBusEvents();
-    this._removeEvents();
-    const root = document.getElementById(this._meta.rootId);
+    this._removeAllEvents();
+    const root = document.getElementById(this._meta.rootId || '');
 
     if (root) {
       root.innerHTML = '';
@@ -197,7 +205,6 @@ export class Block<T> {
 				const nodeElement = this.element.querySelector(`#${id}`);
 
         if (!nodeElement) {
-					console.error(`AddEvents function has not been able to find an element with id ${id}`);
           return;
 				}
 
@@ -219,4 +226,16 @@ export class Block<T> {
 			});
 		});
 	}
+
+  _removeStoreEvents() {
+    this._storeEvents.forEach(({eventName, callback}) => {
+      store.off(eventName, callback, this);
+    });
+  }
+
+  _removeAllEvents(): void {
+    this._removeEventBusEvents();
+    this._removeEvents();
+    this._removeStoreEvents();
+  }
 }
