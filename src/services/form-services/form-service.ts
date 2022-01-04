@@ -2,7 +2,7 @@ import {FieldName} from "./constants";
 
 export type Invalid = { text?: true; length?: true; } | null;
 
-export type FormValidElements = ({ fieldName: FieldName, dataName: string, invalid: Invalid } | null)[];
+export type FormValidItem = ({ fieldName: FieldName, dataName: string, invalid: Invalid } | null);
 
 export interface IFormValidationService {
   validateInput: (element: HTMLInputElement) => Invalid;
@@ -51,7 +51,7 @@ export class HandleFormService {
 		}, {});
 	}
 
-  validateForm(event: Event): FormValidElements {
+  validateForm(event: Event): FormValidItem[] {
     const {elements} = event.target as HTMLFormElement;
 
     return Array.from(elements)

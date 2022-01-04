@@ -6,9 +6,8 @@ import {SIGNIN_INITIAL_STATE} from "../../store/initialState/signin-initial-stat
 import {Events} from "../../core/types";
 import {SignInPageProps} from "./types";
 import {signinEvents} from "./signin-service";
+import {SIGNIN_PAGE_EVENT_NAME} from "./events";
 
-
-export const SIGNIN_PAGE_EVENT_NAME = 'SignInPage';
 
 export class SignInPage extends Block<SignInPageProps> {
 	constructor(propsObj: SignInPageProps = SIGNIN_INITIAL_STATE, events: Events = signinEvents, rootId?: string) {

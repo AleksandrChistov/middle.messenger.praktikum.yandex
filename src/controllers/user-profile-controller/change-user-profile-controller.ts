@@ -7,7 +7,7 @@ import {
 } from "../../api/user-profile-api/change-user-profile-api";
 import store from "../../store/store";
 import {SettingsPageProps} from "../../screens/settings/types";
-import {UPDATE_USER_PROFILE_EVENT_NAME} from "../../screens/settings/settings";
+import {UPDATE_USER_PROFILE_EVENT_NAME} from "../../screens/settings/events";
 
 const validationKeys = ['first_name', 'second_name', 'display_name', 'login', 'email', 'phone'];
 

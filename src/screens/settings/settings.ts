@@ -8,10 +8,8 @@ import {Events} from '../../core/types';
 import {settingsEvents} from './settings-service';
 import {mapStateToPropsCallBack} from '../../store/utils';
 import {UserInfoController} from '../../controllers/user-profile-controller/get-user-info-controller';
+import {SETTINGS_PAGE_EVENT_NAME, UPDATE_USER_PROFILE_EVENT_NAME} from './events';
 
-
-export const UPDATE_USER_PROFILE_EVENT_NAME = 'Update User Profile';
-export const SETTINGS_PAGE_EVENT_NAME = 'SettingsPage';
 
 export class SettingsPage extends Block<SettingsPageProps> {
 	constructor(propsObj: SettingsPageProps = SETTINGS_INITIAL_STATE, events: Events = settingsEvents, rootId?: string) {

@@ -6,9 +6,8 @@ import {SIGNUP_INITIAL_STATE} from '../../store/initialState/signup-initial-stat
 import {SignUpPageProps} from './types';
 import {Events} from '../../core/types';
 import {signupEvents} from './signup-service';
+import {SIGNUP_PAGE_EVENT_NAME} from "./events";
 
-
-export const SIGNUP_PAGE_EVENT_NAME = 'SignUpPage';
 
 export class SignUpPage extends Block<SignUpPageProps> {
 	constructor(propsObj: SignUpPageProps = SIGNUP_INITIAL_STATE, events: Events = signupEvents, rootId?: string) {

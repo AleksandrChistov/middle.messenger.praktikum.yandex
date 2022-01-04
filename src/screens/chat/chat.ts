@@ -6,9 +6,8 @@ import {ChatPageProps} from "./types";
 import {CHAT_INITIAL_STATE} from "../../store/initialState/chat-initial-state";
 import {Events} from "../../core/types";
 import {chatEvents} from "./chat-service";
+import {CHAT_PAGE_EVENT_NAME} from "./events";
 
-
-export const CHAT_PAGE_EVENT_NAME = 'ChatPage';
 
 export class ChatPage extends Block<ChatPageProps> {
 	constructor(propsObj: ChatPageProps = CHAT_INITIAL_STATE, events: Events = chatEvents, rootId?: string) {
