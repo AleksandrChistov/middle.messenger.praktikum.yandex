@@ -16,7 +16,7 @@ export class HandleFormService {
 		this.formValidationService = formValidationService;
 	}
 
-	handleFormSubmit(event: Event): Record<string, unknown> | null {
+	handleFormSubmit(event: Event): Record<string, string> | null {
 		event.preventDefault();
 		const form = event.target as HTMLFormElement;
 

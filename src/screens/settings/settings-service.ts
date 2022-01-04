@@ -6,6 +6,7 @@ import {UserLogOutController} from "../../controllers/auth-controllers/logout-co
 import {ChangeUserProfileController} from "../../controllers/user-profile-controller/change-user-profile-controller";
 import {getEventName} from "../../core/utils/get-event-name";
 import {SETTINGS_PAGE_EVENT_NAME} from "./events";
+import {ChangeUserPasswordController} from "../../controllers/user-profile-controller/change-user-password-controller";
 
 
 class SettingsService extends ShowErrorService {
@@ -210,7 +211,10 @@ class SettingsService extends ShowErrorService {
             return;
           }
 
-          // запрашиваем данные у контроллера
+          ChangeUserPasswordController.change({
+            oldPassword: formData.oldPassword,
+            newPassword: formData.password
+          });
         },
       },
     ],
