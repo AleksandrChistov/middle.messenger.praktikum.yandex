@@ -2,8 +2,9 @@ import {Block} from "../block";
 import {REGISTERED_COMPONENTS} from "../registered-components";
 import {Props} from "../types";
 import {isArray} from "../../utils";
-import {getEventName} from "./get-event-name";
 import {set} from "./set-values-to-object";
+import {getEventName} from "./get-event-name";
+import {getPathFromArray} from "./get-path-from-array";
 import {componentsState, ComponentState} from "../components-state";
 
 export function compileTemplateToElement(
@@ -110,10 +111,6 @@ function getComponent(componentName: string, pageEventName: string, dataName: st
   }
 
   return getComponentInstance(componentName, value, getEventName(pageEventName, dataName));
-}
-
-function getPathFromArray(paths: string[]): string {
-  return paths.reduce((acc, path) => `${acc}.${path}`);
 }
 
 function getValueFromObjectByPath(state: ComponentState, path: string): InstanceType<typeof Block> | undefined {
