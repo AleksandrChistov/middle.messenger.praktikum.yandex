@@ -40,8 +40,6 @@ export function compileTemplateToElement(
           return;
         }
 
-        data = (data.props || data) as Props;
-
         const path = getPathFromArray([pageEventName, dataName]);
 
         if (isArray(data)) {
