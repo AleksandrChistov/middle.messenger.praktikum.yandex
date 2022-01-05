@@ -6,7 +6,7 @@
     max-width: 100%;
     width: 348px;
     height: 40px;
-    background: $purple;
+    background-color: $purple;
     box-shadow: 0 3px 7px 1px rgba($black, 25%);
     border-radius: 20px;
     border: none;
@@ -18,6 +18,16 @@
 
     &:hover {
       cursor: pointer;
+      background-color: rgba($purple, 85%);
+    }
+
+    &:disabled {
+      background-color: $gray;
+      color: $light-gray;
+
+      &:hover {
+        cursor: default;
+      }
     }
   }
 }

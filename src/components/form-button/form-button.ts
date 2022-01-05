@@ -9,6 +9,7 @@ export interface FormButtonProps extends Props {
 	type?: string;
 	text?: string;
 	addClass?: string;
+  isDisabled?: boolean;
 }
 
 export class FormButton extends Block<FormButtonProps> {
