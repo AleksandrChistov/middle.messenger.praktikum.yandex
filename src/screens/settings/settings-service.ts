@@ -7,10 +7,45 @@ import {ChangeUserProfileController} from "../../controllers/user-profile-contro
 import {getEventName} from "../../core/utils/get-event-name";
 import {SETTINGS_PAGE_EVENT_NAME} from "./events";
 import {ChangeUserPasswordController} from "../../controllers/user-profile-controller/change-user-password-controller";
+import store from "../../store/store";
+import {getPathFromArray} from "../../core/utils/get-path-from-array";
+import {ChangeUserAvatarController} from "../../controllers/user-profile-controller/change-user-avatar-controller";
 
 
 class SettingsService extends ShowErrorService {
   public settingsEvents: Events = {
+    change: [
+      {
+        id: 'popupAvatar',
+        fn: event => {
+          event.preventDefault();
+          const files = (event.target as HTMLInputElement).files;
+
+          if (!files) {
+            return;
+          }
+
+          const uploadedImgSrc = window.URL.createObjectURL(files[0]);
+
+          store.set(
+            getPathFromArray(['settingsPage']),
+            {
+              ...store.getState().settingsPage,
+              avatarBlobImgSrc: files[0],
+              popupAvatar: {
+                ...store.getState().settingsPage.popupAvatar,
+                avatarImgSrc: uploadedImgSrc,
+                changeAvatarButton: {
+                  ...store.getState().settingsPage.popupAvatar.changeAvatarButton,
+                  isDisabled: false
+                }
+              }
+            },
+            getEventName(SETTINGS_PAGE_EVENT_NAME)
+          );
+        },
+      },
+    ],
     click: [
       {
         id: 'goToChat',
@@ -24,6 +59,40 @@ class SettingsService extends ShowErrorService {
         fn: event => {
           event.preventDefault();
           UserLogOutController.logOut();
+        },
+      },
+      {
+        id: 'openPopupAvatar',
+        fn: event => {
+          event.preventDefault();
+
+          store.set(
+            getPathFromArray(['settingsPage']),
+            {
+              ...store.getState().settingsPage,
+              avatarPopupIsOpened: true,
+            },
+            getEventName(SETTINGS_PAGE_EVENT_NAME)
+          );
+        },
+      },
+      {
+        id: 'popupAvatar',
+        fn: event => {
+          const closePopup = (event.target as HTMLElement).getAttribute('data') === 'popupAvatar';
+
+          if (!closePopup) {
+            return;
+          }
+
+          store.set(
+            getPathFromArray(['settingsPage']),
+            {
+              ...store.getState().settingsPage,
+              avatarPopupIsOpened: false,
+            },
+            getEventName(SETTINGS_PAGE_EVENT_NAME)
+          );
         },
       },
     ],
@@ -215,6 +284,20 @@ class SettingsService extends ShowErrorService {
             oldPassword: formData.oldPassword,
             newPassword: formData.password
           });
+        },
+      },
+      {
+        id: 'popupAvatar',
+        fn: event => {
+          event.preventDefault();
+
+          const form = new FormData();
+
+          const avatarBlobImg = store.getState().settingsPage.avatarBlobImgSrc as string;
+
+          form.append('avatar', avatarBlobImg, 'my-avatar.png');
+
+          ChangeUserAvatarController.change(form);
         },
       },
     ],

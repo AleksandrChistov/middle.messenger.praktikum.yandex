@@ -13,7 +13,7 @@ export function set(object: Indexed | unknown, path: string, value: unknown): In
       acc[key] = value;
     }
 
-    if (!acc[key]) {
+    if (acc[key] === undefined) {
       acc[key] = {};
     }
 

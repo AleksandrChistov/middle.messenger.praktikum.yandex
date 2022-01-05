@@ -6,6 +6,7 @@ import store from "../../store/store";
 import {UserProfileResponse} from "../../api/user-profile-api/change-user-profile-api";
 import {SettingsPageProps} from "../../screens/settings/types";
 import {UPDATE_USER_PROFILE_EVENT_NAME} from "../../screens/settings/events";
+import {host} from "../../constants";
 
 
 const getUserInfoAPI = new GetUserInfoAPI();
@@ -48,8 +49,11 @@ function getOptions(): Options {
 function prepareDataToStore(data: UserProfileResponse): SettingsPageProps {
   const state = store.getState();
 
+  const avatarImgSrc = data.avatar ? `${host}/api/v2/resources${data.avatar}` : null;
+
   return {
     ...state.settingsPage,
+    avatarImgSrc: avatarImgSrc,
     nameInput: {
       ...state.settingsPage.nameInput,
       value: data.first_name
@@ -74,5 +78,9 @@ function prepareDataToStore(data: UserProfileResponse): SettingsPageProps {
       ...state.settingsPage.phoneInput,
       value: data.phone
     },
+    popupAvatar: {
+      ...store.getState().settingsPage.popupAvatar,
+      avatarImgSrc: avatarImgSrc,
+    }
   }
 }

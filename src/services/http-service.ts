@@ -18,7 +18,7 @@ export enum ResponseType {
 }
 
 export type Options = {
-	data?: Indexed;
+	data?: Indexed | FormData;
 	headers?: Record<string, string>;
 	timeout?: number;
   withCredentials?: boolean;
@@ -33,7 +33,7 @@ export class Http {
   }
 
 	async get<T>(url: string, options: Options = {} as Options): Promise<T> {
-		const stringData = options.data ? queryStringify(options.data) : null;
+		const stringData = options.data ? queryStringify(options.data as Indexed) : null;
 		const processedUrl = stringData ? url + stringData : url;
 
 		return this.request<T>(processedUrl, {...options, method: Methods.GET}, options.timeout);
@@ -92,7 +92,9 @@ export class Http {
 
 			if (method === Methods.GET && !data) {
 				xhr.send();
-			} else {
+			} else if (data instanceof FormData) {
+        xhr.send(data);
+      } else {
 				xhr.send(JSON.stringify(data));
 			}
 		});

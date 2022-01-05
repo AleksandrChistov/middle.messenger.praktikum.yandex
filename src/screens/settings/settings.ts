@@ -16,6 +16,7 @@ export class SettingsPage extends Block<SettingsPageProps> {
 		super('main', 'settings-page-block', propsObj, events, rootId);
 
     this.subscribeToStoreEvent(UPDATE_USER_PROFILE_EVENT_NAME, mapStateToPropsCallBack);
+    this.subscribeToStoreEvent(SETTINGS_PAGE_EVENT_NAME, mapStateToPropsCallBack);
 
     UserInfoController.getInfo();
 	}
