@@ -15,8 +15,7 @@ export class UserLogOutController {
           if (response) {
             throw new Error(response.reason);
           }
-          // Сохранить данные в стор store.set('user', data)
-          console.log('UserLogOutController: ', response);
+
           router.go('/');
         })
         .catch((error) => {

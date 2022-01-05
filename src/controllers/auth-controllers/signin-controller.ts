@@ -29,14 +29,12 @@ export class UserSignInController {
           if (response) {
             throw new Error(response.reason);
           }
-          // Сохранить данные в стор store.set('user', data)
-          console.log('UserSignInController: ', response);
+
           router.go('/messenger');
         })
         .catch((error) => {
           console.error(error, data);
           // Останавливаем крутилку
-          // Логика обработки ошибок
         })
     } catch (error) {
       console.error(error, data);

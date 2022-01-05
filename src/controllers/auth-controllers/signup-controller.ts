@@ -33,19 +33,16 @@ export class UserSignUpController {
           if (isErrorResponse(response)) {
             throw new Error(response.reason);
           }
-          // Сохранить данные в стор store.set('user', data)
-          console.log('UserSignUpController: ', response);
+
           router.go('/messenger');
         })
         .catch((error) => {
           console.error(error, data);
           // Останавливаем крутилку
-          // Логика обработки ошибок
         })
     } catch (error) {
       console.error(error, data);
       // Останавливаем крутилку
-      // Логика обработки ошибок
     }
   }
 }
