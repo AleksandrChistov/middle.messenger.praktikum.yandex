@@ -1,0 +1,57 @@
+@import "../../../../static/styles/colors";
+@import "../../../../static/styles/variables";
+
+.popup-avatar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgb($black, 75%);
+
+  .form-avatar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 33px 70px;
+    border-radius: 20px;
+    background-color: $white;
+    transform: translate(-50%, -50%);
+
+    &__img {
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgba($black, 75%);
+        background-blend-mode: overlay;
+
+        .form-avatar__text {
+          display: inline-block;
+        }
+      }
+    }
+
+    &__input {
+      display: none;
+    }
+
+    &__text {
+      display: none;
+      font-family: $basic-font-family;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 16px;
+      text-align: center;
+      color: $white;
+    }
+  }
+}

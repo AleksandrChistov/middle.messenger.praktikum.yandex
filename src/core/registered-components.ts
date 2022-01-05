@@ -9,6 +9,7 @@ import {PasswordInput} from "../components/inputs/password/password-input";
 import {FormButton} from "../components/form-button/form-button";
 import {EmailInput} from "../components/inputs/email/email-input";
 import {PhoneInput} from "../components/inputs/phone/phone-input";
+import {PopupAvatar} from "../components/popups/popup-avatar/popup-avatar";
 
 export const REGISTERED_COMPONENTS = {
   TextInputComponent: TextInput,
@@ -22,4 +23,5 @@ export const REGISTERED_COMPONENTS = {
   AvatarComponent: Avatar,
   TimeComponent: Time,
   MessageComponent: Message,
+  PopupAvatarComponent: PopupAvatar,
 }

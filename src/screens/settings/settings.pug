@@ -19,7 +19,12 @@ div.form-container
     form(class="form form--relative" id="form-password")
         a(href="#" id="logout" class="form__escape-icon")
             include ../../../static/assets/icons/escape.svg
-        button(type="button" class="avatar-button")
+        button(
+          type="button"
+          id="openPopupAvatar"
+          class="avatar-button"
+          style=`background-image: url(${avatarImgSrc ? avatarImgSrc : popupAvatar.defaultImgSrc})`
+          )
             span(class="avatar-button__text")="Change avatar"
         hr.line
         PasswordInputComponent(data="oldPasswordInput")
@@ -29,3 +34,5 @@ div.form-container
         PasswordInputComponent(data="passwordAgainInput")
         ErrorMessageComponent(data="errorPasswordAgain" error-for=passwordAgainInput.id)
         FormButtonComponent(data="changePasswordButton")
+    if avatarPopupIsOpened
+      PopupAvatarComponent(data="popupAvatar" id="popupAvatar")

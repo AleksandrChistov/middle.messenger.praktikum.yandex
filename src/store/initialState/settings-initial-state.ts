@@ -1,7 +1,11 @@
 import {FieldName} from "../../services/form-services/form-validation-service";
 import {SettingsPageProps} from "../../screens/settings/types";
+import avatarImg from "../../../static/assets/icons/avatar.svg";
 
 export const SETTINGS_INITIAL_STATE: SettingsPageProps = {
+  avatarBlobImgSrc: null,
+  avatarImgSrc: null,
+  avatarPopupIsOpened: false,
   nameInput: {
     label: 'Name',
     id: 'first_name',
@@ -99,4 +103,13 @@ export const SETTINGS_INITIAL_STATE: SettingsPageProps = {
     text: 'Change password',
     addClass: 'mt-20',
   },
+  popupAvatar: {
+    defaultImgSrc: avatarImg,
+    avatarImgSrc: null,
+    changeAvatarButton: {
+      type: 'submit',
+      text: 'Change avatar',
+      isDisabled: true,
+    }
+  }
 }

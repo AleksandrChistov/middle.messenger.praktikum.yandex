@@ -5,8 +5,12 @@ import {PhoneInputProps} from "../../components/inputs/phone/phone-input";
 import {PasswordInputProps} from "../../components/inputs/password/password-input";
 import {FormButtonProps} from "../../components/form-button/form-button";
 import {ErrorMessageProps} from "../../components/error-message/error-message";
+import {PopupAvatarProps} from "../../components/popups/popup-avatar/popup-avatar";
 
 export interface SettingsPageProps extends Props {
+  avatarBlobImgSrc: string | null;
+  avatarImgSrc: string | null;
+  avatarPopupIsOpened: boolean,
   nameInput: TextInputProps,
   errorName: ErrorMessageProps,
   surnameInput: TextInputProps,
@@ -26,4 +30,5 @@ export interface SettingsPageProps extends Props {
   passwordAgainInput: PasswordInputProps,
   errorPasswordAgain: ErrorMessageProps,
   changePasswordButton: FormButtonProps,
+  popupAvatar: PopupAvatarProps,
 }
