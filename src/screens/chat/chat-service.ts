@@ -102,6 +102,38 @@ class ChatHandleService extends ShowErrorService {
           );
         },
       },
+      {
+        id: 'vertical-ellipsis',
+        fn: () => {
+          store.set(
+            getPathFromArray(['chatPage']),
+            {
+              ...store.getState().chatPage,
+              ellipsisMenuIsOpened: true,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME)
+          );
+        },
+      },
+      {
+        id: 'closeEllipsisMenu',
+        fn: event => {
+          const idClickedElement = (event.target as HTMLElement).getAttribute('id');
+
+          if (idClickedElement !== 'closeEllipsisMenu') {
+            return;
+          }
+
+          store.set(
+            getPathFromArray(['chatPage']),
+            {
+              ...store.getState().chatPage,
+              ellipsisMenuIsOpened: false,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME)
+          );
+        },
+      },
     ],
     focus: [
       {

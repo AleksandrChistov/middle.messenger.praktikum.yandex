@@ -11,6 +11,7 @@ import {EmailInput} from "../components/inputs/email/email-input";
 import {PhoneInput} from "../components/inputs/phone/phone-input";
 import {PopupAvatar} from "../components/popups/popup-avatar/popup-avatar";
 import {PopupCreateChat} from "../components/popups/popup-create-chat/popup-create-chat";
+import {EllipsisMenu} from "../components/menus/ellipsis-menu/ellipsis-menu";
 
 export const REGISTERED_COMPONENTS = {
   TextInputComponent: TextInput,
@@ -25,5 +26,6 @@ export const REGISTERED_COMPONENTS = {
   TimeComponent: Time,
   MessageComponent: Message,
   PopupAvatarComponent: PopupAvatar,
+  EllipsisMenu: EllipsisMenu,
   PopupCreateChatComponent: PopupCreateChat,
 }

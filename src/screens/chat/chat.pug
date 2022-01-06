@@ -35,5 +35,8 @@ section.main
     else
       p(class='main__empty-text')='Select or create a chat to send a message'
 
+if ellipsisMenuIsOpened
+  EllipsisMenu(data="ellipsisMenu" id="closeEllipsisMenu")
+
 if createChatPopupIsOpened
   PopupCreateChatComponent(data="popupCreateChat" id="popupCreateChat")

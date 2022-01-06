@@ -1,0 +1,37 @@
+@import "../../../../static/styles/colors";
+@import "../../../../static/styles/variables";
+
+.ellipsis-menu {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  &-section {
+    position: absolute;
+    top: 60px;
+    right: 25px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: $background-color;
+  }
+
+  &-item {
+    margin-bottom: 20px;
+    border-radius: 20px;
+
+    &__text {
+      margin-left: 12px;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: white;
+    }
+  }
+}
