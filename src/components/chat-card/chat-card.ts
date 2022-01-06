@@ -4,15 +4,17 @@ import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
 import templatePug from './chat-card.pug';
 import {AvatarProps} from '../avatar/avatar';
-import {TimeProps} from '../time/time';
+import {TimeProps} from '../time/types';
 import './chat-card.scss';
 
 export interface ChatCardProps extends Props {
-	authorName: string;
+  chatName: string;
 	textMessage?: string;
-	messageCount?: string;
+  unreadMessageCount?: number;
   avatar: AvatarProps;
-  time: TimeProps;
+  time: TimeProps | null;
+  active: boolean;
+  id: number;
 }
 
 export class ChatCard extends Block<ChatCardProps> {

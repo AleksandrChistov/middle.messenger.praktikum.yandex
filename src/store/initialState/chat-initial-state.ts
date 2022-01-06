@@ -6,12 +6,13 @@ import {ChatPageProps} from "../../screens/chat/types";
 import avatarImg from "../../../static/assets/icons/avatar.svg";
 
 export const CHAT_INITIAL_STATE: ChatPageProps = {
-  authorName: '',
+  chatName: '',
   messageFieldName: FieldName.Message,
   settingsImgSrc: settingsImg as string,
   vertEllipsisImgSrc: vertEllipsisImg as string,
   cartImgSrc: cartImg as string,
   createChatPopupIsOpened: false,
+  selectedChat: null,
   chats: [],
   error: {
     addClass: '',
@@ -26,10 +27,7 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
     avatarImgSrc: null,
     size: '36px',
   },
-  time: {
-    type: 'time-main',
-    date: new Date(),
-  },
+  time: null,
   messages: [],
   popupCreateChat: {
     defaultChatAvatarSrc: avatarImg,

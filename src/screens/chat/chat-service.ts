@@ -5,6 +5,8 @@ import {CHAT_PAGE_EVENT_NAME} from "./events";
 import store from "../../store/store";
 import {getPathFromArray} from "../../core/utils/get-path-from-array";
 import {getEventName} from "../../core/utils/get-event-name";
+import {CreateChatController} from "../../controllers/chat-controllers/create-chat-controller";
+import {ChatCardProps} from "../../components/chat-card/chat-card";
 
 
 class ChatHandleService extends ShowErrorService {
@@ -64,6 +66,42 @@ class ChatHandleService extends ShowErrorService {
           );
         },
       },
+      {
+        id: 'chatCards',
+        fn: event => {
+          const chatCardElement = (event.target as HTMLElement).closest('.chat-card');
+
+          if (!chatCardElement) {
+            return;
+          }
+
+          const chats = store.getState().chatPage.chats;
+
+          const getChats = (chats: ChatCardProps[]) => chats.map(chat => {
+            return {
+              ...chat,
+              active: chat.id === Number(chatCardElement.id),
+            }
+          })
+
+          const selectedChat = chats.find(chat => chat.id === Number(chatCardElement.id));
+
+          store.set(
+            getPathFromArray(['chatPage']),
+            {
+              ...store.getState().chatPage,
+              selectedChat: selectedChat,
+              chats: getChats(chats),
+              chatName: selectedChat?.chatName,
+              chatAvatar: {
+                avatarImgSrc: selectedChat?.avatar.avatarImgSrc || null,
+                size: '36px',
+              }
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME)
+          );
+        },
+      },
     ],
     focus: [
       {
@@ -102,7 +140,9 @@ class ChatHandleService extends ShowErrorService {
             return;
           }
 
-          // send message to BE by controller
+          CreateChatController.create({
+            title: formData.chat_name,
+          });
         },
       },
     ],

@@ -5,25 +5,25 @@ section.sidebar
         a(href="#" id="goToSettings" class="settings-icon")
             include ../../../static/assets/icons/settings.svg
         SearchInputComponent(data="search" class="search-container__search")
-    ChatCardComponent(data="chats")
+    div(id="chatCards" class="sidebar__chats")
+      ChatCardComponent(data="chats")
 section.main
     section.top-panel
         div.top-panel__avatar-container
-          if authorName
+          if chatName
             AvatarComponent(data="chatAvatar" class="top-panel__avatar")
-            span(class="top-panel__author-name")=authorName
+            span(class="top-panel__author-name")=chatName
         div.top-panel__options
-          if chats.length
+          if selectedChat
             input(type="image" class="top-panel__options-ellipsis-icon" id="cart" alt="cart" src=cartImgSrc)
           input(type="image" id="vertical-ellipsis" alt="vertical-ellipsis" src=vertEllipsisImgSrc)
-    if chats.length
+    if selectedChat
       section.chat
-          if true
-              TimeComponent(data="time" class="chat__time")
-              div.chat__container
-                  MessageComponent(data="messages" class="chat__message")
-          else
-              p(class="chat__default-text")="Select a chat to send a message"
+        if time
+          TimeComponent(data="time" class="chat__time")
+        if messages.length
+          div.chat__container
+              MessageComponent(data="messages" class="chat__message")
       ErrorMessageComponent(data="error" error-for="message" class="main__error")
       section.bottom-panel
           button(type="button" class="bottom-panel__button bottom-panel__clip-button")

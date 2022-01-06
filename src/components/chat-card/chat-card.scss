@@ -54,5 +54,14 @@
       line-height: 16px;
       color: $white;
     }
+
+    &--active {
+      background-color: $white;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba($white, 85%);
+    }
   }
 }

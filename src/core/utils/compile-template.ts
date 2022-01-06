@@ -36,7 +36,7 @@ export function compileTemplateToElement(
 
         let data = props[dataName] as Props;
 
-        if (!data) {
+        if (data === undefined) {
           console.error(`Property ${dataName} was not specified in the Props for the ${element}`);
           return;
         }

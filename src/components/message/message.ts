@@ -4,7 +4,7 @@ import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
 import templatePug from './message.pug';
 import {AvatarProps} from '../avatar/avatar';
-import {TimeProps} from '../time/time';
+import {TimeProps} from '../time/types';
 import './message.scss';
 
 export interface MessageProps extends Props {

@@ -1,20 +1,11 @@
 import {Block, EventsEnum} from '../../core/block';
-import {Props} from '../../core/types';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
 import templatePug from './time.pug';
 import {getDateString} from './service';
+import {TimeParsedProps, TimeProps} from './types';
 import './time.scss';
 
-export interface TimeProps extends Props {
-	type: 'time-card' | 'time-main';
-	date: Date;
-}
-
-interface TimeParsedProps extends Props {
-	type: 'time-card' | 'time-main';
-	date: string;
-}
 
 export class Time extends Block<TimeProps> {
 	constructor(propsObj: TimeProps, eventName: string) {
