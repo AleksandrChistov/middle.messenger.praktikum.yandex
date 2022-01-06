@@ -10,6 +10,7 @@ import {FormButton} from "../components/form-button/form-button";
 import {EmailInput} from "../components/inputs/email/email-input";
 import {PhoneInput} from "../components/inputs/phone/phone-input";
 import {PopupAvatar} from "../components/popups/popup-avatar/popup-avatar";
+import {PopupCreateChat} from "../components/popups/popup-create-chat/popup-create-chat";
 
 export const REGISTERED_COMPONENTS = {
   TextInputComponent: TextInput,
@@ -24,4 +25,5 @@ export const REGISTERED_COMPONENTS = {
   TimeComponent: Time,
   MessageComponent: Message,
   PopupAvatarComponent: PopupAvatar,
+  PopupCreateChatComponent: PopupCreateChat,
 }

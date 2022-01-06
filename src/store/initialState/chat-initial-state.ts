@@ -3,6 +3,7 @@ import settingsImg from '../../../static/assets/icons/settings.svg';
 import vertEllipsisImg from '../../../static/assets/icons/vert-ellipsis.svg';
 import cartImg from '../../../static/assets/icons/cart.svg';
 import {ChatPageProps} from "../../screens/chat/types";
+import avatarImg from "../../../static/assets/icons/avatar.svg";
 
 export const CHAT_INITIAL_STATE: ChatPageProps = {
   authorName: '',
@@ -10,6 +11,7 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
   settingsImgSrc: settingsImg as string,
   vertEllipsisImgSrc: vertEllipsisImg as string,
   cartImgSrc: cartImg as string,
+  createChatPopupIsOpened: false,
   chats: [],
   error: {
     addClass: '',
@@ -29,4 +31,19 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
     date: new Date(),
   },
   messages: [],
+  popupCreateChat: {
+    defaultChatAvatarSrc: avatarImg,
+    chatAvatarSrc: null,
+    nameChatInput: {
+      label: 'Chat name',
+      id: 'chat_name',
+      name: 'chat_name',
+      inputClass: 'mb-15',
+      required: true,
+    },
+    createChatButton: {
+      type: 'submit',
+      text: 'Create new chat',
+    },
+  }
 }

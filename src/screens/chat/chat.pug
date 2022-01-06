@@ -1,5 +1,5 @@
 section.sidebar
-    button(type="button" id="createChat" class="sidebar__create-button")
+    button(type="button" id="openCreateChatPopup" class="sidebar__create-button")
       include ../../../static/assets/icons/create-chat.svg
     div.search-container
         a(href="#" id="goToSettings" class="settings-icon")
@@ -34,3 +34,6 @@ section.main
                   include ../../../static/assets/icons/arrow-button.svg
     else
       p(class='main__empty-text')='Select or create a chat to send a message'
+
+if createChatPopupIsOpened
+  PopupCreateChatComponent(data="popupCreateChat" id="popupCreateChat")

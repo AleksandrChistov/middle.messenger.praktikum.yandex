@@ -6,6 +6,7 @@ import {AvatarProps} from "../../components/avatar/avatar";
 import {TimeProps} from "../../components/time/time";
 import {MessageProps} from "../../components/message/message";
 import {ChatCardProps} from "../../components/chat-card/chat-card";
+import {PopupCreateChatProps} from "../../components/popups/popup-create-chat/popup-create-chat";
 
 export interface ChatPageProps extends Props {
   authorName?: string | null;
@@ -13,10 +14,12 @@ export interface ChatPageProps extends Props {
   settingsImgSrc?: string | null;
   vertEllipsisImgSrc?: string | null;
   cartImgSrc?: string | null;
+  createChatPopupIsOpened: boolean,
   chats: ChatCardProps[] | [];
   error?: ErrorMessageProps,
   search?: SearchInputProps,
   chatAvatar?: AvatarProps,
   time?: TimeProps,
   messages: MessageProps[] | [],
+  popupCreateChat: PopupCreateChatProps,
 }
