@@ -8,6 +8,6 @@ const logOutAPIInstance = new Http(`${host}/api/v2/auth/logout`);
 export class LogoutAPI extends BaseAPI {
   public create(options: Options): Promise<ErrorResponse | null> {
     return logOutAPIInstance.post<ErrorResponse | null>('', options)
-      .then((data) => data); // Обрабатываем получение данных из сервиса далее
+      .then((data) => data);
   }
 }
