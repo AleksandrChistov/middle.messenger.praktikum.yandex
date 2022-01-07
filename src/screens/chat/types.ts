@@ -9,6 +9,7 @@ import {PopupCreateChatProps} from "../../components/popups/popup-create-chat/po
 import {TimeProps} from "../../components/time/types";
 import {EllipsisMenuProps} from "../../components/menus/ellipsis-menu/ellipsis-menu";
 import {PopupAddUserProps} from "../../components/popups/popup-add-user/popup-add-user";
+import {PopupDeleteUserProps} from "../../components/popups/popup-delete-user/popup-delete-user";
 
 export interface ChatPageProps extends Props {
   chatName?: string | null;
@@ -19,6 +20,7 @@ export interface ChatPageProps extends Props {
   ellipsisMenuIsOpened: boolean,
   createChatPopupIsOpened: boolean,
   addUserToChatPopupIsOpened: boolean,
+  deleteUserFromChatPopupIsOpened: boolean,
   selectedChat: ChatCardProps | null;
   chats: ChatCardProps[] | [];
   error?: ErrorMessageProps,
@@ -29,4 +31,5 @@ export interface ChatPageProps extends Props {
   ellipsisMenu: EllipsisMenuProps,
   popupCreateChat: PopupCreateChatProps,
   popupAddUserToChat: PopupAddUserProps,
+  popupDeleteUserFromChat: PopupDeleteUserProps,
 }

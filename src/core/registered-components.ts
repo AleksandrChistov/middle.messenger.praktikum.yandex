@@ -14,6 +14,7 @@ import {PopupCreateChat} from "../components/popups/popup-create-chat/popup-crea
 import {EllipsisMenu} from "../components/menus/ellipsis-menu/ellipsis-menu";
 import {PopupAddUser} from "../components/popups/popup-add-user/popup-add-user";
 import {FoundUser} from "../components/found-user/found-user";
+import {PopupDeleteUser} from "../components/popups/popup-delete-user/popup-delete-user";
 
 export const REGISTERED_COMPONENTS = {
   TextInputComponent: TextInput,
@@ -31,5 +32,6 @@ export const REGISTERED_COMPONENTS = {
   EllipsisMenu: EllipsisMenu,
   PopupCreateChatComponent: PopupCreateChat,
   PopupAddUserToChatComponent: PopupAddUser,
+  PopupDeleteUserFromChatComponent: PopupDeleteUser,
   FoundUserComponent: FoundUser,
 }

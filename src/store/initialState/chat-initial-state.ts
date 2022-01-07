@@ -14,6 +14,7 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
   ellipsisMenuIsOpened: false,
   createChatPopupIsOpened: false,
   addUserToChatPopupIsOpened: false,
+  deleteUserFromChatPopupIsOpened: false,
   selectedChat: null,
   chats: [],
   error: {
@@ -54,6 +55,9 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
       placeholder: 'Search by user login',
       autofocusOn: true
     },
+    usersList: []
+  },
+  popupDeleteUserFromChat: {
     usersList: []
   },
 }

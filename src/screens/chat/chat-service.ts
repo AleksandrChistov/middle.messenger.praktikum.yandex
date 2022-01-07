@@ -10,6 +10,8 @@ import {ChatCardProps} from "../../components/chat-card/chat-card";
 import {debounce} from "../../utils";
 import {GetUsersController} from "../../controllers/chat-controllers/get-users-controller";
 import {AddUsersToChatController} from "../../controllers/chat-controllers/add-users-to-chat-controller";
+import {GetUsersByChatIdController} from "../../controllers/chat-controllers/get-users-by-chat-id-controller";
+import {DeleteUsersFromChatController} from "../../controllers/chat-controllers/delete-users-from-chat-controller";
 
 
 class ChatHandleService extends ShowErrorService {
@@ -152,6 +154,22 @@ class ChatHandleService extends ShowErrorService {
         },
       },
       {
+        id: 'deleteUser',
+        fn: () => {
+          store.set(
+            getPathFromArray(['chatPage']),
+            {
+              ...store.getState().chatPage,
+              deleteUserFromChatPopupIsOpened: true,
+              ellipsisMenuIsOpened: false,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME)
+          );
+
+          GetUsersByChatIdController.get();
+        },
+      },
+      {
         id: 'closePopupAddUserToChat',
         fn: event => {
           const idClickedElement = (event.target as HTMLElement).getAttribute('id');
@@ -165,6 +183,32 @@ class ChatHandleService extends ShowErrorService {
             {
               ...store.getState().chatPage,
               addUserToChatPopupIsOpened: false,
+              popupAddUserToChat: {
+                searchUserInput: {
+                  ...store.getState().chatPage.popupAddUserToChat.searchUserInput,
+                  value: '',
+                },
+                usersList: [],
+              }
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME)
+          );
+        },
+      },
+      {
+        id: 'closePopupDeleteUserFromChat',
+        fn: event => {
+          const idClickedElement = (event.target as HTMLElement).getAttribute('id');
+
+          if (idClickedElement !== 'closePopupDeleteUserFromChat') {
+            return;
+          }
+
+          store.set(
+            getPathFromArray(['chatPage']),
+            {
+              ...store.getState().chatPage,
+              deleteUserFromChatPopupIsOpened: false,
             },
             getEventName(CHAT_PAGE_EVENT_NAME)
           );
@@ -178,6 +222,26 @@ class ChatHandleService extends ShowErrorService {
             {
               ...store.getState().chatPage,
               addUserToChatPopupIsOpened: false,
+              popupAddUserToChat: {
+                searchUserInput: {
+                  ...store.getState().chatPage.popupAddUserToChat.searchUserInput,
+                  value: '',
+                },
+                usersList: [],
+              }
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME)
+          );
+        },
+      },
+      {
+        id: 'closeDeleteUserPopup',
+        fn: () => {
+          store.set(
+            getPathFromArray(['chatPage']),
+            {
+              ...store.getState().chatPage,
+              deleteUserFromChatPopupIsOpened: false,
             },
             getEventName(CHAT_PAGE_EVENT_NAME)
           );
@@ -201,6 +265,29 @@ class ChatHandleService extends ShowErrorService {
           }
 
           AddUsersToChatController.add({
+            users: [Number(userItemId)],
+            chatId: chatId,
+          })
+        },
+      },
+      {
+        id: 'deleteUserFromChat',
+        fn: event => {
+          const userItem = (event.target as HTMLElement).closest('.found-user-item');
+
+          if (!userItem) {
+            return;
+          }
+
+          const userItemId = userItem.getAttribute('id');
+
+          const chatId = store.getState().chatPage.selectedChat?.id;
+
+          if (!chatId) {
+            return;
+          }
+
+          DeleteUsersFromChatController.delete({
             users: [Number(userItemId)],
             chatId: chatId,
           })
