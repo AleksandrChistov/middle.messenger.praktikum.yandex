@@ -13,6 +13,7 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
   cartImgSrc: cartImg as string,
   ellipsisMenuIsOpened: false,
   createChatPopupIsOpened: false,
+  addUserToChatPopupIsOpened: false,
   selectedChat: null,
   chats: [],
   error: {
@@ -44,6 +45,20 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
     createChatButton: {
       type: 'submit',
       text: 'Create new chat',
+    },
+  },
+  popupAddUserToChat: {
+    userIdInput: {
+      label: 'User ids',
+      id: 'user_ids',
+      name: 'user-ids',
+      placeholder: 'Type user IDs separated by commas',
+      inputClass: 'mb-15',
+      required: true,
+    },
+    addUserToChatButton: {
+      type: 'submit',
+      text: 'Add users',
     },
   }
 }

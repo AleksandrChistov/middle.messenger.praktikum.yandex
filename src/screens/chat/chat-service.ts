@@ -134,6 +134,52 @@ class ChatHandleService extends ShowErrorService {
           );
         },
       },
+      {
+        id: 'addUser',
+        fn: () => {
+          store.set(
+            getPathFromArray(['chatPage']),
+            {
+              ...store.getState().chatPage,
+              addUserToChatPopupIsOpened: true,
+              ellipsisMenuIsOpened: false,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME)
+          );
+        },
+      },
+      {
+        id: 'closePopupAddUserToChat',
+        fn: event => {
+          const idClickedElement = (event.target as HTMLElement).getAttribute('id');
+
+          if (idClickedElement !== 'closePopupAddUserToChat') {
+            return;
+          }
+
+          store.set(
+            getPathFromArray(['chatPage']),
+            {
+              ...store.getState().chatPage,
+              addUserToChatPopupIsOpened: false,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME)
+          );
+        },
+      },
+      {
+        id: 'closeAddUserPopup',
+        fn: () => {
+          store.set(
+            getPathFromArray(['chatPage']),
+            {
+              ...store.getState().chatPage,
+              addUserToChatPopupIsOpened: false,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME)
+          );
+        },
+      },
     ],
     focus: [
       {

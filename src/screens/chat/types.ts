@@ -8,6 +8,7 @@ import {ChatCardProps} from "../../components/chat-card/chat-card";
 import {PopupCreateChatProps} from "../../components/popups/popup-create-chat/popup-create-chat";
 import {TimeProps} from "../../components/time/types";
 import {EllipsisMenuProps} from "../../components/menus/ellipsis-menu/ellipsis-menu";
+import {PopupAddUserProps} from "../../components/popups/popup-add-user/popup-add-user";
 
 export interface ChatPageProps extends Props {
   chatName?: string | null;
@@ -17,6 +18,7 @@ export interface ChatPageProps extends Props {
   cartImgSrc?: string | null;
   ellipsisMenuIsOpened: boolean,
   createChatPopupIsOpened: boolean,
+  addUserToChatPopupIsOpened: boolean,
   selectedChat: ChatCardProps | null;
   chats: ChatCardProps[] | [];
   error?: ErrorMessageProps,
@@ -26,4 +28,5 @@ export interface ChatPageProps extends Props {
   messages: MessageProps[] | [],
   ellipsisMenu: EllipsisMenuProps,
   popupCreateChat: PopupCreateChatProps,
+  popupAddUserToChat: PopupAddUserProps,
 }
