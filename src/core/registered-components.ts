@@ -13,6 +13,7 @@ import {PopupAvatar} from "../components/popups/popup-avatar/popup-avatar";
 import {PopupCreateChat} from "../components/popups/popup-create-chat/popup-create-chat";
 import {EllipsisMenu} from "../components/menus/ellipsis-menu/ellipsis-menu";
 import {PopupAddUser} from "../components/popups/popup-add-user/popup-add-user";
+import {FoundUser} from "../components/found-user/found-user";
 
 export const REGISTERED_COMPONENTS = {
   TextInputComponent: TextInput,
@@ -30,4 +31,5 @@ export const REGISTERED_COMPONENTS = {
   EllipsisMenu: EllipsisMenu,
   PopupCreateChatComponent: PopupCreateChat,
   PopupAddUserToChatComponent: PopupAddUser,
+  FoundUserComponent: FoundUser,
 }
