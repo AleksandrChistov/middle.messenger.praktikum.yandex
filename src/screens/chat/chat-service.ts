@@ -7,6 +7,9 @@ import {getPathFromArray} from "../../core/utils/get-path-from-array";
 import {getEventName} from "../../core/utils/get-event-name";
 import {CreateChatController} from "../../controllers/chat-controllers/create-chat-controller";
 import {ChatCardProps} from "../../components/chat-card/chat-card";
+import {debounce} from "../../utils";
+import {GetUsersController} from "../../controllers/chat-controllers/get-users-controller";
+import {AddUsersToChatController} from "../../controllers/chat-controllers/add-users-to-chat-controller";
 
 
 class ChatHandleService extends ShowErrorService {
@@ -180,6 +183,35 @@ class ChatHandleService extends ShowErrorService {
           );
         },
       },
+      {
+        id: 'addUserToChat',
+        fn: event => {
+          const userItem = (event.target as HTMLElement).closest('.found-user-item');
+
+          if (!userItem) {
+            return;
+          }
+
+          const userItemId = userItem.getAttribute('id');
+
+          const chatId = store.getState().chatPage.selectedChat?.id;
+
+          if (!chatId) {
+            return;
+          }
+
+          AddUsersToChatController.add({
+            users: [Number(userItemId)],
+            chatId: chatId,
+          })
+        },
+      },
+    ],
+    input: [
+      {
+        id: 'user_login',
+        fn: debounce(handleSearchUsers, 500),
+      }
     ],
     focus: [
       {
@@ -225,6 +257,16 @@ class ChatHandleService extends ShowErrorService {
       },
     ],
   };
+}
+
+function handleSearchUsers(event: Event): void {
+  const text = (event.target as HTMLInputElement).value.trim();
+
+  if (!text) {
+    return;
+  }
+
+  GetUsersController.get({login: text});
 }
 
 export const {chatEvents} = new ChatHandleService();

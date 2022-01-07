@@ -1,5 +1,7 @@
-form(class="popup-add-user-form" id="formAddUserToChat")
-  TextInputComponent(data="userIdInput")
-  FormButtonComponent(data="addUserToChatButton")
+div(class="popup-add-user-form" id="formAddUserToChat")
+  SearchInputComponent(data="searchUserInput" class="popup-add-user-form__search")
+  section(class="users-list" id="addUserToChat")
+    if usersList.length
+      FoundUserComponent(data="usersList")
   button(type="button" id="closeAddUserPopup" class="popup-add-user-form__cross-icon")
     include ../../../../static/assets/icons/cross.svg

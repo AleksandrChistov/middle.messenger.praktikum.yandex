@@ -48,17 +48,12 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
     },
   },
   popupAddUserToChat: {
-    userIdInput: {
-      label: 'User ids',
-      id: 'user_ids',
-      name: 'user-ids',
-      placeholder: 'Type user IDs separated by commas',
-      inputClass: 'mb-15',
-      required: true,
+    searchUserInput: {
+      id: 'user_login',
+      name: 'user_login',
+      placeholder: 'Search by user login',
+      autofocusOn: true
     },
-    addUserToChatButton: {
-      type: 'submit',
-      text: 'Add users',
-    },
-  }
+    usersList: []
+  },
 }

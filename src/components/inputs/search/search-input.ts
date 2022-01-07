@@ -13,6 +13,8 @@ export interface SearchInputProps extends Props {
 	inputContainerClass?: string;
 	inputClass?: string;
 	placeholder?: string;
+  autofocusOn?: boolean;
+  value?: string;
 }
 
 export class SearchInput extends Block<SearchInputProps> {
