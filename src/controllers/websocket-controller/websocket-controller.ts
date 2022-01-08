@@ -13,7 +13,7 @@ type ReturnedThenFunction = {
 }
 
 class WebsocketController {
-  private _socket: WebsocketApi;
+  private _socketApi: WebsocketApi;
   private _url: string;
   private _startCallBack: (isOpened: boolean) => void;
 
@@ -23,8 +23,8 @@ class WebsocketController {
     return this.startConnection();
   }
 
-  startConnection(): ReturnedThenFunction {
-    this._socket = new WebsocketApi(this._url);
+  private startConnection(): ReturnedThenFunction {
+    this._socketApi = new WebsocketApi(this._url);
 
     this.close();
     this.error();
@@ -33,8 +33,9 @@ class WebsocketController {
       then: (callback: (isOpened: boolean) => void) => {
         this._startCallBack = callback;
 
-        this._socket.open((success: string) => {
+        this._socketApi.open((success: string) => {
           console.log('wss:// ', success);
+          this._socketApi.ping();
           callback(true);
         });
       }
@@ -42,7 +43,7 @@ class WebsocketController {
   }
 
   public close(): void {
-    this._socket.close(
+    this._socketApi.close(
       (successMessage: string) => {
         console.log('wss:// ', successMessage);
       },
@@ -53,31 +54,27 @@ class WebsocketController {
   }
 
   public error(): void {
-    this._socket.error((event: Event) => {
+    this._socketApi.error((event: Event) => {
       console.error('wss:// ', event);
     });
   }
 
   public send(message: string): void {
-    return this._socket.send(message);
+    return this._socketApi.send(message);
   }
 
   public subscribeToMessage(callback: (response: MessageResponse) => void): void {
-    this._socket.message((response) => {
-      console.log('isMessageResponse(response) > ', isMessageResponse(response));
-
+    this._socketApi.message((response) => {
       if (isMessageResponse(response)) {
         callback(response);
       }
     });
   }
 
-  getLastMessages(callback: (response: LastMessageResponse[]) => void, count: number = 0): void {
-    this._socket.send(count.toString(), 'get old');
+  public getLastMessages(callback: (response: LastMessageResponse[]) => void, count: number = 0): void {
+    this._socketApi.send(count.toString(), 'get old');
 
-    this._socket.message((response) => {
-      console.log('getLastMessages > ', response);
-
+    this._socketApi.message((response) => {
       if (isLastMessagesResponse(response)) {
         callback(response);
       }

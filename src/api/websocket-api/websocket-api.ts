@@ -61,8 +61,6 @@ export class WebsocketApi {
 
   message(callback: (data: MessageResponse | ConnectedResponse | LastMessageResponse[]) => void): void {
     this._socket.addEventListener('message', event => {
-      console.log('message event.data > ', event.data);
-
       if (typeof event.data === 'string') {
         callback(JSON.parse(event.data));
       } else {
@@ -76,5 +74,26 @@ export class WebsocketApi {
       content: message,
       type: type,
     }));
+  }
+
+  ping(): void {
+    setTimeout(() => this.heartbeat(), 10000);
+  }
+
+  private heartbeat() {
+    if (!this._socket || this._socket.readyState !== 1) {
+      return;
+    }
+
+    this._ping();
+    setTimeout(() => this.heartbeat(), 10000);
+  }
+
+  private _ping(): void {
+    this._socket.send(JSON.stringify({
+      type: 'ping',
+    }));
+
+    console.log('wss:// ping');
   }
 }
