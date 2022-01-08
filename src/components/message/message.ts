@@ -15,17 +15,27 @@ export interface MessageProps extends Props {
 }
 
 export class Message extends Block<MessageProps> {
-  readonly eventName: string;
-
 	constructor(propsObj: MessageProps, eventName: string) {
 		super('div', 'message-block', propsObj);
 
     this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
-
-    this.eventName = eventName;
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, this.eventName);
+		return compileTemplateToElement(templatePug, this.props, 'message');
 	}
+
+  componentDidMount() {
+    setTimeout(scrollBottom, 0);
+  }
+}
+
+function scrollBottom(): void {
+  const chatsContainerElement = document.querySelector('.chat') as HTMLElement;
+
+  if (!chatsContainerElement) {
+    return;
+  }
+
+  chatsContainerElement.scrollTop = chatsContainerElement.scrollHeight;
 }
