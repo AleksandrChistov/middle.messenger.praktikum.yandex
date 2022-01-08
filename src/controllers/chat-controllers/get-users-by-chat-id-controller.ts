@@ -1,24 +1,21 @@
 import {Options, ResponseType} from "../../services/http-service";
 import {ErrorResponse} from "../../api/types";
 import {Indexed} from "../../core/types";
-import {isArray} from "../../utils";
+import {getAvatarLink, isArray} from "../../utils";
 import store from "../../store/store";
 import {CHAT_PAGE_EVENT_NAME} from "../../screens/chat/events";
 import {ChatPageProps} from "../../screens/chat/types";
 import {GetUsersByChatIdAPI, UsersResponse} from "../../api/chat-api/get-users-by-chat-id-api";
-import {host} from "../../constants";
 import {UserActionIcon} from "../../components/found-user/types";
 
 
 const getUsersByChatIdAPI = new GetUsersByChatIdAPI();
 
 export class GetUsersByChatIdController {
-  static async get(): Promise<void> {
+  static async get(selectedChatId: number): Promise<void> {
     try {
       // Запускаем крутилку
-      const chatId = store.getState().chatPage.selectedChat?.id as number;
-
-      getUsersByChatIdAPI.get(getOptions(), chatId)
+      return getUsersByChatIdAPI.get(getOptions(), selectedChatId)
         .then((response: UsersResponse | ErrorResponse) => {
           // Останавливаем крутилку
           if (isErrorResponse(response)) {
@@ -61,7 +58,7 @@ function prepareDataToStore(usersInChat: UsersResponse): ChatPageProps {
       id: user.id,
       fullName: `${user.first_name} ${user.second_name}`,
       avatar: {
-        avatarImgSrc: user.avatar ? `${host}/api/v2/resources${user.avatar}` : null,
+        avatarImgSrc: getAvatarLink(user.avatar),
         size: '30px',
       },
       iconType: UserActionIcon.Delete,

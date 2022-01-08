@@ -7,11 +7,22 @@ import {getPathFromArray} from "../../core/utils/get-path-from-array";
 import {getEventName} from "../../core/utils/get-event-name";
 import {CreateChatController} from "../../controllers/chat-controllers/create-chat-controller";
 import {ChatCardProps} from "../../components/chat-card/chat-card";
-import {debounce} from "../../utils";
+import {debounce, getAvatarLink} from "../../utils";
 import {GetUsersController} from "../../controllers/chat-controllers/get-users-controller";
 import {AddUsersToChatController} from "../../controllers/chat-controllers/add-users-to-chat-controller";
 import {GetUsersByChatIdController} from "../../controllers/chat-controllers/get-users-by-chat-id-controller";
 import {DeleteUsersFromChatController} from "../../controllers/chat-controllers/delete-users-from-chat-controller";
+import {GetChatTokenController} from "../../controllers/chat-controllers/get-chat-token-controller";
+import {
+  UserIdAndAvatarController,
+  UserIdAndAvatarRequest
+} from "../../controllers/user-profile-controller/get-user-id-controller";
+import {TimeType} from "../../components/time/types";
+import {MessageProps} from "../../components/message/message";
+import {UserInfoByIdController} from "../../controllers/user-profile-controller/get-user-info-by-id-controller";
+import {UserInfoByIdResponse} from "../../api/user-profile-api/get-user-info-by-id-api";
+import {webSocketController} from "../../controllers/websocket-controller/websocket-controller";
+import {FoundUserProps} from "../../components/found-user/types";
 
 
 class ChatHandleService extends ShowErrorService {
@@ -82,29 +93,17 @@ class ChatHandleService extends ShowErrorService {
 
           const chats = store.getState().chatPage.chats;
 
-          const getChats = (chats: ChatCardProps[]) => chats.map(chat => {
-            return {
-              ...chat,
-              active: chat.id === Number(chatCardElement.id),
-            }
-          })
+          const selectedChat = chats.find(chat => chat.id === Number(chatCardElement.id)) as ChatCardProps;
 
-          const selectedChat = chats.find(chat => chat.id === Number(chatCardElement.id));
-
-          store.set(
-            getPathFromArray(['chatPage']),
-            {
-              ...store.getState().chatPage,
-              selectedChat: selectedChat,
-              chats: getChats(chats),
-              chatName: selectedChat?.chatName,
-              chatAvatar: {
-                avatarImgSrc: selectedChat?.avatar.avatarImgSrc || null,
-                size: '36px',
-              }
-            },
-            getEventName(CHAT_PAGE_EVENT_NAME)
-          );
+          GetChatTokenController.get(Number(chatCardElement.id)).then((token: string) => {
+            UserIdAndAvatarController.getIdAndAvatar()
+              .then((user: UserIdAndAvatarRequest) => {
+                startChat(user, selectedChat, token);
+              })
+              .catch(error => {
+                console.error(error);
+              })
+          });
         },
       },
       {
@@ -166,7 +165,9 @@ class ChatHandleService extends ShowErrorService {
             getEventName(CHAT_PAGE_EVENT_NAME)
           );
 
-          GetUsersByChatIdController.get();
+          const selectedChatId = store.getState().chatPage.selectedChat?.id as number;
+
+          GetUsersByChatIdController.get(selectedChatId);
         },
       },
       {
@@ -310,7 +311,7 @@ class ChatHandleService extends ShowErrorService {
     ],
     submit: [
       {
-        id: 'form',
+        id: 'formMessage',
         fn: event => {
           event.preventDefault();
           const isFormValid = this.validateFormItems(event, 'chat', CHAT_PAGE_EVENT_NAME);
@@ -324,7 +325,10 @@ class ChatHandleService extends ShowErrorService {
           if (!formData) {
             return;
           }
-          // send message to BE by controller
+
+          webSocketController.send(formData.message);
+
+          (event.target as HTMLInputElement).value = '';
         },
       },
       {
@@ -354,6 +358,102 @@ function handleSearchUsers(event: Event): void {
   }
 
   GetUsersController.get({login: text});
+}
+
+function startChat(currentUser: UserIdAndAvatarRequest, selectedChat: ChatCardProps, token: string): void {
+  webSocketController.start(currentUser.id, selectedChat.id, token).then((isStarted: boolean) => {
+    if (isStarted) {
+      GetUsersByChatIdController.get(selectedChat.id).then(() => {
+        webSocketController.getLastMessages((lastMessages) => {
+          if (!lastMessages) {
+            return;
+          }
+
+          const users = store.getState().chatPage.popupDeleteUserFromChat.usersList as FoundUserProps[];
+
+          const getAvatarFromSavedUsers = (userId: number) => {
+            return users.find((user) => user.id === userId)?.avatar.avatarImgSrc ?? null;
+          }
+
+          const updatedLastMessages = lastMessages.map((lastMessage) => {
+            return {
+              you: currentUser.id === lastMessage.user_id,
+              text: lastMessage.content,
+              avatar: {
+                avatarImgSrc: getAvatarFromSavedUsers(lastMessage.user_id),
+                size: '36px'
+              },
+              time: {
+                type: TimeType.Card,
+                date: new Date(lastMessage.time),
+              }
+            }
+          })
+
+          const getActiveChats = (chats: ChatCardProps[]) => chats.map(chat => {
+            return {
+              ...chat,
+              active: chat.id === Number(selectedChat.id),
+            }
+          })
+
+          const chats = store.getState().chatPage.chats;
+
+          store.set(
+            getPathFromArray(['chatPage']),
+            {
+              ...store.getState().chatPage,
+              selectedChat: selectedChat,
+              chats: getActiveChats(chats),
+              messages: updatedLastMessages.reverse(),
+              chatName: selectedChat.chatName,
+              chatAvatar: {
+                avatarImgSrc: selectedChat.avatar.avatarImgSrc,
+                size: '36px',
+              }
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME)
+          );
+
+          subscribeToMessage(currentUser);
+        });
+      });
+    }
+  });
+}
+
+function subscribeToMessage(currentUser: UserIdAndAvatarRequest): void {
+  webSocketController.subscribeToMessage((message) => {
+    if (!message) {
+      return;
+    }
+
+    UserInfoByIdController.getInfo(message.user_id).then((response: UserInfoByIdResponse) => {
+      const messages = store.getState().chatPage.messages as MessageProps[];
+
+      messages.push({
+        you: currentUser.id === response.id,
+        text: message.content,
+        avatar: {
+          avatarImgSrc: getAvatarLink(response.avatar),
+          size: '36px'
+        },
+        time: {
+          type: TimeType.Card,
+          date: new Date(),
+        }
+      });
+
+      store.set(
+        getPathFromArray(['chatPage']),
+        {
+          ...store.getState().chatPage,
+          messages: messages,
+        },
+        getEventName(CHAT_PAGE_EVENT_NAME)
+      );
+    })
+  });
 }
 
 export const {chatEvents} = new ChatHandleService();
