@@ -35,12 +35,10 @@ export class WebsocketApi {
     this._socket = new WebSocket(url);
   }
 
-  async open(): Promise<string> {
-    return new Promise((resolve) => {
-      this._socket.addEventListener('open', () => {
-        resolve('Соединение установлено');
-      });
-    })
+  open(callback: (successMessage: string) => void): void {
+    this._socket.addEventListener('open', () => {
+      callback('Соединение установлено');
+    });
   }
 
   close(successCallback: (message: string) => void, errorCallback: (message: string) => void): void {

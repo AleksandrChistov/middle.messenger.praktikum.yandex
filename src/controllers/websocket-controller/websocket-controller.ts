@@ -7,19 +7,38 @@ import {
 import {Indexed} from "../../core/types";
 import {isArray} from "../../utils";
 
+
+type ReturnedThenFunction = {
+  then: (callback: (isOpened: boolean) => void) => void;
+}
+
 class WebsocketController {
   private _socket: WebsocketApi;
+  private _url: string;
+  private _startCallBack: (isOpened: boolean) => void;
 
-  public start(userId: number, chatId: number, token: string): Promise<boolean> {
-    this._socket = new WebsocketApi(`${wssHost}/ws/chats/${userId}/${chatId}/${token}`);
+  public start(userId: number, chatId: number, token: string): ReturnedThenFunction {
+    this._url = `${wssHost}/ws/chats/${userId}/${chatId}/${token}`;
+
+    return this.startConnection();
+  }
+
+  startConnection(): ReturnedThenFunction {
+    this._socket = new WebsocketApi(this._url);
 
     this.close();
     this.error();
 
-    return this._socket.open().then((success: string) => {
-      console.log('wss:// ', success);
-      return true;
-    });
+    return {
+      then: (callback: (isOpened: boolean) => void) => {
+        this._startCallBack = callback;
+
+        this._socket.open((success: string) => {
+          console.log('wss:// ', success);
+          callback(true);
+        });
+      }
+    }
   }
 
   public close(): void {
@@ -27,8 +46,8 @@ class WebsocketController {
       (successMessage: string) => {
         console.log('wss:// ', successMessage);
       },
-      (errorMessage: string) => {
-        console.error(errorMessage); // TODO: reconnect
+      () => {
+        this.startConnection().then(this._startCallBack);
       }
     )
   }
