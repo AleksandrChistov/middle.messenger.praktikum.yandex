@@ -1,9 +1,6 @@
-import {FieldNameValueType} from "./services/form-services/form-validation-service";
 import {Indexed} from "./core/types";
+import {host} from "./constants";
 
-export function getErrorMessageFieldName(fieldName: FieldNameValueType): string {
-  return `${fieldName}ErrorMessage`;
-}
 
 export function isObject(value: unknown): value is Indexed {
   return Object.prototype.toString.call(value) === '[object Object]';
@@ -121,4 +118,8 @@ export function debounce(fn: (...args: unknown[]) => void, ms: number): (...args
     clearTimeout(timeout);
     timeout = setTimeout(later, ms);
   }
+}
+
+export function getAvatarLink(pathToAvatar: string | null | undefined): string | null {
+  return pathToAvatar ? `${host}/api/v2/resources${pathToAvatar}` : null;
 }

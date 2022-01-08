@@ -1,12 +1,11 @@
 import {Options, ResponseType} from "../../services/http-service";
 import {ErrorResponse} from "../../api/types";
 import {Indexed} from "../../core/types";
-import {isArray} from "../../utils";
+import {getAvatarLink, isArray} from "../../utils";
 import store from "../../store/store";
 import {CHAT_PAGE_EVENT_NAME} from "../../screens/chat/events";
 import {ChatPageProps} from "../../screens/chat/types";
 import {GetUsersAPI, UsersResponse} from "../../api/chat-api/get-user-api";
-import {host} from "../../constants";
 import {UserActionIcon} from "../../components/found-user/types";
 import {getPathFromArray} from "../../core/utils/get-path-from-array";
 import {getEventName} from "../../core/utils/get-event-name";
@@ -73,7 +72,7 @@ function prepareDataToStore(foundUsers: UsersResponse, searchText: string): Chat
       id: user.id,
       fullName: `${user.first_name} ${user.second_name}`,
       avatar: {
-        avatarImgSrc: user.avatar ? `${host}/api/v2/resources${user.avatar}` : null,
+        avatarImgSrc: getAvatarLink(user.avatar),
         size: '30px',
       },
       iconType: UserActionIcon.Add,

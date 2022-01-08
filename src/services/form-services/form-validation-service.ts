@@ -13,8 +13,6 @@ export enum FieldName {
   Message = 'message',
 }
 
-export type FieldNameValueType = (typeof FieldName)[keyof typeof FieldName];
-
 export class FormValidationService implements IFormValidationService {
   isFieldHasValidation(fieldName: string): fieldName is FieldName {
     return Object.values<string>(FieldName).includes(fieldName);

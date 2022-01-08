@@ -8,7 +8,7 @@ import {
   ChangeUserAvatarAPI,
   UserAvatarResponse
 } from "../../api/user-profile-api/change-user-avatar-api";
-import {host} from "../../constants";
+import {getAvatarLink} from "../../utils";
 
 
 const changeUserAvatarAPI = new ChangeUserAvatarAPI();
@@ -56,11 +56,11 @@ function prepareDataToStore(data: UserAvatarResponse): SettingsPageProps {
 
   return {
     ...state.settingsPage,
-    avatarImgSrc: `${host}/api/v2/resources${data.avatar}`,
+    avatarImgSrc: getAvatarLink(data.avatar),
     avatarBlobImgSrc: null,
     popupAvatar: {
       ...store.getState().settingsPage.popupAvatar,
-      avatarImgSrc: `${host}/api/v2/resources${data.avatar}`,
+      avatarImgSrc: getAvatarLink(data.avatar),
       changeAvatarButton: {
         ...store.getState().settingsPage.popupAvatar.changeAvatarButton,
         isDisabled: true

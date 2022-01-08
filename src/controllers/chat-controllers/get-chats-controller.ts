@@ -2,7 +2,7 @@ import {Options, ResponseType} from "../../services/http-service";
 import {ErrorResponse} from "../../api/types";
 import {ChatsResponse, GetChatsAPI} from "../../api/chat-api/get-chats-api";
 import {Indexed} from "../../core/types";
-import {isArray} from "../../utils";
+import {getAvatarLink, isArray} from "../../utils";
 import store from "../../store/store";
 import {CHAT_PAGE_EVENT_NAME} from "../../screens/chat/events";
 import {ChatPageProps} from "../../screens/chat/types";
@@ -59,7 +59,7 @@ function prepareDataToStore(chats: ChatsResponse): ChatPageProps {
       textMessage: chat.last_message?.content,
       unreadMessageCount: chat.unread_count,
       avatar: {
-        avatarImgSrc: chat.last_message?.user.avatar || null,
+        avatarImgSrc: getAvatarLink(chat.avatar),
         size: '40px',
       },
       time: getTime(chat.last_message?.time),
