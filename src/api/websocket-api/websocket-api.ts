@@ -19,9 +19,8 @@ export class WebsocketApi {
         successCallback('Соединение закрыто чисто');
       } else {
         errorCallback('Обрыв соединения');
+        console.error(`Код: ${event.code} | Причина: ${event.reason}`);
       }
-      // Событие close будет вызвано, если кто-то или что-то «убило» процесс
-      console.error(`Код: ${event.code} | Причина: ${event.reason}`);
     });
   }
 

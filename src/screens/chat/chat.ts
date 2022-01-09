@@ -9,6 +9,7 @@ import {chatEvents} from "./chat-service";
 import {CHAT_PAGE_EVENT_NAME} from "./events";
 import {mapStateToPropsCallBack} from "../../store/utils";
 import {GetChatsController} from "../../controllers/chat-controllers/get-chats-controller";
+import {webSocketController} from "../../controllers/websocket-controller/websocket-controller";
 
 
 export class ChatPage extends Block<ChatPageProps> {
@@ -29,4 +30,11 @@ export class ChatPage extends Block<ChatPageProps> {
 
 		root?.appendChild(this.getContent());
 	}
+
+  destroy(): void {
+    if (webSocketController.isStarted) {
+      webSocketController.closeConnection();
+    }
+    super.destroy();
+  }
 }
