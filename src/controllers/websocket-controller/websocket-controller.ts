@@ -1,9 +1,6 @@
 import {wssHost} from "../../constants";
-import {
-  LastMessageResponse,
-  MessageResponse,
-  WebsocketApi
-} from "../../api/websocket-api/websocket-api";
+import {WebsocketApi} from "../../api/websocket-api/websocket-api";
+import {CloseCode, LastMessageResponse, MessageResponse} from "../../api/websocket-api/types";
 import {Indexed} from "../../core/types";
 import {isArray} from "../../utils";
 
@@ -16,6 +13,7 @@ class WebsocketController {
   private _socketApi: WebsocketApi;
   private _url: string;
   private _startCallBack: (isOpened: boolean) => void;
+  public isStarted = false;
 
   public start(userId: number, chatId: number, token: string): ReturnedThenFunction {
     this._url = `${wssHost}/ws/chats/${userId}/${chatId}/${token}`;
@@ -35,19 +33,26 @@ class WebsocketController {
 
         this._socketApi.open((success: string) => {
           console.log('wss:// ', success);
-          this._socketApi.ping();
+          this.isStarted = true;
           callback(true);
+          this._socketApi.ping();
         });
       }
     }
   }
 
+  closeConnection(code: CloseCode = CloseCode.Success, reason?: string): void {
+    this._socketApi.closeConnection(code, reason);
+  }
+
   public close(): void {
     this._socketApi.close(
       (successMessage: string) => {
+        this.isStarted = false;
         console.log('wss:// ', successMessage);
       },
       () => {
+        this.isStarted = false;
         this.startConnection().then(this._startCallBack);
       }
     )
@@ -55,6 +60,7 @@ class WebsocketController {
 
   public error(): void {
     this._socketApi.error((event: Event) => {
+      this.isStarted = false;
       console.error('wss:// ', event);
     });
   }
@@ -72,13 +78,13 @@ class WebsocketController {
   }
 
   public getLastMessages(callback: (response: LastMessageResponse[]) => void, count: number = 0): void {
-    this._socketApi.send(count.toString(), 'get old');
-
     this._socketApi.message((response) => {
       if (isLastMessagesResponse(response)) {
         callback(response);
       }
     });
+
+    this._socketApi.send(count.toString(), 'get old');
   }
 }
 

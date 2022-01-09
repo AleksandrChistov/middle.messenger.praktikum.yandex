@@ -98,6 +98,11 @@ class ChatHandleService extends ShowErrorService {
           GetChatTokenController.get(Number(chatCardElement.id)).then((token: string) => {
             UserIdAndAvatarController.getIdAndAvatar()
               .then((user: UserIdAndAvatarRequest) => {
+
+                if (webSocketController.isStarted) {
+                  webSocketController.closeConnection();
+                }
+
                 startChat(user, selectedChat, token);
               })
               .catch(error => {
@@ -391,9 +396,19 @@ function startChat(currentUser: UserIdAndAvatarRequest, selectedChat: ChatCardPr
           })
 
           const getActiveChats = (chats: ChatCardProps[]) => chats.map(chat => {
+            if (chat.id === Number(selectedChat.id)) {
+              return {
+                ...chat,
+                unreadMessageCount: 0,
+                textMessage: updatedLastMessages[0].text,
+                time: updatedLastMessages[0].time,
+                active: true,
+              }
+            }
+
             return {
               ...chat,
-              active: chat.id === Number(selectedChat.id),
+              active: false,
             }
           })
 
@@ -431,7 +446,7 @@ function subscribeToMessage(currentUser: UserIdAndAvatarRequest): void {
     UserInfoByIdController.getInfo(message.user_id).then((response: UserInfoByIdResponse) => {
       const messages = store.getState().chatPage.messages as MessageProps[];
 
-      messages.push({
+      const newMessage = {
         you: currentUser.id === response.id,
         text: message.content,
         avatar: {
@@ -442,12 +457,30 @@ function subscribeToMessage(currentUser: UserIdAndAvatarRequest): void {
           type: TimeType.Card,
           date: new Date(),
         }
-      });
+      }
+
+      messages.push(newMessage);
+
+      const chats = store.getState().chatPage.chats;
+      const selectedChatId = store.getState().chatPage.selectedChat?.id as number;
+
+      const updatedChats = chats.map(chat => {
+        if (chat.id === selectedChatId) {
+          return {
+            ...chat,
+            textMessage: newMessage.text,
+            time: newMessage.time,
+          }
+        }
+
+        return chat;
+      })
 
       store.set(
         getPathFromArray(['chatPage']),
         {
           ...store.getState().chatPage,
+          chats: updatedChats,
           messages: messages,
         },
         getEventName(CHAT_PAGE_EVENT_NAME)
