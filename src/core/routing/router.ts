@@ -1,4 +1,5 @@
 import {Route} from "./route";
+import {BlockInheritor} from "./types";
 
 export class Router {
   private static __instance: Router;
@@ -9,7 +10,7 @@ export class Router {
   private _routes: Route[];
   private _history: History;
 
-  constructor(rootQuery) {
+  constructor(rootQuery: string) {
     if (Router.__instance) {
       return Router.__instance;
     }
@@ -22,13 +23,13 @@ export class Router {
     Router.__instance = this;
   }
 
-  use(pathname, block) {
+  use(pathname: string, block: BlockInheritor) {
     const route = new Route(pathname, block, {rootQuery: this._rootQuery});
     this._routes.push(route);
     return this;
   }
 
-  setFallBack(pathname, block) {
+  setFallBack(pathname: string, block: BlockInheritor) {
     this.use(pathname, block);
     this._fallBackPathName = pathname;
     return this;
@@ -42,7 +43,7 @@ export class Router {
     this._onRoute(window.location.pathname);
   }
 
-  _onRoute(pathname) {
+  _onRoute(pathname: string) {
     const route = this.getRoute(pathname) || this.getRoute(this._fallBackPathName);
 
     if (!route) {
@@ -58,7 +59,7 @@ export class Router {
     route.render();
   }
 
-  go(pathname) {
+  go(pathname: string) {
     this._history.pushState({}, '', pathname);
     this._onRoute(pathname);
   }
@@ -71,7 +72,7 @@ export class Router {
     this._history.forward();
   }
 
-  getRoute(pathname) {
+  getRoute(pathname: string) {
     return this._routes.find(route => route.match(pathname));
   }
 }

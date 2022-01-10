@@ -1,12 +1,7 @@
 import {Block} from "../block";
-import {Props} from "../types";
 import {isEqual} from "../utils/is-equal";
+import {BlockInheritor, RouteProps} from "./types";
 
-type RouteProps = {
-  rootQuery: string;
-}
-
-type BlockInheritor = new (propsObj: Props | undefined, events: Event | undefined, rootId?: string) => InstanceType<typeof Block>;
 
 export class Route {
   private _pathname: string;
@@ -21,7 +16,7 @@ export class Route {
     this._props = props;
   }
 
-  navigate(pathname) {
+  navigate(pathname: string) {
     if (this.match(pathname)) {
       this.render();
     }
@@ -33,7 +28,7 @@ export class Route {
     }
   }
 
-  match(pathname) {
+  match(pathname: string) {
     return isEqual(pathname, this._pathname);
   }
 
