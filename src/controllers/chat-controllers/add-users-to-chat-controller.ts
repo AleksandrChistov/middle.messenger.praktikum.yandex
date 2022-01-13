@@ -6,7 +6,7 @@ import store from "../../store/store";
 import {CHAT_PAGE_EVENT_NAME} from "../../screens/chat/events";
 
 
-type AddUsersToChatFormModel = {
+export type AddUsersToChatFormModel = {
   users: number[];
   chatId: number;
 }

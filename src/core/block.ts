@@ -2,35 +2,14 @@ import {EventBus} from './event-bus';
 import {Events, Props} from './types';
 import {cloneDeep, isDeepEqual} from "../utils";
 import store from "../store/store";
-
-type StoreEvents = StoreEvent[];
-
-type StoreEvent = {
-  eventName: string;
-  callback: (path: string) => void;
-}
-
-type Meta = {
-	tagName: string;
-	props: Props;
-  events: Events;
-  rootId?: string;
-  containerClassName: string;
-};
-
-export enum EventsEnum {
-	INIT = 'init',
-	FLOW_CDM = 'flow:component-did-mount',
-	FLOW_CDU = 'flow:component-did-update',
-	FLOW_RENDER = 'flow:render',
-}
+import {EventsEnum, Meta, StoreEvent} from "./block-types";
 
 export class Block<T> {
 	props: Props;
 	protected eventBus: EventBus;
 	private _element: HTMLElement;
 	protected readonly _meta: Meta;
-	private _storeEvents: StoreEvents = [];
+	private _storeEvents: StoreEvent[] = [];
 
 	constructor(tagName = 'div', containerClassName: string, props: Props = {}, events: Events = {}, rootId?: string) {
 		this.eventBus = new EventBus();

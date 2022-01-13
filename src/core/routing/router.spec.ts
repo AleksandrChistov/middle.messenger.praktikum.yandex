@@ -1,8 +1,8 @@
 import {expect} from "chai";
-import {Router} from "./router";
-import {BlockInheritor} from "./types";
 import {JSDOM} from "jsdom";
 import * as sinon from "sinon";
+import {Router} from "./router";
+import {BlockInheritor} from "./types";
 
 
 describe("Router", () => {
