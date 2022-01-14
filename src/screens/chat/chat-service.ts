@@ -150,20 +150,18 @@ class ChatHandleService extends ShowErrorService {
             getPathFromArray(['chatPage', 'ellipsisMenu']),
             {
               ...store.getState().chatPage.ellipsisMenu,
-              ellipsisMenu: {
-                isOpened: false,
-              },
+              isOpened: false,
             },
             getEventName(CHAT_PAGE_EVENT_NAME, 'ellipsisMenu')
           );
 
-          store.set( // TODO: replace
-            getPathFromArray(['chatPage']),
+          store.set(
+            getPathFromArray(['chatPage', 'popupAddUserToChat']),
             {
-              ...store.getState().chatPage,
-              addUserToChatPopupIsOpened: true,
+              ...store.getState().chatPage.popupAddUserToChat,
+              isOpened: true
             },
-            getEventName(CHAT_PAGE_EVENT_NAME)
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupAddUserToChat')
           );
         },
       },
@@ -205,19 +203,17 @@ class ChatHandleService extends ShowErrorService {
           }
 
           store.set(
-            getPathFromArray(['chatPage']),
+            getPathFromArray(['chatPage', 'popupAddUserToChat']),
             {
-              ...store.getState().chatPage,
-              addUserToChatPopupIsOpened: false,
-              popupAddUserToChat: {
-                searchUserInput: {
-                  ...store.getState().chatPage.popupAddUserToChat.searchUserInput,
-                  value: '',
-                },
-                usersList: [],
-              }
+              ...store.getState().chatPage.popupAddUserToChat,
+              isOpened: false,
+              searchUserInput: {
+                ...store.getState().chatPage.popupAddUserToChat.searchUserInput,
+                value: '',
+              },
+              usersList: [],
             },
-            getEventName(CHAT_PAGE_EVENT_NAME)
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupAddUserToChat')
           );
         },
       },
@@ -244,19 +240,17 @@ class ChatHandleService extends ShowErrorService {
         id: 'closeAddUserPopup',
         fn: () => {
           store.set(
-            getPathFromArray(['chatPage']),
+            getPathFromArray(['chatPage', 'popupAddUserToChat']),
             {
-              ...store.getState().chatPage,
-              addUserToChatPopupIsOpened: false,
-              popupAddUserToChat: {
-                searchUserInput: {
-                  ...store.getState().chatPage.popupAddUserToChat.searchUserInput,
-                  value: '',
-                },
-                usersList: [],
-              }
+              ...store.getState().chatPage.popupAddUserToChat,
+              isOpened: false,
+              searchUserInput: {
+                ...store.getState().chatPage.popupAddUserToChat.searchUserInput,
+                value: '',
+              },
+              usersList: [],
             },
-            getEventName(CHAT_PAGE_EVENT_NAME)
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupAddUserToChat')
           );
         },
       },

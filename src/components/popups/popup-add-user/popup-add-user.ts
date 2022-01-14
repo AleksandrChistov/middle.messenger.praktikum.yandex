@@ -9,6 +9,7 @@ import {FoundUserProps} from "../../found-user/types";
 
 
 export interface PopupAddUserProps extends Props {
+  isOpened: boolean;
   searchUserInput: SearchInputProps;
   usersList: FoundUserProps[] | []
 }

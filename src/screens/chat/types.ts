@@ -18,7 +18,6 @@ export interface ChatPageProps extends Props {
   vertEllipsisImgSrc?: string | null;
   cartImgSrc?: string | null;
   createChatPopupIsOpened: boolean,
-  addUserToChatPopupIsOpened: boolean,
   deleteUserFromChatPopupIsOpened: boolean,
   selectedChat: ChatCardProps | null;
   chats: ChatCardProps[] | [];

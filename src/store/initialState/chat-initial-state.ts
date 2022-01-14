@@ -12,7 +12,6 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
   vertEllipsisImgSrc: vertEllipsisImg as string,
   cartImgSrc: cartImg as string,
   createChatPopupIsOpened: false,
-  addUserToChatPopupIsOpened: false,
   deleteUserFromChatPopupIsOpened: false,
   selectedChat: null,
   chats: [],
@@ -50,6 +49,7 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
     },
   },
   popupAddUserToChat: {
+    isOpened: false,
     searchUserInput: {
       id: 'user_login',
       name: 'user_login',

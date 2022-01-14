@@ -7,7 +7,7 @@ import './ellipsis-menu.scss';
 
 
 export interface EllipsisMenuProps extends Props {
-  isOpened: false;
+  isOpened: boolean;
 }
 
 export class EllipsisMenu extends Block<EllipsisMenuProps> {
