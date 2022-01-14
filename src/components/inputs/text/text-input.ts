@@ -1,5 +1,5 @@
 import {Block} from '../../../core/block';
-import {Props} from '../../../core/types';
+import {Events, Props} from '../../../core/types';
 import {compileTemplateToElement} from '../../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../../store/utils';
 import templatePug from './text-input.pug';
@@ -18,13 +18,13 @@ export interface TextInputProps extends Props {
 }
 
 export class TextInput extends Block<TextInputProps> {
-	constructor(propsObj: TextInputProps, eventName: string) {
-		super('div', 'text-input-block', propsObj);
+	constructor(propsObj: TextInputProps, eventName: string, events?: Events) {
+		super('div', 'text-input-block', propsObj, events);
 
     this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, '');
+		return compileTemplateToElement(templatePug, this.props, '', this._meta.events);
 	}
 }

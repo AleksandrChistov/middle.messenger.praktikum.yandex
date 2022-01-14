@@ -1,5 +1,5 @@
 import {Block} from '../../core/block';
-import {Props} from '../../core/types';
+import {Events, Props} from '../../core/types';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
 import templatePug from './message.pug';
@@ -15,14 +15,14 @@ export interface MessageProps extends Props {
 }
 
 export class Message extends Block<MessageProps> {
-	constructor(propsObj: MessageProps, eventName: string) {
-		super('div', 'message-block', propsObj);
+	constructor(propsObj: MessageProps, eventName: string, events?: Events) {
+		super('div', 'message-block', propsObj, events);
 
     this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, 'message');
+		return compileTemplateToElement(templatePug, this.props, 'message', this._meta.events);
 	}
 
   componentDidMount() {

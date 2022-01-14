@@ -21,6 +21,6 @@ export class PopupAvatar extends Block<PopupAvatarProps> {
   }
 
   render() {
-    return compileTemplateToElement(templatePug, this.props, 'popupAvatar');
+    return compileTemplateToElement(templatePug, this.props, 'popupAvatar', this._meta.events);
   }
 }

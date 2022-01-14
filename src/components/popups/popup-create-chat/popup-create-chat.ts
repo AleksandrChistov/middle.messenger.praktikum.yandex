@@ -23,6 +23,6 @@ export class PopupCreateChat extends Block<PopupCreateChatProps> {
   }
 
   render() {
-    return compileTemplateToElement(templatePug, this.props, 'popupCreateChat');
+    return compileTemplateToElement(templatePug, this.props, 'popupCreateChat', this._meta.events);
   }
 }

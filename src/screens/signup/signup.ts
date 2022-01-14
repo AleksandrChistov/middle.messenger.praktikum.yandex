@@ -15,7 +15,7 @@ export class SignUpPage extends Block<SignUpPageProps> {
   }
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, SIGNUP_PAGE_EVENT_NAME);
+		return compileTemplateToElement(templatePug, this.props, SIGNUP_PAGE_EVENT_NAME, this._meta.events);
 	}
 
 	componentDidMount() {

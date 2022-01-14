@@ -1,5 +1,5 @@
 import {Block} from '../../core/block';
-import {Props} from '../../core/types';
+import {Events, Props} from '../../core/types';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
 import templatePug from './chat-card.pug';
@@ -20,8 +20,8 @@ export interface ChatCardProps extends Props {
 export class ChatCard extends Block<ChatCardProps> {
   readonly eventName: string;
 
-	constructor(propsObj: ChatCardProps, eventName: string) {
-		super('div', 'chat-card-block', propsObj);
+	constructor(propsObj: ChatCardProps, eventName: string, events?: Events) {
+		super('div', 'chat-card-block', propsObj, events);
 
     this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 
@@ -29,6 +29,6 @@ export class ChatCard extends Block<ChatCardProps> {
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, this.eventName);
+		return compileTemplateToElement(templatePug, this.props, this.eventName, this._meta.events);
 	}
 }

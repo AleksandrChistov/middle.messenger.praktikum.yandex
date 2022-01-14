@@ -26,7 +26,7 @@ export class Page500 extends Block<Page500Props> {
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, '');
+		return compileTemplateToElement(templatePug, this.props, '', this._meta.events);
 	}
 
 	componentDidMount() {

@@ -15,7 +15,7 @@ export class SignInPage extends Block<SignInPageProps> {
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, SIGNIN_PAGE_EVENT_NAME);
+		return compileTemplateToElement(templatePug, this.props, SIGNIN_PAGE_EVENT_NAME, this._meta.events);
 	}
 
 	componentDidMount() {

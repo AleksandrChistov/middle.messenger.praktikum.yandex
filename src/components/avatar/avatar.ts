@@ -1,5 +1,5 @@
 import {Block} from '../../core/block';
-import {Props} from '../../core/types';
+import {Events, Props} from '../../core/types';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
 import templatePug from './avatar.pug';
@@ -11,13 +11,13 @@ export interface AvatarProps extends Props {
 }
 
 export class Avatar extends Block<AvatarProps> {
-	constructor(propsObj: AvatarProps, eventName: string) {
-		super('div', 'avatar-block', propsObj);
+	constructor(propsObj: AvatarProps, eventName: string, events?: Events) {
+		super('div', 'avatar-block', propsObj, events);
 
     this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, '');
+		return compileTemplateToElement(templatePug, this.props, '', this._meta.events);
 	}
 }

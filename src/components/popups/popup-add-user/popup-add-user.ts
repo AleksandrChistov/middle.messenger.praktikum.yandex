@@ -21,7 +21,7 @@ export class PopupAddUser extends Block<PopupAddUserProps> {
   }
 
   render() {
-    return compileTemplateToElement(templatePug, this.props, 'popupAddUserToChat');
+    return compileTemplateToElement(templatePug, this.props, 'popupAddUserToChat', this._meta.events);
   }
 
   componentDidMount() {

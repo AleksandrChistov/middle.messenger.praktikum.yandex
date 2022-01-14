@@ -26,7 +26,7 @@ export class Page404 extends Block<Page404Props> {
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, '');
+		return compileTemplateToElement(templatePug, this.props, '', this._meta.events);
 	}
 
 	componentDidMount() {

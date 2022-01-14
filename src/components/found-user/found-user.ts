@@ -4,16 +4,17 @@ import {mapStateToPropsCallBack} from '../../store/utils';
 import templatePug from './found-user.pug';
 import './found-user.scss';
 import {FoundUserProps} from "./types";
+import {Events} from "../../core/types";
 
 
 export class FoundUser extends Block<FoundUserProps> {
-	constructor(propsObj: FoundUserProps, eventName: string) {
-		super('div', 'found-user', propsObj);
+	constructor(propsObj: FoundUserProps, eventName: string, events?: Events) {
+		super('div', 'found-user', propsObj, events);
 
     this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, 'usersList');
+		return compileTemplateToElement(templatePug, this.props, 'usersList', this._meta.events);
 	}
 }

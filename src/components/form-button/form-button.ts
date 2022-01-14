@@ -1,5 +1,5 @@
 import {Block} from '../../core/block';
-import {Props} from '../../core/types';
+import {Events, Props} from '../../core/types';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
 import templatePug from './form-button.pug';
@@ -13,13 +13,13 @@ export interface FormButtonProps extends Props {
 }
 
 export class FormButton extends Block<FormButtonProps> {
-	constructor(propsObj: FormButtonProps, eventName: string) {
-		super('div', 'form-button-block', propsObj);
+	constructor(propsObj: FormButtonProps, eventName: string, events?: Events) {
+		super('div', 'form-button-block', propsObj, events);
 
     this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, '');
+		return compileTemplateToElement(templatePug, this.props, '', this._meta.events);
 	}
 }

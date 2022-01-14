@@ -1,5 +1,5 @@
 import {Block} from '../../../core/block';
-import {Props} from '../../../core/types';
+import {Events, Props} from '../../../core/types';
 import {compileTemplateToElement} from '../../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../../store/utils';
 import templatePug from './password-input.pug';
@@ -19,13 +19,13 @@ export interface PasswordInputProps extends Props {
 }
 
 export class PasswordInput extends Block<PasswordInputProps> {
-	constructor(propsObj: PasswordInputProps, eventName: string) {
-		super('div', 'password-input-block', propsObj);
+	constructor(propsObj: PasswordInputProps, eventName: string, events?: Events) {
+		super('div', 'password-input-block', propsObj, events);
 
     this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, '');
+		return compileTemplateToElement(templatePug, this.props, '', this._meta.events);
 	}
 }

@@ -22,7 +22,7 @@ export class SettingsPage extends Block<SettingsPageProps> {
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, SETTINGS_PAGE_EVENT_NAME);
+		return compileTemplateToElement(templatePug, this.props, SETTINGS_PAGE_EVENT_NAME, this._meta.events);
 	}
 
 	componentDidMount() {

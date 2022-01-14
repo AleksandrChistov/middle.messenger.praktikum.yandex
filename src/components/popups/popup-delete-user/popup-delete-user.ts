@@ -19,6 +19,6 @@ export class PopupDeleteUser extends Block<PopupDeleteUserProps> {
   }
 
   render() {
-    return compileTemplateToElement(templatePug, this.props, 'popupDeleteUserFromChat');
+    return compileTemplateToElement(templatePug, this.props, 'popupDeleteUserFromChat', this._meta.events);
   }
 }

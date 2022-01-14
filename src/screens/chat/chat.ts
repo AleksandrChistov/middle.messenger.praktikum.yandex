@@ -22,7 +22,7 @@ export class ChatPage extends Block<ChatPageProps> {
   }
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, CHAT_PAGE_EVENT_NAME);
+		return compileTemplateToElement(templatePug, this.props, CHAT_PAGE_EVENT_NAME, this._meta.events);
 	}
 
 	componentDidMount() {

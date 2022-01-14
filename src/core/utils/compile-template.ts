@@ -1,6 +1,6 @@
 import {Block} from "../block";
 import {REGISTERED_COMPONENTS} from "../registered-components";
-import {Props} from "../types";
+import {Events, Props} from "../types";
 import {isArray} from "../../utils";
 import {set} from "./set-values-to-object";
 import {getEventName} from "./get-event-name";
@@ -11,6 +11,7 @@ export function compileTemplateToElement(
   templatePugFn: (locals: Props) => string,
   props: Props,
   pageEventName: string,
+  events: Events
 ): DocumentFragment {
   const parser = new DOMParser();
   const template: string = templatePugFn(props);
@@ -46,7 +47,7 @@ export function compileTemplateToElement(
         if (isArray(data)) {
           const childComponents = Object.values(data)
             .map((value: Props) => {
-              const component = getComponent(componentName, pageEventName, dataName, value);
+              const component = getComponent(componentName, pageEventName, dataName, value, events);
 
               set(componentsState, path, component);
 
@@ -55,7 +56,7 @@ export function compileTemplateToElement(
 
           setAttributes(element, childComponents);
         } else {
-          const childComponent = getComponent(componentName, pageEventName, dataName, data);
+          const childComponent = getComponent(componentName, pageEventName, dataName, data, events);
 
           set(componentsState, path, childComponent);
 
@@ -76,8 +77,8 @@ export function compileTemplateToElement(
   return fragment;
 }
 
-function getComponentInstance(componentName: string, props: unknown, eventName: string): InstanceType<typeof Block> {
-  return new REGISTERED_COMPONENTS[componentName](props, eventName);
+function getComponentInstance(componentName: string, props: unknown, eventName: string, events: Events): InstanceType<typeof Block> {
+  return new REGISTERED_COMPONENTS[componentName](props, eventName, events);
 }
 
 function setAttributes(childElementTag: Element, childComponents: InstanceType<typeof Block>[]): void {
@@ -103,14 +104,14 @@ function setAttributes(childElementTag: Element, childComponents: InstanceType<t
   childElementTag.replaceWith(...childElements);
 }
 
-function getComponent(componentName: string, pageEventName: string, dataName: string, value: Props): InstanceType<typeof Block> {
+function getComponent(componentName: string, pageEventName: string, dataName: string, props: Props, events: Events): InstanceType<typeof Block> {
   let component = getValueFromObjectByPath(componentsState, getPathFromArray([pageEventName, dataName]));
 
   if (component) {
     component.destroy();
   }
 
-  return getComponentInstance(componentName, value, getEventName(pageEventName, dataName));
+  return getComponentInstance(componentName, props, getEventName(pageEventName, dataName), events);
 }
 
 function getValueFromObjectByPath(state: ComponentState, path: string): InstanceType<typeof Block> | undefined {
