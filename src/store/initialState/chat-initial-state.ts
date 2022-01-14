@@ -55,10 +55,14 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
       placeholder: 'Search by user login',
       autofocusOn: true
     },
-    usersList: []
+    usersList: {
+      users: []
+    }
   },
   popupDeleteUserFromChat: {
     isOpened: false,
-    usersList: []
+    usersList: {
+      users: []
+    }
   },
 }

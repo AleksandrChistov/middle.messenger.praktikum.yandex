@@ -15,6 +15,6 @@ export class FoundUser extends Block<FoundUserProps> {
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props, 'usersList', this._meta.events);
+		return compileTemplateToElement(templatePug, this.props, 'foundUser', this._meta.events);
 	}
 }

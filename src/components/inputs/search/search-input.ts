@@ -14,6 +14,7 @@ export interface SearchInputProps extends Props {
 	inputClass?: string;
 	placeholder?: string;
   autofocusOn?: boolean;
+  autocomplete?: boolean
   value?: string;
 }
 

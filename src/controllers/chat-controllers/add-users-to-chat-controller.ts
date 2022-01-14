@@ -2,10 +2,9 @@ import {Options, ResponseType} from "../../services/http-service";
 import {ErrorResponse} from "../../api/types";
 import {AddUsersToChatAPI} from "../../api/chat-api/add-users-api";
 import store from "../../store/store";
-import {CHAT_PAGE_EVENT_NAME} from "../../screens/chat/events";
 import {getPathFromArray} from "../../core/utils/get-path-from-array";
 import {getEventName} from "../../core/utils/get-event-name";
-import {PopupAddUserProps} from "../../components/popups/popup-add-user/popup-add-user";
+import {UsersListProps} from "../../components/found-users/users-list";
 
 
 export type AddUsersToChatFormModel = {
@@ -27,9 +26,9 @@ export class AddUsersToChatController {
           }
 
           store.set(
-            getPathFromArray(['chatPage', 'popupAddUserToChat']),
+            getPathFromArray(['popupAddUserToChat', 'usersList']),
             prepareDataToStore(data.users),
-            getEventName(CHAT_PAGE_EVENT_NAME, 'popupAddUserToChat')
+            getEventName('popupAddUserToChat', 'usersList')
           );
         })
         .catch((error) => {
@@ -54,7 +53,7 @@ function prepareDataToRequest(data: AddUsersToChatFormModel): Options {
   }
 }
 
-function prepareDataToStore(usersIds: number[]): PopupAddUserProps {
+function prepareDataToStore(usersIds: number[]): UsersListProps {
   const state = store.getState();
 
   const getUsersWithDisabledPlusButton = (usersList) => {
@@ -71,7 +70,7 @@ function prepareDataToStore(usersIds: number[]): PopupAddUserProps {
   }
 
   return {
-    ...state.chatPage.popupAddUserToChat,
-    usersList: getUsersWithDisabledPlusButton(state.chatPage.popupAddUserToChat.usersList),
+    ...state.chatPage.popupAddUserToChat.usersList,
+    users: getUsersWithDisabledPlusButton(state.chatPage.popupAddUserToChat.usersList.users),
   }
 }

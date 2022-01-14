@@ -1,11 +1,10 @@
 import {Options, ResponseType} from "../../services/http-service";
 import {ErrorResponse} from "../../api/types";
 import store from "../../store/store";
-import {CHAT_PAGE_EVENT_NAME} from "../../screens/chat/events";
 import {DeleteUsersFromChatAPI} from "../../api/chat-api/delete-users-api";
 import {getPathFromArray} from "../../core/utils/get-path-from-array";
 import {getEventName} from "../../core/utils/get-event-name";
-import {PopupDeleteUserProps} from "../../components/popups/popup-delete-user/popup-delete-user";
+import {UsersListProps} from "../../components/found-users/users-list";
 
 
 type DeleteUsersFromChatFormModel = {
@@ -27,9 +26,9 @@ export class DeleteUsersFromChatController {
           }
 
           store.set(
-            getPathFromArray(['chatPage', 'popupDeleteUserFromChat']),
+            getPathFromArray(['popupDeleteUserFromChat', 'usersList']),
             prepareDataToStore(data.users),
-            getEventName(CHAT_PAGE_EVENT_NAME, 'popupDeleteUserFromChat')
+            getEventName('popupDeleteUserFromChat', 'usersList')
           );
         })
         .catch((error) => {
@@ -54,7 +53,7 @@ function prepareDataToRequest(data: DeleteUsersFromChatFormModel): Options {
   }
 }
 
-function prepareDataToStore(usersIds: number[]): PopupDeleteUserProps {
+function prepareDataToStore(usersIds: number[]): UsersListProps {
   const state = store.getState();
 
   const deleteUsersFromList = (usersList) => {
@@ -62,7 +61,7 @@ function prepareDataToStore(usersIds: number[]): PopupDeleteUserProps {
   }
 
   return {
-    ...state.chatPage.popupDeleteUserFromChat,
-    usersList: deleteUsersFromList(state.chatPage.popupDeleteUserFromChat.usersList),
+    ...state.chatPage.popupDeleteUserFromChat.usersList,
+    users: deleteUsersFromList(state.chatPage.popupDeleteUserFromChat.usersList.users),
   }
 }

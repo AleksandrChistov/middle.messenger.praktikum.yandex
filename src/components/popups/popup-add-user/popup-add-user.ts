@@ -5,13 +5,13 @@ import {compileTemplateToElement} from "../../../core/utils/compile-template";
 import templatePug from "./popup-add-user.pug";
 import './popup-add-user.scss';
 import {SearchInputProps} from "../../inputs/search/search-input";
-import {FoundUserProps} from "../../found-user/types";
+import {UsersListProps} from "../../found-users/users-list";
 
 
 export interface PopupAddUserProps extends Props {
   isOpened: boolean;
   searchUserInput: SearchInputProps;
-  usersList: FoundUserProps[] | []
+  usersList: UsersListProps
 }
 
 export class PopupAddUser extends Block<PopupAddUserProps> {
@@ -23,25 +23,5 @@ export class PopupAddUser extends Block<PopupAddUserProps> {
 
   render() {
     return compileTemplateToElement(templatePug, this.props, 'popupAddUserToChat', this._meta.events);
-  }
-
-  componentDidMount() {
-    setTimeout(() => setFocusToElement(this.element, this.props as PopupAddUserProps), 0);
-  }
-}
-
-function setFocusToElement(element: HTMLElement, props: PopupAddUserProps): void {
-  const searchElement = element.querySelector('.input-container__search-field') as HTMLInputElement;
-
-  if (!searchElement) {
-    return;
-  }
-
-  if (props.searchUserInput.autofocusOn) {
-    const textLength = searchElement.value.length;
-
-    searchElement.focus();
-
-    searchElement.setSelectionRange(textLength, textLength);
   }
 }

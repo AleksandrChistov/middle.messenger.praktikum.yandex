@@ -22,7 +22,6 @@ import {MessageProps} from "../../components/message/message";
 import {UserInfoByIdController} from "../../controllers/user-profile-controller/get-user-info-by-id-controller";
 import {UserInfoByIdResponse} from "../../api/user-profile-api/get-user-info-by-id-api";
 import {webSocketController} from "../../controllers/websocket-controller/websocket-controller";
-import {FoundUserProps} from "../../components/found-user/types";
 
 
 class ChatHandleService extends ShowErrorService {
@@ -205,11 +204,9 @@ class ChatHandleService extends ShowErrorService {
             {
               ...store.getState().chatPage.popupAddUserToChat,
               isOpened: false,
-              searchUserInput: {
-                ...store.getState().chatPage.popupAddUserToChat.searchUserInput,
-                value: '',
+              usersList: {
+                users: []
               },
-              usersList: [],
             },
             getEventName(CHAT_PAGE_EVENT_NAME, 'popupAddUserToChat')
           );
@@ -246,7 +243,9 @@ class ChatHandleService extends ShowErrorService {
                 ...store.getState().chatPage.popupAddUserToChat.searchUserInput,
                 value: '',
               },
-              usersList: [],
+              usersList: {
+                users: []
+              },
             },
             getEventName(CHAT_PAGE_EVENT_NAME, 'popupAddUserToChat')
           );
@@ -386,7 +385,7 @@ function startChat(currentUser: UserIdAndAvatarRequest, selectedChat: ChatCardPr
             return;
           }
 
-          const users = store.getState().chatPage.popupDeleteUserFromChat.usersList as FoundUserProps[];
+          const users = store.getState().chatPage.popupDeleteUserFromChat.usersList.users;
 
           const getAvatarFromSavedUsers = (userId: number) => {
             return users.find((user) => user.id === userId)?.avatar.avatarImgSrc ?? null;
