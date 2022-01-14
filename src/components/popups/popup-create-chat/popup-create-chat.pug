@@ -1,12 +1,13 @@
-form(class="form-create-chat" id="formCreateChat")
-  label(
-    class="form-create-chat__img"
-    for="chatAvatar"
-    style=`background-image: url(${chatAvatarSrc ? chatAvatarSrc : defaultChatAvatarSrc})`
+div(id="popupCreateChat" class=`popup-create-chat-background${isOpened ? "" : " hidden"}`)
+  form(class="form-create-chat" id="formCreateChat")
+    label(
+      class="form-create-chat__img"
+      for="chatAvatar"
+      style=`background-image: url(${chatAvatarSrc ? chatAvatarSrc : defaultChatAvatarSrc})`
     )
-    input(class="form-create-chat__input" id="chatAvatar" name="chat_avatar" type="file" accept="image/png, image/jpeg")
-    span(class="form-create-chat__text")="Upload avatar"
-  TextInputComponent(data="nameChatInput")
-  FormButtonComponent(data="createChatButton")
-  button(type="button" id="closeCreateChatPopup" class="form-create-chat__cross-icon")
-    include ../../../../static/assets/icons/cross.svg
+      input(class="form-create-chat__input" id="chatAvatar" name="chat_avatar" type="file" accept="image/png, image/jpeg")
+      span(class="form-create-chat__text")="Upload avatar"
+    TextInputComponent(data="nameChatInput")
+    FormButtonComponent(data="createChatButton")
+    button(type="button" id="closeCreateChatPopup" class="form-create-chat__cross-icon")
+      include ../../../../static/assets/icons/cross.svg

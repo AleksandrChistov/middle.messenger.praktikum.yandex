@@ -70,7 +70,10 @@ function prepareDataToStore(chats: ChatsResponse): ChatPageProps {
 
   return {
     ...state.chatPage,
-    createChatPopupIsOpened: false,
+    popupCreateChat: {
+      ...state.chatPage.popupCreateChat,
+      isOpened: false,
+    },
     chats: chatCards,
   }
 }

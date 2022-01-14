@@ -41,31 +41,31 @@ class ChatHandleService extends ShowErrorService {
           event.preventDefault();
 
           store.set(
-            getPathFromArray(['chatPage']),
+            getPathFromArray(['chatPage', 'popupCreateChat']),
             {
-              ...store.getState().chatPage,
-              createChatPopupIsOpened: true,
+              ...store.getState().chatPage.popupCreateChat,
+              isOpened: true,
             },
-            getEventName(CHAT_PAGE_EVENT_NAME)
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupCreateChat')
           );
         },
       },
       {
         id: 'popupCreateChat',
         fn: event => {
-          const closePopup = (event.target as HTMLElement).getAttribute('data') === 'popupCreateChat';
+          const backgroundPopup = (event.target as HTMLElement).getAttribute('id');
 
-          if (!closePopup) {
+          if (backgroundPopup !== 'popupCreateChat') {
             return;
           }
 
           store.set(
-            getPathFromArray(['chatPage']),
+            getPathFromArray(['chatPage', 'popupCreateChat']),
             {
-              ...store.getState().chatPage,
-              createChatPopupIsOpened: false,
+              ...store.getState().chatPage.popupCreateChat,
+              isOpened: false,
             },
-            getEventName(CHAT_PAGE_EVENT_NAME)
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupCreateChat')
           );
         },
       },
@@ -73,12 +73,12 @@ class ChatHandleService extends ShowErrorService {
         id: 'closeCreateChatPopup',
         fn: () => {
           store.set(
-            getPathFromArray(['chatPage']),
+            getPathFromArray(['chatPage', 'popupCreateChat']),
             {
-              ...store.getState().chatPage,
-              createChatPopupIsOpened: false,
+              ...store.getState().chatPage.popupCreateChat,
+              isOpened: false,
             },
-            getEventName(CHAT_PAGE_EVENT_NAME)
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupCreateChat')
           );
         },
       },
