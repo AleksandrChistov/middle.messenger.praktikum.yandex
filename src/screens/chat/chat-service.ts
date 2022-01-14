@@ -22,6 +22,7 @@ import {MessageProps} from "../../components/message/message";
 import {UserInfoByIdController} from "../../controllers/user-profile-controller/get-user-info-by-id-controller";
 import {UserInfoByIdResponse} from "../../api/user-profile-api/get-user-info-by-id-api";
 import {webSocketController} from "../../controllers/websocket-controller/websocket-controller";
+import {FoundUserProps} from "../../components/found-user/types";
 
 
 class ChatHandleService extends ShowErrorService {
@@ -90,9 +91,9 @@ class ChatHandleService extends ShowErrorService {
             return;
           }
 
-          const chats = store.getState().chatPage.chats;
+          const chats = store.getState().chatPage.chatsList.chats;
 
-          const selectedChat = chats.find(chat => chat.id === Number(chatCardElement.id)) as ChatCardProps;
+          const selectedChat = chats.find((chat: ChatCardProps) => chat.id === Number(chatCardElement.id));
 
           GetChatTokenController.get(Number(chatCardElement.id)).then((token: string) => {
             UserIdAndAvatarController.getIdAndAvatar()
@@ -388,7 +389,7 @@ function startChat(currentUser: UserIdAndAvatarRequest, selectedChat: ChatCardPr
           const users = store.getState().chatPage.popupDeleteUserFromChat.usersList.users;
 
           const getAvatarFromSavedUsers = (userId: number) => {
-            return users.find((user) => user.id === userId)?.avatar.avatarImgSrc ?? null;
+            return users.find((user: FoundUserProps) => user.id === userId)?.avatar.avatarImgSrc ?? null;
           }
 
           const updatedLastMessages = lastMessages.map((lastMessage) => {
@@ -423,7 +424,7 @@ function startChat(currentUser: UserIdAndAvatarRequest, selectedChat: ChatCardPr
             }
           })
 
-          const chats = store.getState().chatPage.chats;
+          const chats = store.getState().chatPage.chatsList.chats;
 
           store.set(
             getPathFromArray(['chatPage']),
@@ -472,7 +473,7 @@ function subscribeToMessage(currentUser: UserIdAndAvatarRequest): void {
 
       messages.push(newMessage);
 
-      const chats = store.getState().chatPage.chats;
+      const chats = store.getState().chatPage.chatsList.chats;
       const selectedChatId = store.getState().chatPage.selectedChat?.id as number;
 
       const updatedChats = chats.map(chat => {
@@ -488,10 +489,18 @@ function subscribeToMessage(currentUser: UserIdAndAvatarRequest): void {
       })
 
       store.set(
+        getPathFromArray(['chatPage', 'chatsList']),
+        {
+          ...store.getState().chatPage.chatsList,
+          chats: updatedChats,
+        },
+        getEventName(CHAT_PAGE_EVENT_NAME, 'chatsList')
+      );
+
+      store.set( // TODO replace messages
         getPathFromArray(['chatPage']),
         {
           ...store.getState().chatPage,
-          chats: updatedChats,
           messages: messages,
         },
         getEventName(CHAT_PAGE_EVENT_NAME)

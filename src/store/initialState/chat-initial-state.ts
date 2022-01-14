@@ -12,7 +12,9 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
   vertEllipsisImgSrc: vertEllipsisImg as string,
   cartImgSrc: cartImg as string,
   selectedChat: null,
-  chats: [],
+  chatsList: {
+    chats: []
+  },
   error: {
     addClass: '',
     textError: '',

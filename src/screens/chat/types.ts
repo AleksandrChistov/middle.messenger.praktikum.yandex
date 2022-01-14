@@ -10,6 +10,7 @@ import {TimeProps} from "../../components/time/types";
 import {EllipsisMenuProps} from "../../components/menus/ellipsis-menu/ellipsis-menu";
 import {PopupAddUserProps} from "../../components/popups/popup-add-user/popup-add-user";
 import {PopupDeleteUserProps} from "../../components/popups/popup-delete-user/popup-delete-user";
+import {ChatsListProps} from "../../components/chat-list/chats-list";
 
 export interface ChatPageProps extends Props {
   chatName?: string | null;
@@ -18,7 +19,7 @@ export interface ChatPageProps extends Props {
   vertEllipsisImgSrc?: string | null;
   cartImgSrc?: string | null;
   selectedChat: ChatCardProps | null;
-  chats: ChatCardProps[] | [];
+  chatsList: ChatsListProps;
   error?: ErrorMessageProps,
   search?: SearchInputProps,
   chatAvatar?: AvatarProps,

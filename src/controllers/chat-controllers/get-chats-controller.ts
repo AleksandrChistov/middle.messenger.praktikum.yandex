@@ -5,8 +5,10 @@ import {Indexed} from "../../core/types";
 import {getAvatarLink, isArray} from "../../utils";
 import store from "../../store/store";
 import {CHAT_PAGE_EVENT_NAME} from "../../screens/chat/events";
-import {ChatPageProps} from "../../screens/chat/types";
 import {TimeProps, TimeType} from "../../components/time/types";
+import {getPathFromArray} from "../../core/utils/get-path-from-array";
+import {getEventName} from "../../core/utils/get-event-name";
+import {ChatsListProps} from "../../components/chat-list/chats-list";
 
 
 const getChatsAPI = new GetChatsAPI();
@@ -22,7 +24,20 @@ export class GetChatsController {
             throw new Error(response.reason);
           }
 
-          store.set('chatPage', prepareDataToStore(response), CHAT_PAGE_EVENT_NAME);
+          store.set(
+            getPathFromArray(['chatPage', 'popupCreateChat']),
+            {
+              ...store.getState().chatPage.popupCreateChat,
+              isOpened: false,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupCreateChat')
+          );
+
+          store.set(
+            getPathFromArray(['chatPage', 'chatsList']),
+            prepareDataToStore(response),
+            getEventName(CHAT_PAGE_EVENT_NAME, 'chatsList')
+          );
         })
         .catch((error) => {
           console.error(error);
@@ -50,7 +65,7 @@ function getOptions(): Options {
   }
 }
 
-function prepareDataToStore(chats: ChatsResponse): ChatPageProps {
+function prepareDataToStore(chats: ChatsResponse): ChatsListProps {
   const state = store.getState();
 
   const chatCards = chats.map(chat => {
@@ -69,11 +84,7 @@ function prepareDataToStore(chats: ChatsResponse): ChatPageProps {
   })
 
   return {
-    ...state.chatPage,
-    popupCreateChat: {
-      ...state.chatPage.popupCreateChat,
-      isOpened: false,
-    },
+    ...state.chatPage.chatsList,
     chats: chatCards,
   }
 }

@@ -5,6 +5,8 @@ import {DeleteUsersFromChatAPI} from "../../api/chat-api/delete-users-api";
 import {getPathFromArray} from "../../core/utils/get-path-from-array";
 import {getEventName} from "../../core/utils/get-event-name";
 import {UsersListProps} from "../../components/found-users/users-list";
+import {GetChatsController} from "./get-chats-controller";
+import {FoundUserProps} from "../../components/found-user/types";
 
 
 type DeleteUsersFromChatFormModel = {
@@ -56,8 +58,14 @@ function prepareDataToRequest(data: DeleteUsersFromChatFormModel): Options {
 function prepareDataToStore(usersIds: number[]): UsersListProps {
   const state = store.getState();
 
-  const deleteUsersFromList = (usersList) => {
-    return usersList.filter(user => !usersIds.includes(user.id))
+  const deleteUsersFromList = (usersList: FoundUserProps[]) => {
+    const newUsersList = usersList.filter(user => !usersIds.includes(user.id))
+
+    if (!newUsersList.length) {
+      GetChatsController.get();
+    }
+
+    return newUsersList;
   }
 
   return {

@@ -1,4 +1,5 @@
 import {ChatCard} from "../components/chat-card/chat-card";
+import {ChatsList} from "../components/chat-list/chats-list";
 import {SearchInput} from "../components/inputs/search/search-input";
 import {Avatar} from "../components/avatar/avatar";
 import {Time} from "../components/time/time";
@@ -26,6 +27,7 @@ export const REGISTERED_COMPONENTS = {
   FormButtonComponent: FormButton,
   ErrorMessageComponent: ErrorMessage,
   ChatCardComponent: ChatCard,
+  ChatsListComponent: ChatsList,
   AvatarComponent: Avatar,
   TimeComponent: Time,
   MessageComponent: Message,
