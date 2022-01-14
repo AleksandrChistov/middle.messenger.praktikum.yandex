@@ -8,6 +8,7 @@ import './popup-delete-user.scss';
 
 
 export interface PopupDeleteUserProps extends Props {
+  isOpened: boolean;
   usersList: FoundUserProps[] | []
 }
 

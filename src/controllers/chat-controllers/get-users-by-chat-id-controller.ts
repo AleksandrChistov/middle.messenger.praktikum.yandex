@@ -4,9 +4,11 @@ import {Indexed} from "../../core/types";
 import {getAvatarLink, isArray} from "../../utils";
 import store from "../../store/store";
 import {CHAT_PAGE_EVENT_NAME} from "../../screens/chat/events";
-import {ChatPageProps} from "../../screens/chat/types";
 import {GetUsersByChatIdAPI, UsersResponse} from "../../api/chat-api/get-users-by-chat-id-api";
 import {UserActionIcon} from "../../components/found-user/types";
+import {getPathFromArray} from "../../core/utils/get-path-from-array";
+import {getEventName} from "../../core/utils/get-event-name";
+import {PopupDeleteUserProps} from "../../components/popups/popup-delete-user/popup-delete-user";
 
 
 const getUsersByChatIdAPI = new GetUsersByChatIdAPI();
@@ -22,7 +24,11 @@ export class GetUsersByChatIdController {
             throw new Error(response.reason);
           }
 
-          store.set('chatPage', prepareDataToStore(response), CHAT_PAGE_EVENT_NAME);
+          store.set(
+            getPathFromArray(['chatPage', 'popupDeleteUserFromChat']),
+            prepareDataToStore(response),
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupDeleteUserFromChat')
+          );
         })
         .catch((error) => {
           console.error(error);
@@ -50,7 +56,7 @@ function getOptions(): Options {
   }
 }
 
-function prepareDataToStore(usersInChat: UsersResponse): ChatPageProps {
+function prepareDataToStore(usersInChat: UsersResponse): PopupDeleteUserProps {
   const state = store.getState();
 
   const users = usersInChat.map(user => {
@@ -66,10 +72,7 @@ function prepareDataToStore(usersInChat: UsersResponse): ChatPageProps {
   })
 
   return {
-    ...state.chatPage,
-    popupDeleteUserFromChat: {
-      ...state.chatPage.popupDeleteUserFromChat,
-      usersList: users
-    }
+    ...state.chatPage.popupDeleteUserFromChat,
+    usersList: users
   }
 }

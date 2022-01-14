@@ -11,7 +11,6 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
   settingsImgSrc: settingsImg as string,
   vertEllipsisImgSrc: vertEllipsisImg as string,
   cartImgSrc: cartImg as string,
-  deleteUserFromChatPopupIsOpened: false,
   selectedChat: null,
   chats: [],
   error: {
@@ -59,6 +58,7 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
     usersList: []
   },
   popupDeleteUserFromChat: {
+    isOpened: false,
     usersList: []
   },
 }

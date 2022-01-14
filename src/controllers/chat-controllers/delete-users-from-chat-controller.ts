@@ -1,9 +1,11 @@
 import {Options, ResponseType} from "../../services/http-service";
 import {ErrorResponse} from "../../api/types";
-import {ChatPageProps} from "../../screens/chat/types";
 import store from "../../store/store";
 import {CHAT_PAGE_EVENT_NAME} from "../../screens/chat/events";
 import {DeleteUsersFromChatAPI} from "../../api/chat-api/delete-users-api";
+import {getPathFromArray} from "../../core/utils/get-path-from-array";
+import {getEventName} from "../../core/utils/get-event-name";
+import {PopupDeleteUserProps} from "../../components/popups/popup-delete-user/popup-delete-user";
 
 
 type DeleteUsersFromChatFormModel = {
@@ -24,7 +26,11 @@ export class DeleteUsersFromChatController {
             throw new Error(response.reason);
           }
 
-          store.set('chatPage', prepareDataToStore(data.users), CHAT_PAGE_EVENT_NAME);
+          store.set(
+            getPathFromArray(['chatPage', 'popupDeleteUserFromChat']),
+            prepareDataToStore(data.users),
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupDeleteUserFromChat')
+          );
         })
         .catch((error) => {
           console.error(error, data);
@@ -48,7 +54,7 @@ function prepareDataToRequest(data: DeleteUsersFromChatFormModel): Options {
   }
 }
 
-function prepareDataToStore(usersIds: number[]): ChatPageProps {
+function prepareDataToStore(usersIds: number[]): PopupDeleteUserProps {
   const state = store.getState();
 
   const deleteUsersFromList = (usersList) => {
@@ -56,10 +62,7 @@ function prepareDataToStore(usersIds: number[]): ChatPageProps {
   }
 
   return {
-    ...state.chatPage,
-    popupDeleteUserFromChat: {
-      ...state.chatPage.popupDeleteUserFromChat,
-      usersList: deleteUsersFromList(state.chatPage.popupDeleteUserFromChat.usersList),
-    }
+    ...state.chatPage.popupDeleteUserFromChat,
+    usersList: deleteUsersFromList(state.chatPage.popupDeleteUserFromChat.usersList),
   }
 }

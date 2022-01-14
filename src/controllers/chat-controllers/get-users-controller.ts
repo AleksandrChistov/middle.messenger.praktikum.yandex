@@ -4,11 +4,11 @@ import {Indexed} from "../../core/types";
 import {getAvatarLink, isArray} from "../../utils";
 import store from "../../store/store";
 import {CHAT_PAGE_EVENT_NAME} from "../../screens/chat/events";
-import {ChatPageProps} from "../../screens/chat/types";
 import {GetUsersAPI, UsersResponse} from "../../api/chat-api/get-user-api";
 import {UserActionIcon} from "../../components/found-user/types";
 import {getPathFromArray} from "../../core/utils/get-path-from-array";
 import {getEventName} from "../../core/utils/get-event-name";
+import {PopupAddUserProps} from "../../components/popups/popup-add-user/popup-add-user";
 
 
 type UserLoginFormModel = {
@@ -29,9 +29,9 @@ export class GetUsersController {
           }
 
           store.set(
-            getPathFromArray(['chatPage']),
+            getPathFromArray(['chatPage', 'popupAddUserToChat']),
             prepareDataToStore(response, data.login),
-            getEventName(CHAT_PAGE_EVENT_NAME),
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupAddUserToChat')
           );
         })
         .catch((error) => {
@@ -64,7 +64,7 @@ function prepareDataToRequest(data: UserLoginFormModel): Options {
   }
 }
 
-function prepareDataToStore(foundUsers: UsersResponse, searchText: string): ChatPageProps {
+function prepareDataToStore(foundUsers: UsersResponse, searchText: string): PopupAddUserProps {
   const state = store.getState();
 
   const users = foundUsers.map(user => {
@@ -80,14 +80,11 @@ function prepareDataToStore(foundUsers: UsersResponse, searchText: string): Chat
   })
 
   return {
-    ...state.chatPage,
-    popupAddUserToChat: {
-      ...state.chatPage.popupAddUserToChat,
-      searchUserInput: {
-        ...state.chatPage.popupAddUserToChat.searchUserInput,
-        value: searchText,
-      },
-      usersList: users
-    }
+    ...state.chatPage.popupAddUserToChat,
+    searchUserInput: {
+      ...state.chatPage.popupAddUserToChat.searchUserInput,
+      value: searchText,
+    },
+    usersList: users
   }
 }

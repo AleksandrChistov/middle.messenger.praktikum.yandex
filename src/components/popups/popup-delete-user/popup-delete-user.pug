@@ -1,8 +1,9 @@
-div(class="popup-delete-user-form")
-  section(class="users-list" id="deleteUserFromChat")
-    if usersList.length
-      FoundUserComponent(data="usersList")
-    else
-      span(class="popup-delete-user-form__empty-text")='There are no users in the chat'
-  button(type="button" id="closeDeleteUserPopup" class="popup-delete-user-form__cross-icon")
-    include ../../../../static/assets/icons/cross.svg
+div(id="closePopupDeleteUserFromChat" class=`popup-delete-user-background${isOpened ? "" : " hidden"}`)
+  section(class="popup-delete-user-form")
+    section(class="users-list" id="deleteUserFromChat")
+      if usersList.length
+        FoundUserComponent(data="usersList")
+      else
+        span(class="popup-delete-user-form__empty-text")='There are no users in the chat'
+    button(type="button" id="closeDeleteUserPopup" class="popup-delete-user-form__cross-icon")
+      include ../../../../static/assets/icons/cross.svg

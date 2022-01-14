@@ -172,20 +172,18 @@ class ChatHandleService extends ShowErrorService {
             getPathFromArray(['chatPage', 'ellipsisMenu']),
             {
               ...store.getState().chatPage.ellipsisMenu,
-              ellipsisMenu: {
-                isOpened: false,
-              },
+              isOpened: false,
             },
             getEventName(CHAT_PAGE_EVENT_NAME, 'ellipsisMenu')
           );
 
-          store.set( // TODO: replace
-            getPathFromArray(['chatPage']),
+          store.set(
+            getPathFromArray(['chatPage', 'popupDeleteUserFromChat']),
             {
-              ...store.getState().chatPage,
-              deleteUserFromChatPopupIsOpened: true,
+              ...store.getState().chatPage.popupDeleteUserFromChat,
+              isOpened: true,
             },
-            getEventName(CHAT_PAGE_EVENT_NAME)
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupDeleteUserFromChat')
           );
 
           const selectedChatId = store.getState().chatPage.selectedChat?.id as number;
@@ -227,12 +225,12 @@ class ChatHandleService extends ShowErrorService {
           }
 
           store.set(
-            getPathFromArray(['chatPage']),
+            getPathFromArray(['chatPage', 'popupDeleteUserFromChat']),
             {
-              ...store.getState().chatPage,
-              deleteUserFromChatPopupIsOpened: false,
+              ...store.getState().chatPage.popupDeleteUserFromChat,
+              isOpened: false,
             },
-            getEventName(CHAT_PAGE_EVENT_NAME)
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupDeleteUserFromChat')
           );
         },
       },
@@ -258,12 +256,12 @@ class ChatHandleService extends ShowErrorService {
         id: 'closeDeleteUserPopup',
         fn: () => {
           store.set(
-            getPathFromArray(['chatPage']),
+            getPathFromArray(['chatPage', 'popupDeleteUserFromChat']),
             {
-              ...store.getState().chatPage,
-              deleteUserFromChatPopupIsOpened: false,
+              ...store.getState().chatPage.popupDeleteUserFromChat,
+              isOpened: false,
             },
-            getEventName(CHAT_PAGE_EVENT_NAME)
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupDeleteUserFromChat')
           );
         },
       },
@@ -414,8 +412,8 @@ function startChat(currentUser: UserIdAndAvatarRequest, selectedChat: ChatCardPr
               return {
                 ...chat,
                 unreadMessageCount: 0,
-                textMessage: updatedLastMessages[0].text,
-                time: updatedLastMessages[0].time,
+                textMessage: updatedLastMessages[0]?.text,
+                time: updatedLastMessages[0]?.time ?? null,
                 active: true,
               }
             }
