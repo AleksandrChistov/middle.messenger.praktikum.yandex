@@ -6,7 +6,9 @@ import templatePug from "./ellipsis-menu.pug";
 import './ellipsis-menu.scss';
 
 
-export interface EllipsisMenuProps extends Props {}
+export interface EllipsisMenuProps extends Props {
+  isOpened: false;
+}
 
 export class EllipsisMenu extends Block<EllipsisMenuProps> {
   constructor(propsObj: EllipsisMenuProps, eventName: string, events?: Events) {
@@ -16,6 +18,6 @@ export class EllipsisMenu extends Block<EllipsisMenuProps> {
   }
 
   render() {
-    return compileTemplateToElement(templatePug, this.props, 'ellipsisMenu');
+    return compileTemplateToElement(templatePug, this.props, 'ellipsisMenu', this._meta.events);
   }
 }

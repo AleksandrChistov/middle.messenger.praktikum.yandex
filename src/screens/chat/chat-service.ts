@@ -115,12 +115,12 @@ class ChatHandleService extends ShowErrorService {
         id: 'vertical-ellipsis',
         fn: () => {
           store.set(
-            getPathFromArray(['chatPage']),
+            getPathFromArray(['chatPage', 'ellipsisMenu']),
             {
-              ...store.getState().chatPage,
-              ellipsisMenuIsOpened: true,
+              ...store.getState().chatPage.ellipsisMenu,
+              isOpened: true,
             },
-            getEventName(CHAT_PAGE_EVENT_NAME)
+            getEventName(CHAT_PAGE_EVENT_NAME, 'ellipsisMenu')
           );
         },
       },
@@ -134,12 +134,12 @@ class ChatHandleService extends ShowErrorService {
           }
 
           store.set(
-            getPathFromArray(['chatPage']),
+            getPathFromArray(['chatPage', 'ellipsisMenu']),
             {
-              ...store.getState().chatPage,
-              ellipsisMenuIsOpened: false,
+              ...store.getState().chatPage.ellipsisMenu,
+              isOpened: false,
             },
-            getEventName(CHAT_PAGE_EVENT_NAME)
+            getEventName(CHAT_PAGE_EVENT_NAME, 'ellipsisMenu')
           );
         },
       },
@@ -147,11 +147,21 @@ class ChatHandleService extends ShowErrorService {
         id: 'addUser',
         fn: () => {
           store.set(
+            getPathFromArray(['chatPage', 'ellipsisMenu']),
+            {
+              ...store.getState().chatPage.ellipsisMenu,
+              ellipsisMenu: {
+                isOpened: false,
+              },
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'ellipsisMenu')
+          );
+
+          store.set( // TODO: replace
             getPathFromArray(['chatPage']),
             {
               ...store.getState().chatPage,
               addUserToChatPopupIsOpened: true,
-              ellipsisMenuIsOpened: false,
             },
             getEventName(CHAT_PAGE_EVENT_NAME)
           );
@@ -161,11 +171,21 @@ class ChatHandleService extends ShowErrorService {
         id: 'deleteUser',
         fn: () => {
           store.set(
+            getPathFromArray(['chatPage', 'ellipsisMenu']),
+            {
+              ...store.getState().chatPage.ellipsisMenu,
+              ellipsisMenu: {
+                isOpened: false,
+              },
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'ellipsisMenu')
+          );
+
+          store.set( // TODO: replace
             getPathFromArray(['chatPage']),
             {
               ...store.getState().chatPage,
               deleteUserFromChatPopupIsOpened: true,
-              ellipsisMenuIsOpened: false,
             },
             getEventName(CHAT_PAGE_EVENT_NAME)
           );

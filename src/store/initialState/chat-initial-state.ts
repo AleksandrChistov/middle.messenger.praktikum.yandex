@@ -11,7 +11,6 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
   settingsImgSrc: settingsImg as string,
   vertEllipsisImgSrc: vertEllipsisImg as string,
   cartImgSrc: cartImg as string,
-  ellipsisMenuIsOpened: false,
   createChatPopupIsOpened: false,
   addUserToChatPopupIsOpened: false,
   deleteUserFromChatPopupIsOpened: false,
@@ -32,7 +31,9 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
   },
   time: null,
   messages: [],
-  ellipsisMenu: {},
+  ellipsisMenu: {
+    isOpened: false,
+  },
   popupCreateChat: {
     defaultChatAvatarSrc: avatarImg,
     chatAvatarSrc: null,
