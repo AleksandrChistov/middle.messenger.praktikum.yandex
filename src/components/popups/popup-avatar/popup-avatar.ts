@@ -8,8 +8,10 @@ import './popup-avatar.scss';
 
 
 export interface PopupAvatarProps extends Props {
+  isOpened: boolean;
   defaultImgSrc: string;
   avatarImgSrc: string | null;
+  avatarBlobImgSrc: string | null;
   changeAvatarButton: FormButtonProps;
 }
 

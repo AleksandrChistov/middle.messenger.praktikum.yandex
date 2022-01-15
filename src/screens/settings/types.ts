@@ -8,9 +8,7 @@ import {ErrorMessageProps} from "../../components/error-message/error-message";
 import {PopupAvatarProps} from "../../components/popups/popup-avatar/popup-avatar";
 
 export interface SettingsPageProps extends Props {
-  avatarBlobImgSrc: string | null;
   avatarImgSrc: string | null;
-  avatarPopupIsOpened: boolean,
   nameInput: TextInputProps,
   errorName: ErrorMessageProps,
   surnameInput: TextInputProps,

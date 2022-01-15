@@ -28,20 +28,17 @@ class SettingsService extends ShowErrorService {
           const uploadedImgSrc = window.URL.createObjectURL(files[0]);
 
           store.set(
-            getPathFromArray(['settingsPage']),
+            getPathFromArray(['settingsPage', 'popupAvatar']),
             {
-              ...store.getState().settingsPage,
+              ...store.getState().settingsPage.popupAvatar,
+              avatarImgSrc: uploadedImgSrc,
               avatarBlobImgSrc: files[0],
-              popupAvatar: {
-                ...store.getState().settingsPage.popupAvatar,
-                avatarImgSrc: uploadedImgSrc,
-                changeAvatarButton: {
-                  ...store.getState().settingsPage.popupAvatar.changeAvatarButton,
-                  isDisabled: false
-                }
+              changeAvatarButton: {
+                ...store.getState().settingsPage.popupAvatar.changeAvatarButton,
+                isDisabled: false
               }
             },
-            getEventName(SETTINGS_PAGE_EVENT_NAME)
+            getEventName(SETTINGS_PAGE_EVENT_NAME, 'popupAvatar')
           );
         },
       },
@@ -67,31 +64,31 @@ class SettingsService extends ShowErrorService {
           event.preventDefault();
 
           store.set(
-            getPathFromArray(['settingsPage']),
+            getPathFromArray(['settingsPage', 'popupAvatar']),
             {
-              ...store.getState().settingsPage,
-              avatarPopupIsOpened: true,
+              ...store.getState().settingsPage.popupAvatar,
+              isOpened: true,
             },
-            getEventName(SETTINGS_PAGE_EVENT_NAME)
+            getEventName(SETTINGS_PAGE_EVENT_NAME, 'popupAvatar')
           );
         },
       },
       {
         id: 'popupAvatar',
         fn: event => {
-          const closePopup = (event.target as HTMLElement).getAttribute('data') === 'popupAvatar';
+          const closePopup = (event.target as HTMLElement).getAttribute('id') === 'popupAvatar';
 
           if (!closePopup) {
             return;
           }
 
           store.set(
-            getPathFromArray(['settingsPage']),
+            getPathFromArray(['settingsPage', 'popupAvatar']),
             {
-              ...store.getState().settingsPage,
-              avatarPopupIsOpened: false,
+              ...store.getState().settingsPage.popupAvatar,
+              isOpened: false,
             },
-            getEventName(SETTINGS_PAGE_EVENT_NAME)
+            getEventName(SETTINGS_PAGE_EVENT_NAME, 'popupAvatar')
           );
         },
       },
@@ -293,7 +290,7 @@ class SettingsService extends ShowErrorService {
 
           const form = new FormData();
 
-          const avatarBlobImg = store.getState().settingsPage.avatarBlobImgSrc as string;
+          const avatarBlobImg = store.getState().settingsPage.popupAvatar.avatarBlobImgSrc;
 
           form.append('avatar', avatarBlobImg, 'my-avatar.png');
 

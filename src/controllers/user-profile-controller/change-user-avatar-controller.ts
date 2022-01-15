@@ -57,10 +57,10 @@ function prepareDataToStore(data: UserAvatarResponse): SettingsPageProps {
   return {
     ...state.settingsPage,
     avatarImgSrc: getAvatarLink(data.avatar),
-    avatarBlobImgSrc: null,
     popupAvatar: {
       ...store.getState().settingsPage.popupAvatar,
       avatarImgSrc: getAvatarLink(data.avatar),
+      avatarBlobImgSrc: null,
       changeAvatarButton: {
         ...store.getState().settingsPage.popupAvatar.changeAvatarButton,
         isDisabled: true

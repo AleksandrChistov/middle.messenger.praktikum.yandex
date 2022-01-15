@@ -2,12 +2,14 @@
 @import "../../../../static/styles/variables";
 
 .popup-avatar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: rgb($black, 75%);
+  &-background {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgb($black, 75%);
+  }
 
   .form-avatar {
     position: absolute;
