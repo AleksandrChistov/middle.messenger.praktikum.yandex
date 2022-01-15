@@ -326,6 +326,26 @@ class ChatHandleService extends ShowErrorService {
         },
       },
     ],
+    keydown: [
+      {
+        id: 'message',
+        fn: (event: KeyboardEvent) => {
+          if (!event.shiftKey && event.code === 'Enter') {
+            event.preventDefault();
+
+            const input = (event.target as HTMLInputElement);
+
+            if (!input.value.trim()) {
+              return;
+            }
+
+            webSocketController.send(input.value);
+
+            input.value = '';
+          }
+        },
+      },
+    ],
     submit: [
       {
         id: 'formMessage',
