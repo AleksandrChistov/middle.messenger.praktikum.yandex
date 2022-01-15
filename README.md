@@ -1,4 +1,4 @@
-Ссылкы на открытый PR: [https://github.com/AleksandrChistov/middle.messenger.praktikum.yandex/pull/2](https://github.com/AleksandrChistov/middle.messenger.praktikum.yandex/pull/2)
+Ссылкы на открытый PR: [https://github.com/AleksandrChistov/middle.messenger.praktikum.yandex/pull/3](https://github.com/AleksandrChistov/middle.messenger.praktikum.yandex/pull/3)
 
 ---
 
