@@ -4,6 +4,7 @@ import {SearchInput} from "../components/inputs/search/search-input";
 import {Avatar} from "../components/avatar/avatar";
 import {Time} from "../components/time/time";
 import {Message} from "../components/message/message";
+import {MessagesList} from "../components/messages-list/messages-list";
 import {ErrorMessage} from "../components/error-message/error-message";
 import {TextInput} from "../components/inputs/text/text-input";
 import {PasswordInput} from "../components/inputs/password/password-input";
@@ -31,6 +32,7 @@ export const REGISTERED_COMPONENTS = {
   AvatarComponent: Avatar,
   TimeComponent: Time,
   MessageComponent: Message,
+  MessagesListComponent: MessagesList,
   PopupAvatarComponent: PopupAvatar,
   EllipsisMenu: EllipsisMenu,
   PopupCreateChatComponent: PopupCreateChat,

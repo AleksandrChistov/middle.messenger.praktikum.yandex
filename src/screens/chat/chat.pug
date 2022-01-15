@@ -21,9 +21,7 @@ section.main
       section.chat
         if time
           TimeComponent(data="time" class="chat__time")
-        if messages.length
-          div.chat__container
-              MessageComponent(data="messages" class="chat__message")
+        MessagesListComponent(data="messagesList")
       ErrorMessageComponent(data="error" error-for="message" class="main__error")
       section.bottom-panel
           button(type="button" class="bottom-panel__button bottom-panel__clip-button")

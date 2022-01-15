@@ -3,7 +3,6 @@ import {FieldName} from "../../services/form-services/form-validation-service";
 import {ErrorMessageProps} from "../../components/error-message/error-message";
 import {SearchInputProps} from "../../components/inputs/search/search-input";
 import {AvatarProps} from "../../components/avatar/avatar";
-import {MessageProps} from "../../components/message/message";
 import {ChatCardProps} from "../../components/chat-card/chat-card";
 import {PopupCreateChatProps} from "../../components/popups/popup-create-chat/popup-create-chat";
 import {TimeProps} from "../../components/time/types";
@@ -11,6 +10,7 @@ import {EllipsisMenuProps} from "../../components/menus/ellipsis-menu/ellipsis-m
 import {PopupAddUserProps} from "../../components/popups/popup-add-user/popup-add-user";
 import {PopupDeleteUserProps} from "../../components/popups/popup-delete-user/popup-delete-user";
 import {ChatsListProps} from "../../components/chat-list/chats-list";
+import {MessagesListProps} from "../../components/messages-list/messages-list";
 
 export interface ChatPageProps extends Props {
   chatName?: string | null;
@@ -24,7 +24,7 @@ export interface ChatPageProps extends Props {
   search?: SearchInputProps,
   chatAvatar?: AvatarProps,
   time: TimeProps | null,
-  messages: MessageProps[] | [],
+  messagesList: MessagesListProps,
   ellipsisMenu: EllipsisMenuProps,
   popupCreateChat: PopupCreateChatProps,
   popupAddUserToChat: PopupAddUserProps,

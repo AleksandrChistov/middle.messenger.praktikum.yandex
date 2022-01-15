@@ -431,8 +431,12 @@ function startChat(currentUser: UserIdAndAvatarRequest, selectedChat: ChatCardPr
             {
               ...store.getState().chatPage,
               selectedChat: selectedChat,
-              chats: getActiveChats(chats),
-              messages: updatedLastMessages.reverse(),
+              chatsList: {
+                chats: getActiveChats(chats),
+              },
+              messagesList: {
+                messages: updatedLastMessages.reverse(),
+              },
               chatName: selectedChat.chatName,
               chatAvatar: {
                 avatarImgSrc: selectedChat.avatar.avatarImgSrc,
@@ -456,7 +460,7 @@ function subscribeToMessage(currentUser: UserIdAndAvatarRequest): void {
     }
 
     UserInfoByIdController.getInfo(message.user_id).then((response: UserInfoByIdResponse) => {
-      const messages = store.getState().chatPage.messages as MessageProps[];
+      const messages = store.getState().chatPage.messagesList.messages as MessageProps[];
 
       const newMessage = {
         you: currentUser.id === response.id,
@@ -497,13 +501,13 @@ function subscribeToMessage(currentUser: UserIdAndAvatarRequest): void {
         getEventName(CHAT_PAGE_EVENT_NAME, 'chatsList')
       );
 
-      store.set( // TODO replace messages
-        getPathFromArray(['chatPage']),
+      store.set(
+        getPathFromArray(['chatPage', 'messagesList']),
         {
-          ...store.getState().chatPage,
+          ...store.getState().chatPage.messagesList,
           messages: messages,
         },
-        getEventName(CHAT_PAGE_EVENT_NAME)
+        getEventName(CHAT_PAGE_EVENT_NAME, 'messagesList')
       );
     })
   });

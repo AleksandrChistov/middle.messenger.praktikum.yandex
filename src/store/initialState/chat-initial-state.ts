@@ -29,7 +29,9 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
     size: '36px',
   },
   time: null,
-  messages: [],
+  messagesList: {
+    messages: [],
+  },
   ellipsisMenu: {
     isOpened: false,
   },
