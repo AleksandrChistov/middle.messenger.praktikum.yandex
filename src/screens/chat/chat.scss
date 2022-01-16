@@ -1,21 +1,58 @@
-@import "../../../static/styles/styles";
-@import "../../components/inputs/input-styles";
+@import "../../../static/styles/colors";
+@import "../../../static/styles/variables";
 
-#app {
-  main {
-    display: flex;
-    height: 100vh;
-  }
+.chat-page-block {
+  display: flex;
+  height: 100vh;
 
   .sidebar {
+    position: relative;
     flex-basis: 30%;
     background-color: $background-color;
+    overflow: hidden;
+
+    &__create-button {
+      position: absolute;
+      right: 20px;
+      bottom: 10px;
+      border: none;
+      padding: 0;
+      background: transparent;
+      color: $purple;
+
+      svg {
+        fill: currentColor;
+      }
+
+      &:hover {
+        cursor: pointer;
+        color: rgba($purple, 0.85);
+      }
+    }
+
+    &__chats {
+      max-height: calc(100% - 72px);
+      overflow-y: auto;
+    }
   }
 
   .main {
     display: flex;
     flex-direction: column;
     flex-basis: 70%;
+
+    &__empty-text {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: $basic-font-family;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 12px;
+      text-align: center;
+      color: $dark-gray;
+    }
 
     &__error {
       margin-left: 85px;
@@ -47,33 +84,12 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
     padding: 20px 25px 10px;
-
-    &__container {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      flex-grow: 1;
-      overflow: hidden;
-    }
 
     &__time {
       text-align: center;
       margin-bottom: 20px;
-      color: $gray;
-    }
-
-    &__message {
-      margin-bottom: 20px;
-    }
-
-    &__default-text {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 500;
       color: $gray;
     }
   }
@@ -82,6 +98,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-height: 54px;
     padding: 9px 25px;
     background-color: $background-color;
 

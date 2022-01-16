@@ -1,0 +1,6 @@
+div(id="closePopupDeleteUserFromChat" class=`popup-delete-user-background${isOpened ? "" : " hidden"}`)
+  section(class="popup-delete-user-form")
+    section(id="deleteUserFromChat")
+      UsersListComponent(data="usersList")
+    button(type="button" id="closeDeleteUserPopup" class="popup-delete-user-form__cross-icon")
+      include ../../../../static/assets/icons/cross.svg

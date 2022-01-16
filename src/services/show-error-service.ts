@@ -1,41 +1,55 @@
-import {HandleFormService, Invalid} from "./form-service";
-import {FieldNameValueType, FormValidationService} from "./form-validation-service";
-import {FIELD_ERROR_TEXT} from "../constants";
-import {getErrorMessageFieldName} from "../utils";
-import {ERROR_ACTIVE_CLASS, ErrorMessageProps} from "../components/error-message/error-message";
-import {Props} from "../core/types";
+import {HandleFormService, Invalid} from "./form-services/form-service";
+import {FieldName, FormValidationService} from "./form-services/form-validation-service";
+import {getPathFromArray} from "../core/utils/get-path-from-array";
+import {getEventName} from "../core/utils/get-event-name";
+import {FIELD_ERROR_TEXT} from "./form-services/constants";
+import {ERROR_ACTIVE_CLASS} from "../components/error-message/error-message";
+import store from "../store/store";
 
 export abstract class ShowErrorService {
-  public props: Props;
   protected handleFormService: HandleFormService;
 
-  protected constructor() {
+  constructor() {
     const formValidationService = new FormValidationService();
-    this.handleFormService = new HandleFormService(formValidationService, this.showError.bind(this));
+    this.handleFormService = new HandleFormService(formValidationService);
   }
 
-  protected showError(fieldName: FieldNameValueType, invalid: Invalid): void {
-    if (!this.props?.children) {
-      throw new Error(`Object props.children was not specified`);
+  protected validateFormItems(event: Event, pagePath: string, pageEventName: string): boolean {
+    const formValidItems = this.handleFormService.validateForm(event);
+
+    return formValidItems.every(item => {
+      if (!item) return true;
+
+      const pathError = getPathFromArray([pagePath, item.dataName]);
+      const eventErrorName = getEventName(pageEventName, item.dataName);
+
+      if (item.invalid) {
+        this.showError(pathError, eventErrorName, item.invalid, item.fieldName);
+        return false;
+      }
+
+      this.hideError(pathError, eventErrorName);
+      return true;
+    })
+  }
+
+  protected showError(path: string, eventName: string, error: Invalid, fieldName: FieldName): void {
+    const LoginErrorText = FIELD_ERROR_TEXT[fieldName];
+    const textError = error?.text ? LoginErrorText.text : LoginErrorText.length;
+
+    const errorProps = {
+      addClass: ERROR_ACTIVE_CLASS,
+      textError: textError
     }
 
-    const fieldErrorObj = FIELD_ERROR_TEXT[fieldName];
+    store.set(path, errorProps, eventName);
+  }
 
-    if (!fieldErrorObj) {
-      throw new Error(`Error text for field ${fieldName} not found`);
+  protected hideError(path: string, eventName: string): void {
+    const errorProps = {
+      addClass: '',
+      textError: ''
     }
-
-    const errorMessageComponent = this.props.children[getErrorMessageFieldName(fieldName)];
-
-    if (!errorMessageComponent) {
-      throw new Error(`Component named ${getErrorMessageFieldName(fieldName)} not found`);
-    }
-
-    const textError = invalid?.length ? fieldErrorObj.length : fieldErrorObj.text;
-
-    errorMessageComponent.setProps<ErrorMessageProps>({
-      addClass: Boolean(invalid) ? ERROR_ACTIVE_CLASS : '',
-      textError: textError || '',
-    });
+    store.set(path, errorProps, eventName);
   }
 }

@@ -1,0 +1,77 @@
+@import "../../../../static/styles/colors";
+@import "../../../../static/styles/variables";
+
+.popup-create-chat {
+  &-background {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgb($black, 75%);
+  }
+
+  .form-create-chat {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 33px 70px;
+    border-radius: 20px;
+    background-color: $white;
+    transform: translate(-50%, -50%);
+
+    &__img {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgba($black, 75%);
+        background-blend-mode: overlay;
+
+        .form-create-chat__text {
+          display: inline-block;
+        }
+      }
+    }
+
+    &__input {
+      display: none;
+    }
+
+    &__text {
+      display: none;
+      max-width: 70px;
+      font-family: $basic-font-family;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 18px;
+      text-align: center;
+      color: $white;
+    }
+
+    &__cross-icon {
+      display: inline-flex;
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      border: none;
+      padding: 0;
+      background-color: transparent;
+      transform: rotate(0deg);
+      transition: all 0.5s ease-in-out;
+
+      &:hover {
+        transform: rotate(90deg);
+        cursor: pointer;
+      }
+    }
+  }
+}

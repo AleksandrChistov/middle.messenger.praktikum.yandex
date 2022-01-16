@@ -1,12 +1,15 @@
 import {Block} from '../../../core/block';
-import {Props} from '../../../core/types';
-import {compileTemplateToElement} from '../../../core/utils';
+import {Events, Props} from '../../../core/types';
+import {compileTemplateToElement} from '../../../core/utils/compile-template';
+import {mapStateToPropsCallBack} from '../../../store/utils';
 import templatePug from './phone-input.pug';
 import './phone-input.scss';
+import {FieldName} from '../../../services/form-services/form-validation-service';
 
-interface PhoneInputProps extends Props {
+export interface PhoneInputProps extends Props {
 	id: string;
-	name: string;
+	name: FieldName;
+	value?: string;
 	label?: string;
 	labelClass?: string;
 	inputClass?: string;
@@ -15,11 +18,13 @@ interface PhoneInputProps extends Props {
 }
 
 export class PhoneInput extends Block<PhoneInputProps> {
-	constructor(propsObj: PhoneInputProps) {
-		super('div', propsObj);
+	constructor(propsObj: PhoneInputProps, eventName: string, events?: Events) {
+		super('div', 'phone-input-block', propsObj, events);
+
+    this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props);
+		return compileTemplateToElement(templatePug, this.props, '', this._meta.events);
 	}
 }

@@ -1,3 +1,6 @@
+import {queryStringify} from "../utils";
+import {Indexed} from "../core/types";
+
 export enum Methods {
 	GET = 'GET',
 	PUT = 'PUT',
@@ -5,29 +8,32 @@ export enum Methods {
 	DELETE = 'DELETE',
 }
 
-export type Options = {
-	data: Record<string, any>;
-	headers: Record<string, string>;
-	timeout: number;
-};
-
-/**
- * На входе: объект. Пример: {a: 1, b: 2, c: {d: 123}, k: [1, 2, 3]}
- * На выходе: строка. Пример: ?a=1&b=2&c=[object Object]&k=1,2,3
- */
-function queryStringify(data: Record<string, unknown> = {}) {
-	return Object.entries(data).reduce((result, [key, value]) => {
-		const ampersand = (result === '') ? '?' : '&';
-
-		result += `${ampersand}${key}=${String(value)}`;
-
-		return result;
-	}, '');
+export enum ResponseType {
+  default = '',
+  text = 'text',
+  arraybuffer = 'arraybuffer',
+  blob = 'blob',
+  document = 'document',
+  json = 'json',
 }
 
-export class HttpTransport {
-	async get<T>(url: string, options: Options): Promise<T> {
-		const stringData = queryStringify(options.data);
+export type Options = {
+	data?: Indexed | FormData;
+	headers?: Record<string, string>;
+	timeout?: number;
+  withCredentials?: boolean;
+  responseType?: ResponseType;
+};
+
+export class Http {
+  private _baseUrl: string;
+
+  constructor(baseUrl: string) {
+    this._baseUrl = baseUrl;
+  }
+
+	async get<T>(url: string, options: Options = {} as Options): Promise<T> {
+		const stringData = options.data ? queryStringify(options.data as Indexed) : null;
 		const processedUrl = stringData ? url + stringData : url;
 
 		return this.request<T>(processedUrl, {...options, method: Methods.GET}, options.timeout);
@@ -47,16 +53,28 @@ export class HttpTransport {
 
 	async request<T>(
 		url: string,
-		{data, headers, method}: Options & {method: typeof Methods[keyof typeof Methods]},
+		{
+      data,
+      headers = {},
+      method,
+      withCredentials,
+      responseType = ResponseType.default
+    }: Options & {method: typeof Methods[keyof typeof Methods]},
 		timeout = 5000,
 	): Promise<T> {
 		return new Promise((resolve, reject) => {
 			const xhr = new XMLHttpRequest();
-			xhr.open(method, url);
+			xhr.open(method, `${this._baseUrl}${url}`);
+
+      xhr.responseType = responseType;
 
 			Object.keys(headers).forEach(key => {
 				xhr.setRequestHeader(key, headers[key]);
 			});
+
+      if (withCredentials) {
+        xhr.withCredentials = true;
+      }
 
 			xhr.onload = () => {
 				resolve(xhr.response);
@@ -74,7 +92,9 @@ export class HttpTransport {
 
 			if (method === Methods.GET && !data) {
 				xhr.send();
-			} else {
+			} else if (data instanceof FormData) {
+        xhr.send(data);
+      } else {
 				xhr.send(JSON.stringify(data));
 			}
 		});

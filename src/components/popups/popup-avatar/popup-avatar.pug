@@ -1,0 +1,10 @@
+div(id="popupAvatar" class=`popup-avatar-background${isOpened ? "" : " hidden"}`)
+  form(class="form-avatar" id="formAvatar")
+    label(
+      class="form-avatar__img"
+      for="avatar"
+      style=`background-image: url(${avatarImgSrc ? avatarImgSrc : defaultImgSrc})`
+      )
+      input(class="form-avatar__input" id="avatar" name="avatar" type="file" accept="image/png, image/jpeg")
+      span(class="form-avatar__text")="Upload avatar"
+    FormButtonComponent(data="changeAvatarButton")

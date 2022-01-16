@@ -1,8 +1,7 @@
-@import "../../../static/styles/styles";
 @import "../../../static/styles/colors";
-@import "../../components/inputs/input-styles";
+@import "../../../static/styles/variables";
 
-#app {
+.signin-page-block {
   .form {
     max-width: 100%;
     width: 414px;
@@ -52,6 +51,14 @@
       box-shadow: none;
       background: transparent;
       color: $purple;
+      max-width: 100%;
+      width: 348px;
+      height: 40px;
+      border-radius: 20px;
+      font-family: $basic-font-family;
+      font-size: 18px;
+      text-align: center;
+      letter-spacing: -0.02em;
     }
   }
 }

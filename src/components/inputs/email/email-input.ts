@@ -1,12 +1,15 @@
 import {Block} from '../../../core/block';
-import {Props} from '../../../core/types';
-import {compileTemplateToElement} from '../../../core/utils';
+import {Events, Props} from '../../../core/types';
+import {compileTemplateToElement} from '../../../core/utils/compile-template';
+import {mapStateToPropsCallBack} from '../../../store/utils';
 import templatePug from './email-input.pug';
 import './email-input.scss';
+import {FieldName} from '../../../services/form-services/form-validation-service';
 
-interface EmailInputProps extends Props {
+export interface EmailInputProps extends Props {
 	id: string;
-	name: string;
+	name: FieldName;
+	value?: string;
 	label?: string;
 	labelClass?: string;
 	inputClass?: string;
@@ -15,11 +18,13 @@ interface EmailInputProps extends Props {
 }
 
 export class EmailInput extends Block<EmailInputProps> {
-	constructor(propsObj: EmailInputProps) {
-		super('div', propsObj);
+	constructor(propsObj: EmailInputProps, eventName: string, events?: Events) {
+		super('div', 'email-input-block', propsObj, events);
+
+    this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props);
+		return compileTemplateToElement(templatePug, this.props, '', this._meta.events);
 	}
 }

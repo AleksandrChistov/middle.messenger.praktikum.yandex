@@ -1,31 +1,37 @@
 import {Block} from '../../core/block';
-import {Props} from '../../core/types';
-import {compileTemplateToElement} from '../../core/utils';
+import {Events} from '../../core/types';
+import {compileTemplateToElement} from '../../core/utils/compile-template';
 import templatePug from './404.pug';
-import errorImg from '../../../static/assets/img/404.png';
+import './404.scss';
+import {router} from '../../index';
+import {Page404Props} from './types';
+import {PAGE_404_INITIAL_STATE} from '../../store/initialState/400-initial-state';
 
-interface Page404Props extends Props {
-	errorImgSrc: string;
-}
 
-const props: Page404Props = {
-	errorImgSrc: errorImg as string,
+const page404Events: Events = {
+  click: [
+    {
+      id: 'goToChat',
+      fn: event => {
+        event.preventDefault();
+        router.go('/messenger');
+      },
+    },
+  ],
 };
 
-class Page404 extends Block<Page404Props> {
-	constructor(propsObj: Page404Props) {
-		super('main', propsObj);
+export class Page404 extends Block<Page404Props> {
+	constructor(propsObj: Page404Props = PAGE_404_INITIAL_STATE, events: Events = page404Events, rootId?: string) {
+		super('main', 'page-404-block', propsObj, events, rootId);
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props);
+		return compileTemplateToElement(templatePug, this.props, '', this._meta.events);
 	}
 
 	componentDidMount() {
-		const root = document.getElementById('app');
+		const root = document.getElementById(this._meta.rootId || 'app');
 
 		root?.appendChild(this.getContent());
 	}
 }
-
-new Page404(props);

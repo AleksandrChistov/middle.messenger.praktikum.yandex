@@ -1,12 +1,15 @@
 import {Block} from '../../../core/block';
-import {Props} from '../../../core/types';
-import {compileTemplateToElement} from '../../../core/utils';
+import {Events, Props} from '../../../core/types';
+import {compileTemplateToElement} from '../../../core/utils/compile-template';
+import {mapStateToPropsCallBack} from '../../../store/utils';
 import templatePug from './text-input.pug';
 import './text-input.scss';
+import {FieldName} from '../../../services/form-services/form-validation-service';
 
-interface TextInputProps extends Props {
+export interface TextInputProps extends Props {
 	id: string;
-	name: string;
+	name: FieldName | string;
+	value?: string;
 	label?: string;
 	labelClass?: string;
 	inputClass?: string;
@@ -15,11 +18,13 @@ interface TextInputProps extends Props {
 }
 
 export class TextInput extends Block<TextInputProps> {
-	constructor(propsObj: TextInputProps) {
-		super('div', propsObj);
+	constructor(propsObj: TextInputProps, eventName: string, events?: Events) {
+		super('div', 'text-input-block', propsObj, events);
+
+    this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props);
+		return compileTemplateToElement(templatePug, this.props, '', this._meta.events);
 	}
 }

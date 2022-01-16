@@ -1,20 +1,23 @@
 import {Block} from '../../core/block';
-import {Props} from '../../core/types';
-import {compileTemplateToElement} from '../../core/utils';
+import {Events, Props} from '../../core/types';
+import {compileTemplateToElement} from '../../core/utils/compile-template';
+import {mapStateToPropsCallBack} from '../../store/utils';
 import templatePug from './avatar.pug';
 import './avatar.scss';
 
-interface AvatarProps extends Props {
-	avatarImgSrc?: string;
+export interface AvatarProps extends Props {
+	avatarImgSrc: string | null;
 	size?: string;
 }
 
 export class Avatar extends Block<AvatarProps> {
-	constructor(propsObj: AvatarProps) {
-		super('div', propsObj);
+	constructor(propsObj: AvatarProps, eventName: string, events?: Events) {
+		super('div', 'avatar-block', propsObj, events);
+
+    this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props);
+		return compileTemplateToElement(templatePug, this.props, '', this._meta.events);
 	}
 }

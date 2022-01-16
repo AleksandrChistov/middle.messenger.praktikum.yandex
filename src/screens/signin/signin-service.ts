@@ -1,99 +1,85 @@
-import {Children, Props} from '../../core/types';
-import {HandleFormService} from '../../services/form-service';
-import {FieldName} from "../../services/form-validation-service";
+import {Events} from '../../core/types';
 import {ShowErrorService} from "../../services/show-error-service";
-import {getErrorMessageFieldName} from "../../utils";
-import {TextInput} from '../../components/inputs/text/text-input';
-import {PasswordInput} from '../../components/inputs/password/password-input';
-import {FormButton} from '../../components/form-button/form-button';
-import {ErrorMessage} from '../../components/error-message/error-message';
-import welcomeImg from '../../../static/assets/img/welcome.png';
+import {router} from "../../index";
+import {UserSignInController} from "../../controllers/auth-controllers/signin-controller";
+import {FieldName} from "../../services/form-services/constants";
+import {getEventName} from "../../core/utils/get-event-name";
+import {SIGNIN_PAGE_EVENT_NAME} from "./events";
 
-export interface SignInPageProps extends Props {
-	welcomeImgSrc: string;
-  children: Children;
-}
 
 class SignInService extends ShowErrorService {
-	public props: SignInPageProps;
+  public signinEvents: Events = {
+    click: [
+      {
+        id: 'goToSignUp',
+        fn: event => {
+          event.preventDefault();
+          router.go('/sign-up');
+        },
+      },
+    ],
+    focus: [
+      {
+        id: 'login',
+        fn: event => {
+          this.handleFormService.handleFieldFocus(event);
+        },
+      },
+      {
+        id: 'password',
+        fn: event => {
+          this.handleFormService.handleFieldFocus(event);
+        },
+      },
+    ],
+    blur: [
+      {
+        id: 'login',
+        fn: event => {
+          const error = this.handleFormService.handleFieldBlur(event);
 
-	constructor() {
-    super();
-		this.props = getProps(this.handleFormService);
-	}
+          if (!error) {
+            this.hideError('signInPage.errorLogin', getEventName(SIGNIN_PAGE_EVENT_NAME, 'errorLogin'));
+          } else {
+            this.showError('signInPage.errorLogin', getEventName(SIGNIN_PAGE_EVENT_NAME, 'errorLogin'), error, FieldName.Login);
+          }
+        },
+      },
+      {
+        id: 'password',
+        fn: event => {
+          const error = this.handleFormService.handleFieldBlur(event);
+
+          if (!error) {
+            this.hideError('signInPage.errorPassword', getEventName(SIGNIN_PAGE_EVENT_NAME, 'errorPassword'));
+          } else {
+            this.showError('signInPage.errorPassword', getEventName(SIGNIN_PAGE_EVENT_NAME, 'errorPassword'), error, FieldName.Password);
+          }
+        },
+      },
+    ],
+    submit: [
+      {
+        id: 'form',
+        fn: event => {
+          event.preventDefault();
+          const isFormValid = this.validateFormItems(event, 'signInPage', SIGNIN_PAGE_EVENT_NAME);
+
+          if (!isFormValid) {
+            return;
+          }
+
+          const formData = this.handleFormService.handleFormSubmit(event);
+
+          if (!formData) {
+            return;
+          }
+
+          UserSignInController.signIn(formData);
+        },
+      },
+    ],
+  }
 }
 
-function getProps(handleFormService: HandleFormService): SignInPageProps {
-	return {
-		welcomeImgSrc: welcomeImg as string,
-		children: {
-			textInputComponent: new TextInput({
-				label: 'Login',
-				id: 'login',
-				name: FieldName.Login,
-				inputClass: 'mb-5',
-				required: true,
-			}),
-      [getErrorMessageFieldName(FieldName.Login)]: new ErrorMessage({
-        addClass: 'form__error-text',
-      }),
-			passwordInputComponent: new PasswordInput({
-				label: 'Password',
-				id: 'password',
-				name: FieldName.Password,
-				inputContainerClass: 'mb-5',
-				required: true,
-			}),
-      [getErrorMessageFieldName(FieldName.Password)]: new ErrorMessage({
-        addClass: 'form__error-text',
-      }),
-			formButtonComponent: new FormButton({
-				type: 'submit',
-				text: 'Sign in',
-				addClass: 'mt-20 mb-20',
-			}),
-		},
-		events: {
-			focus: [
-				{
-					id: 'login',
-					fn: event => {
-						handleFormService.handleFieldFocus(event);
-					},
-				},
-				{
-					id: 'password',
-					fn: event => {
-						handleFormService.handleFieldFocus(event);
-					},
-				},
-			],
-			blur: [
-				{
-					id: 'login',
-					fn: event => {
-						handleFormService.handleFieldBlur(event);
-					},
-				},
-				{
-					id: 'password',
-					fn: event => {
-						handleFormService.handleFieldBlur(event);
-					},
-				},
-			],
-			submit: [
-				{
-					id: 'form',
-					fn: event => {
-						handleFormService.handleFormSubmit(event);
-					},
-				},
-			],
-		},
-	};
-}
-
-const signInService = new SignInService();
-
-export const {props} = signInService;
+export const {signinEvents} = new SignInService();

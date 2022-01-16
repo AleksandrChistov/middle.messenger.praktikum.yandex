@@ -1,12 +1,15 @@
 import {Block} from '../../../core/block';
-import {Props} from '../../../core/types';
-import {compileTemplateToElement} from '../../../core/utils';
+import {Events, Props} from '../../../core/types';
+import {compileTemplateToElement} from '../../../core/utils/compile-template';
+import {mapStateToPropsCallBack} from '../../../store/utils';
 import templatePug from './password-input.pug';
 import './password-input.scss';
+import {FieldName} from '../../../services/form-services/form-validation-service';
 
-interface PasswordInputProps extends Props {
+export interface PasswordInputProps extends Props {
 	id: string;
-	name: string;
+	name: FieldName;
+	value?: string;
 	label?: string;
 	labelClass?: string;
 	inputContainerClass?: string;
@@ -16,11 +19,13 @@ interface PasswordInputProps extends Props {
 }
 
 export class PasswordInput extends Block<PasswordInputProps> {
-	constructor(propsObj: PasswordInputProps) {
-		super('div', propsObj);
+	constructor(propsObj: PasswordInputProps, eventName: string, events?: Events) {
+		super('div', 'password-input-block', propsObj, events);
+
+    this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props);
+		return compileTemplateToElement(templatePug, this.props, '', this._meta.events);
 	}
 }

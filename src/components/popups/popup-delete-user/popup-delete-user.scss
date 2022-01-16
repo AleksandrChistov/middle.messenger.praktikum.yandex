@@ -1,0 +1,55 @@
+@import "../../../../static/styles/colors";
+@import "../../../../static/styles/variables";
+
+.popup-delete-user {
+  &-background {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgb($black, 75%);
+  }
+
+  &-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 488px;
+    max-width: 100%;
+    min-height: 300px;
+    padding: 20px 25px 25px 60px;
+    border-radius: 20px;
+    background-color: $background-color;
+    transform: translate(-50%, -50%);
+
+    &__empty-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: $basic-font-family;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 12px;
+      color: $dark-gray;
+    }
+
+    &__cross-icon {
+      display: inline-flex;
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      border: none;
+      padding: 0;
+      background-color: transparent;
+      transform: rotate(0deg);
+      transition: all 0.5s ease-in-out;
+
+      &:hover {
+        transform: rotate(90deg);
+        cursor: pointer;
+      }
+    }
+  }
+}

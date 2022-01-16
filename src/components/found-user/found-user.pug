@@ -1,0 +1,9 @@
+div(class="found-user-item" id=id)
+  AvatarComponent(data="avatar" class="found-user-item__avatar")
+  span(class="found-user-item__name")=fullName
+  if iconType === 'add'
+    button(type="button" disabled=iconDisabled class="found-user-item__btn-icon")
+      include ../../../static/assets/icons/plus.svg
+  if iconType === 'delete'
+    button(type="button" disabled=iconDisabled class="found-user-item__btn-icon")
+      include ../../../static/assets/icons/minus.svg

@@ -1,19 +1,24 @@
 @import "../../../static/styles/colors";
 
-.avatar {
-  border-radius: 50%;
-  overflow: hidden;
-
-  &__img {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
-  &__default {
-    width: 100%;
-    height: 100%;
-    border: 1px solid $purple;
+.avatar-block {
+  .avatar {
     border-radius: 50%;
+    overflow: hidden;
+
+    &__img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    &__default {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: $gray url("../../../static/assets/icons/avatar.svg");
+      background-size: 100%;
+      background-blend-mode: multiply;
+      opacity: 0.1;
+    }
   }
 }

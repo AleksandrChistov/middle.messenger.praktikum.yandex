@@ -1,20 +1,20 @@
 form(class="form" id="form")
-    a(href="../signin" class="arrow-back")
+    a(href="#" id="goToSignIn" class="arrow-back")
         include ../../../static/assets/icons/arrow-back.svg
     h1="Sign up"
     hr.line
-    textInputComponent1
-    first_nameErrorMessage
-    textInputComponent2
-    second_nameErrorMessage
-    textInputComponent3
-    loginErrorMessage
-    emailInputComponent
-    emailErrorMessage
-    phoneInputComponent
-    phoneErrorMessage
-    passwordInputComponent1
-    passwordErrorMessage
-    passwordInputComponent2
-    passwordAgainErrorMessage
-    formButtonComponent
+    TextInputComponent(data="nameInput")
+    ErrorMessageComponent(data="errorName" error-for=nameInput.id)
+    TextInputComponent(data="surnameInput")
+    ErrorMessageComponent(data="errorSurname" error-for=surnameInput.id)
+    TextInputComponent(data="loginInput")
+    ErrorMessageComponent(data="errorLogin" error-for=loginInput.id)
+    EmailInputComponent(data="emailInput")
+    ErrorMessageComponent(data="errorEmail" error-for=emailInput.id)
+    PhoneInputComponent(data="phoneInput")
+    ErrorMessageComponent(data="errorPhone" error-for=phoneInput.id)
+    PasswordInputComponent(data="passwordInput" class="mb-5")
+    ErrorMessageComponent(data="errorPassword" error-for=passwordInput.id)
+    PasswordInputComponent(data="passwordAgainInput" class="mb-5")
+    ErrorMessageComponent(data="errorPasswordAgain" error-for=passwordAgainInput.id)
+    FormButtonComponent(data="formButton")

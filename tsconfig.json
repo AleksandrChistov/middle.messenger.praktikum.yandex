@@ -1,11 +1,13 @@
 {
+  "ts-node": {
+    "transpileOnly": true,
+  },
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
     "target": "esnext",
     "declaration": false,
     "module": "commonjs",
-    "strictNullChecks": true,
     "sourceMap": true
   }
 }

@@ -1,40 +1,35 @@
 import {EventBus} from './event-bus';
-import {Props} from './types';
-
-type Meta = {
-	tagName: string;
-	props: Props;
-};
-
-export enum EventsEnum {
-	INIT = 'init',
-	FLOW_CDM = 'flow:component-did-mount',
-	FLOW_CDU = 'flow:component-did-update',
-	FLOW_RENDER = 'flow:render',
-}
+import {Events, Props} from './types';
+import {cloneDeep, isDeepEqual} from "../utils";
+import store from "../store/store";
+import {EventsEnum, Meta, StoreEvent} from "./block-types";
 
 export class Block<T> {
 	props: Props;
 	protected eventBus: EventBus;
 	private _element: HTMLElement;
-	private readonly _meta: Meta;
+	protected readonly _meta: Meta;
+	private _storeEvents: StoreEvent[] = [];
 
-	constructor(tagName = 'div', props: Props = {}) {
+	constructor(tagName = 'div', containerClassName: string, props: Props = {}, events: Events = {}, rootId?: string) {
 		this.eventBus = new EventBus();
 		this._meta = {
 			tagName,
-			props,
+      containerClassName,
+      props,
+      events,
+      rootId,
 		};
 
 		this.props = this._makePropsProxy(props);
 
-		this._registerEvents(this.eventBus);
+		this._registerEventBusEvents(this.eventBus);
 		this.eventBus.emit(EventsEnum.INIT);
 	}
 
 	init() {
 		this._createResources();
-		this._addComponentNameAttribute();
+		this._addComponentAttributes();
 		this.eventBus.emit(EventsEnum.FLOW_CDM);
 	}
 
@@ -43,7 +38,7 @@ export class Block<T> {
 	}
 
 	componentDidUpdate(oldProps: Props, newProps: Props): boolean {
-		return oldProps !== newProps;
+		return isDeepEqual(oldProps, newProps);
 	}
 
 	setProps<T>(nextProps: T): void {
@@ -57,6 +52,11 @@ export class Block<T> {
 	render(): DocumentFragment {
 		throw new Error('The render method must be implemented');
 	}
+
+  subscribeToStoreEvent(eventName: string, callback: (path: string) => void): void {
+    store.on(eventName, callback, this);
+    this._storeEvents.push({eventName, callback});
+  }
 
 	makePropsProxy(_: Props): Props | null {
 		return null;
@@ -74,24 +74,39 @@ export class Block<T> {
     this.getContent().classList.add('hidden');
 	}
 
+  destroy(): void {
+    this._componentWillUnmount();
+  }
+
 	get element(): HTMLElement {
 		return this._element;
 	}
 
-	_registerEvents(eventBus: EventBus) {
-		eventBus.on(EventsEnum.INIT, this.init.bind(this));
-		eventBus.on(EventsEnum.FLOW_CDM, this._componentDidMount.bind(this));
-		eventBus.on(EventsEnum.FLOW_CDU, this._componentDidUpdate.bind(this));
-		eventBus.on(EventsEnum.FLOW_RENDER, this._render.bind(this));
+	_registerEventBusEvents(eventBus: EventBus) {
+		eventBus.on(EventsEnum.INIT, this.init, this);
+		eventBus.on(EventsEnum.FLOW_CDM, this._componentDidMount, this);
+		eventBus.on(EventsEnum.FLOW_CDU, this._componentDidUpdate, this);
+		eventBus.on(EventsEnum.FLOW_RENDER, this._render, this);
 	}
+
+  _removeEventBusEvents() {
+    this.eventBus.off(EventsEnum.INIT, this.init, this);
+    this.eventBus.off(EventsEnum.FLOW_CDM, this._componentDidMount, this);
+    this.eventBus.off(EventsEnum.FLOW_CDU, this._componentDidUpdate, this);
+    this.eventBus.off(EventsEnum.FLOW_RENDER, this._render, this);
+  }
 
 	_createResources() {
 		const {tagName} = this._meta;
 		this._element = this._createDocumentElement(tagName);
 	}
 
-	_addComponentNameAttribute() {
+	_addComponentAttributes() {
 		this._element.setAttribute('data-component', this.constructor.name);
+
+    if (this._meta.containerClassName) {
+      this._element.classList.add(this._meta.containerClassName);
+    }
 	}
 
 	_componentDidMount() {
@@ -99,9 +114,19 @@ export class Block<T> {
 		this.eventBus.emit(EventsEnum.FLOW_RENDER);
 	}
 
+  _componentWillUnmount() {
+    this._removeAllEvents();
+    const root = document.getElementById(this._meta.rootId || '');
+
+    if (root) {
+      root.innerHTML = '';
+    }
+  }
+
 	_componentDidUpdate(oldProps: Props, newProps: Props): void {
-		const response = this.componentDidUpdate(oldProps, newProps);
-		if (response) {
+		const isEqual = this.componentDidUpdate(oldProps, newProps);
+
+		if (!isEqual) {
 			this.eventBus.emit(EventsEnum.FLOW_RENDER);
 		}
 	}
@@ -131,9 +156,10 @@ export class Block<T> {
 				prop: string,
 				value: string | Record<string, unknown>,
 			): boolean => {
+				const targetCopy = cloneDeep(target);
 				target[prop] = value;
 
-				this.eventBus.emit(EventsEnum.FLOW_CDU, {...target}, target);
+        this.eventBus.emit(EventsEnum.FLOW_CDU, targetCopy, target);
 
 				return true;
 			},
@@ -151,13 +177,14 @@ export class Block<T> {
 	}
 
 	_addEvents() {
-		const {events = {}} = this.props;
+		const {events = {}} = this._meta;
 
 		Object.entries(events).forEach(([eventName, eventArray = []]) => {
 			eventArray.forEach(({id, fn}) => {
 				const nodeElement = this.element.querySelector(`#${id}`);
-				if (!nodeElement) {
-					throw new Error(`AddEvents function failed with the element id ${id}`);
+
+        if (!nodeElement) {
+          return;
 				}
 
 				nodeElement.addEventListener(eventName, fn);
@@ -166,15 +193,28 @@ export class Block<T> {
 	}
 
 	_removeEvents() {
-		const {events = {}} = this.props;
+		const {events = {}} = this._meta;
 
 		Object.entries(events).forEach(([eventName, eventArray = []]) => {
 			eventArray.forEach(({id, fn}) => {
 				const nodeElement = this.element.querySelector(`#${id}`);
-				if (nodeElement) {
+
+        if (nodeElement) {
 					nodeElement.removeEventListener(eventName, fn);
 				}
 			});
 		});
 	}
+
+  _removeStoreEvents() {
+    this._storeEvents.forEach(({eventName, callback}) => {
+      store.off(eventName, callback, this);
+    });
+  }
+
+  _removeAllEvents(): void {
+    this._removeEventBusEvents();
+    this._removeEvents();
+    this._removeStoreEvents();
+  }
 }

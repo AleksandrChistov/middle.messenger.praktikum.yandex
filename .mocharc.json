@@ -1,0 +1,10 @@
+{
+  "require": ["ts-node/register", "testNullCompiler.js"],
+  "extensions": ["ts", "tsx"],
+  "spec": [
+    "src/**/*.spec.*"
+  ],
+  "watch-files": [
+    "src"
+  ]
+}

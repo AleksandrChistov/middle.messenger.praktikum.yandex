@@ -1,31 +1,38 @@
 div.form-container
     form(class="form" id="form-profile")
-        a(href="../chat" class="arrow-back")
+        a(href="#" id="goToChat" class="arrow-back")
             include ../../../static/assets/icons/arrow-back.svg
         h1="Your profile"
         hr.line
-        textInputComponent1
-        first_nameErrorMessage
-        textInputComponent2
-        second_nameErrorMessage
-        textInputComponent3
-        textInputComponent4
-        loginErrorMessage
-        emailInputComponent
-        emailErrorMessage
-        phoneInputComponent
-        phoneErrorMessage
-        formButtonComponent1
+        TextInputComponent(data="nameInput")
+        ErrorMessageComponent(data="errorName" error-for=nameInput.id)
+        TextInputComponent(data="surnameInput")
+        ErrorMessageComponent(data="errorSurname" error-for=surnameInput.id)
+        TextInputComponent(data="displayNameInput")
+        TextInputComponent(data="loginInput")
+        ErrorMessageComponent(data="errorLogin" error-for=loginInput.id)
+        EmailInputComponent(data="emailInput")
+        ErrorMessageComponent(data="errorEmail" error-for=emailInput.id)
+        PhoneInputComponent(data="phoneInput")
+        ErrorMessageComponent(data="errorPhone" error-for=phoneInput.id)
+        FormButtonComponent(data="changeDataButton")
     form(class="form form--relative" id="form-password")
-        a(href="../signin" class="form__escape-icon")
+        a(href="#" id="logout" class="form__escape-icon")
             include ../../../static/assets/icons/escape.svg
-        button(type="button" class="avatar-button")
+        button(
+          type="button"
+          id="openPopupAvatar"
+          class="avatar-button"
+          style=`background-image: url(${avatarImgSrc ? avatarImgSrc : popupAvatar.defaultImgSrc})`
+          )
             span(class="avatar-button__text")="Change avatar"
         hr.line
-        passwordInputComponent1
-        oldPasswordErrorMessage
-        passwordInputComponent2
-        passwordErrorMessage
-        passwordInputComponent3
-        newPasswordErrorMessage
-        formButtonComponent2
+        PasswordInputComponent(data="oldPasswordInput")
+        ErrorMessageComponent(data="errorOldPassword" error-for=oldPasswordInput.id)
+        PasswordInputComponent(data="passwordInput")
+        ErrorMessageComponent(data="errorPassword" error-for=passwordInput.id)
+        PasswordInputComponent(data="passwordAgainInput")
+        ErrorMessageComponent(data="errorPasswordAgain" error-for=passwordAgainInput.id)
+        FormButtonComponent(data="changePasswordButton")
+
+PopupAvatarComponent(data="popupAvatar")

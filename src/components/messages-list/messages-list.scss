@@ -1,0 +1,12 @@
+@import "../../../static/styles/colors";
+// column-reverse?
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex-grow: 1;
+
+  &__message {
+    margin-bottom: 20px;
+  }
+}

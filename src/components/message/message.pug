@@ -1,5 +1,6 @@
 section(class=`message ${you ? 'message--you' : ''}`)
-    avatarComponent(class="message__avatar")
+    AvatarComponent(data="avatar" class="message__avatar")
     div(class="message__card")
         p(class="message__text")=text
-        timeComponent(class="message__time")
+        if time
+          TimeComponent(data="time" class="message__time")

@@ -1,27 +1,34 @@
 import {Block} from '../../core/block';
-import {Props} from '../../core/types';
-import {compileTemplateToElement} from '../../core/utils';
+import {Events, Props} from '../../core/types';
+import {compileTemplateToElement} from '../../core/utils/compile-template';
+import {mapStateToPropsCallBack} from '../../store/utils';
 import templatePug from './chat-card.pug';
-import {Avatar} from '../avatar/avatar';
-import {Time} from '../time/time';
+import {AvatarProps} from '../avatar/avatar';
+import {TimeProps} from '../time/types';
 import './chat-card.scss';
 
-interface ChatCardProps extends Props {
-	authorName: string;
+export interface ChatCardProps extends Props {
+  chatName: string;
 	textMessage?: string;
-	messageCount?: string;
-	children: {
-		avatarComponent: InstanceType<typeof Avatar>;
-		timeComponent: InstanceType<typeof Time>;
-	};
+  unreadMessageCount?: number;
+  avatar: AvatarProps;
+  time: TimeProps | null;
+  active: boolean;
+  id: number;
 }
 
 export class ChatCard extends Block<ChatCardProps> {
-	constructor(propsObj: ChatCardProps) {
-		super('div', propsObj);
+  readonly eventName: string;
+
+	constructor(propsObj: ChatCardProps, eventName: string, events?: Events) {
+		super('div', 'chat-card-block', propsObj, events);
+
+    this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
+
+    this.eventName = eventName;
 	}
 
 	render() {
-		return compileTemplateToElement(templatePug, this.props);
+		return compileTemplateToElement(templatePug, this.props, this.eventName, this._meta.events);
 	}
 }

@@ -1,144 +1,536 @@
-import {Children, Props} from '../../core/types';
-import {HandleFormService} from '../../services/form-service';
-import {FieldName} from "../../services/form-validation-service";
 import {ShowErrorService} from "../../services/show-error-service";
-import {getErrorMessageFieldName} from "../../utils";
-import {SearchInput} from '../../components/inputs/search/search-input';
-import {ChatCard} from '../../components/chat-card/chat-card';
-import {Message} from '../../components/message/message';
-import {Avatar} from '../../components/avatar/avatar';
-import {Time} from '../../components/time/time';
-import {ErrorMessage} from '../../components/error-message/error-message';
-import settingsImg from '../../../static/assets/icons/settings.svg';
-import vertEllipsisImg from '../../../static/assets/icons/vert-ellipsis.svg';
-import cartImg from '../../../static/assets/icons/cart.svg';
-import avatarImg1 from '../../../static/assets/img/avatar1.png';
-import avatarImg2 from '../../../static/assets/img/avatar2.png';
+import {router} from "../../index";
+import {Events} from "../../core/types";
+import {CHAT_PAGE_EVENT_NAME} from "./events";
+import store from "../../store/store";
+import {getPathFromArray} from "../../core/utils/get-path-from-array";
+import {getEventName} from "../../core/utils/get-event-name";
+import {CreateChatController} from "../../controllers/chat-controllers/create-chat-controller";
+import {ChatCardProps} from "../../components/chat-card/chat-card";
+import {debounce, getAvatarLink} from "../../utils";
+import {GetUsersController} from "../../controllers/chat-controllers/get-users-controller";
+import {AddUsersToChatController} from "../../controllers/chat-controllers/add-users-to-chat-controller";
+import {GetUsersByChatIdController} from "../../controllers/chat-controllers/get-users-by-chat-id-controller";
+import {DeleteUsersFromChatController} from "../../controllers/chat-controllers/delete-users-from-chat-controller";
+import {GetChatTokenController} from "../../controllers/chat-controllers/get-chat-token-controller";
+import {
+  UserIdAndAvatarController,
+  UserIdAndAvatarRequest
+} from "../../controllers/user-profile-controller/get-user-id-controller";
+import {TimeType} from "../../components/time/types";
+import {MessageProps} from "../../components/message/message";
+import {UserInfoByIdController} from "../../controllers/user-profile-controller/get-user-info-by-id-controller";
+import {UserInfoByIdResponse} from "../../api/user-profile-api/get-user-info-by-id-api";
+import {webSocketController} from "../../controllers/websocket-controller/websocket-controller";
+import {FoundUserProps} from "../../components/found-user/types";
 
-export interface ChatPageProps extends Props {
-	authorName: string;
-  messageFieldName: string;
-	settingsImgSrc: string;
-	vertEllipsisImgSrc: string;
-	cartImgSrc: string;
-  children: Children;
+
+class ChatHandleService extends ShowErrorService {
+  public chatEvents: Events = {
+    click: [
+      {
+        id: 'goToSettings',
+        fn: event => {
+          event.preventDefault();
+          router.go('/settings');
+        },
+      },
+      {
+        id: 'openCreateChatPopup',
+        fn: event => {
+          event.preventDefault();
+
+          store.set(
+            getPathFromArray(['chatPage', 'popupCreateChat']),
+            {
+              ...store.getState().chatPage.popupCreateChat,
+              isOpened: true,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupCreateChat')
+          );
+        },
+      },
+      {
+        id: 'popupCreateChat',
+        fn: event => {
+          const backgroundPopup = (event.target as HTMLElement).getAttribute('id');
+
+          if (backgroundPopup !== 'popupCreateChat') {
+            return;
+          }
+
+          store.set(
+            getPathFromArray(['chatPage', 'popupCreateChat']),
+            {
+              ...store.getState().chatPage.popupCreateChat,
+              isOpened: false,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupCreateChat')
+          );
+        },
+      },
+      {
+        id: 'closeCreateChatPopup',
+        fn: () => {
+          store.set(
+            getPathFromArray(['chatPage', 'popupCreateChat']),
+            {
+              ...store.getState().chatPage.popupCreateChat,
+              isOpened: false,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupCreateChat')
+          );
+        },
+      },
+      {
+        id: 'chatCards',
+        fn: event => {
+          const chatCardElement = (event.target as HTMLElement).closest('.chat-card');
+
+          if (!chatCardElement) {
+            return;
+          }
+
+          const chats = store.getState().chatPage.chatsList.chats;
+
+          const selectedChat = chats.find((chat: ChatCardProps) => chat.id === Number(chatCardElement.id));
+
+          GetChatTokenController.get(Number(chatCardElement.id)).then((token: string) => {
+            UserIdAndAvatarController.getIdAndAvatar()
+              .then((user: UserIdAndAvatarRequest) => {
+
+                if (webSocketController.isStarted) {
+                  webSocketController.closeConnection();
+                }
+
+                startChat(user, selectedChat, token);
+              })
+              .catch(error => {
+                console.error(error);
+              })
+          });
+        },
+      },
+      {
+        id: 'vertical-ellipsis',
+        fn: () => {
+          store.set(
+            getPathFromArray(['chatPage', 'ellipsisMenu']),
+            {
+              ...store.getState().chatPage.ellipsisMenu,
+              isOpened: true,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'ellipsisMenu')
+          );
+        },
+      },
+      {
+        id: 'closeEllipsisMenu',
+        fn: event => {
+          const idClickedElement = (event.target as HTMLElement).getAttribute('id');
+
+          if (idClickedElement !== 'closeEllipsisMenu') {
+            return;
+          }
+
+          store.set(
+            getPathFromArray(['chatPage', 'ellipsisMenu']),
+            {
+              ...store.getState().chatPage.ellipsisMenu,
+              isOpened: false,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'ellipsisMenu')
+          );
+        },
+      },
+      {
+        id: 'addUser',
+        fn: () => {
+          store.set(
+            getPathFromArray(['chatPage', 'ellipsisMenu']),
+            {
+              ...store.getState().chatPage.ellipsisMenu,
+              isOpened: false,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'ellipsisMenu')
+          );
+
+          store.set(
+            getPathFromArray(['chatPage', 'popupAddUserToChat']),
+            {
+              ...store.getState().chatPage.popupAddUserToChat,
+              isOpened: true
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupAddUserToChat')
+          );
+        },
+      },
+      {
+        id: 'deleteUser',
+        fn: () => {
+          store.set(
+            getPathFromArray(['chatPage', 'ellipsisMenu']),
+            {
+              ...store.getState().chatPage.ellipsisMenu,
+              isOpened: false,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'ellipsisMenu')
+          );
+
+          store.set(
+            getPathFromArray(['chatPage', 'popupDeleteUserFromChat']),
+            {
+              ...store.getState().chatPage.popupDeleteUserFromChat,
+              isOpened: true,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupDeleteUserFromChat')
+          );
+
+          const selectedChatId = store.getState().chatPage.selectedChat?.id as number;
+
+          GetUsersByChatIdController.get(selectedChatId);
+        },
+      },
+      {
+        id: 'closePopupAddUserToChat',
+        fn: event => {
+          const idClickedElement = (event.target as HTMLElement).getAttribute('id');
+
+          if (idClickedElement !== 'closePopupAddUserToChat') {
+            return;
+          }
+
+          store.set(
+            getPathFromArray(['chatPage', 'popupAddUserToChat']),
+            {
+              ...store.getState().chatPage.popupAddUserToChat,
+              isOpened: false,
+              usersList: {
+                users: []
+              },
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupAddUserToChat')
+          );
+        },
+      },
+      {
+        id: 'closePopupDeleteUserFromChat',
+        fn: event => {
+          const idClickedElement = (event.target as HTMLElement).getAttribute('id');
+
+          if (idClickedElement !== 'closePopupDeleteUserFromChat') {
+            return;
+          }
+
+          store.set(
+            getPathFromArray(['chatPage', 'popupDeleteUserFromChat']),
+            {
+              ...store.getState().chatPage.popupDeleteUserFromChat,
+              isOpened: false,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupDeleteUserFromChat')
+          );
+        },
+      },
+      {
+        id: 'closeAddUserPopup',
+        fn: () => {
+          store.set(
+            getPathFromArray(['chatPage', 'popupAddUserToChat']),
+            {
+              ...store.getState().chatPage.popupAddUserToChat,
+              isOpened: false,
+              searchUserInput: {
+                ...store.getState().chatPage.popupAddUserToChat.searchUserInput,
+                value: '',
+              },
+              usersList: {
+                users: []
+              },
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupAddUserToChat')
+          );
+        },
+      },
+      {
+        id: 'closeDeleteUserPopup',
+        fn: () => {
+          store.set(
+            getPathFromArray(['chatPage', 'popupDeleteUserFromChat']),
+            {
+              ...store.getState().chatPage.popupDeleteUserFromChat,
+              isOpened: false,
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME, 'popupDeleteUserFromChat')
+          );
+        },
+      },
+      {
+        id: 'addUserToChat',
+        fn: event => {
+          const userItem = (event.target as HTMLElement).closest('.found-user-item');
+
+          if (!userItem) {
+            return;
+          }
+
+          const userItemId = userItem.getAttribute('id');
+
+          const chatId = store.getState().chatPage.selectedChat?.id;
+
+          if (!chatId) {
+            return;
+          }
+
+          AddUsersToChatController.add({
+            users: [Number(userItemId)],
+            chatId: chatId,
+          })
+        },
+      },
+      {
+        id: 'deleteUserFromChat',
+        fn: event => {
+          const userItem = (event.target as HTMLElement).closest('.found-user-item');
+
+          if (!userItem) {
+            return;
+          }
+
+          const userItemId = userItem.getAttribute('id');
+
+          const chatId = store.getState().chatPage.selectedChat?.id;
+
+          if (!chatId) {
+            return;
+          }
+
+          DeleteUsersFromChatController.delete({
+            users: [Number(userItemId)],
+            chatId: chatId,
+          })
+        },
+      },
+    ],
+    input: [
+      {
+        id: 'user_login',
+        fn: debounce(handleSearchUsers, 500),
+      }
+    ],
+    focus: [
+      {
+        id: 'message',
+        fn: event => {
+          this.handleFormService.handleFieldFocus(event);
+        },
+      },
+    ],
+    keydown: [
+      {
+        id: 'message',
+        fn: (event: KeyboardEvent) => {
+          if (!event.shiftKey && event.code === 'Enter') {
+            event.preventDefault();
+
+            const input = (event.target as HTMLInputElement);
+
+            if (!input.value.trim()) {
+              return;
+            }
+
+            webSocketController.send(input.value);
+
+            input.value = '';
+          }
+        },
+      },
+    ],
+    submit: [
+      {
+        id: 'formMessage',
+        fn: event => {
+          event.preventDefault();
+          const isFormValid = this.validateFormItems(event, 'chat', CHAT_PAGE_EVENT_NAME);
+
+          if (!isFormValid) {
+            return;
+          }
+
+          const formData = this.handleFormService.handleFormSubmit(event);
+
+          if (!formData) {
+            return;
+          }
+
+          webSocketController.send(formData.message);
+
+          (event.target as HTMLInputElement).value = '';
+        },
+      },
+      {
+        id: 'formCreateChat',
+        fn: event => {
+          event.preventDefault();
+          const formData = this.handleFormService.handleFormSubmit(event);
+
+          if (!formData) {
+            return;
+          }
+
+          CreateChatController.create({
+            title: formData.chat_name,
+          });
+        },
+      },
+    ],
+  };
 }
 
-class ChatService extends ShowErrorService {
-	public props: ChatPageProps;
+function handleSearchUsers(event: Event): void {
+  const text = (event.target as HTMLInputElement).value.trim();
 
-	constructor() {
-    super();
-    this.props = getProps(this.handleFormService);
-	}
+  if (!text) {
+    return;
+  }
+
+  GetUsersController.get({login: text});
 }
 
-function getProps(handleFormService: HandleFormService): ChatPageProps {
-	return {
-		authorName: 'Savannah Nguyen',
-    messageFieldName: FieldName.Message,
-		settingsImgSrc: settingsImg as string,
-		vertEllipsisImgSrc: vertEllipsisImg as string,
-		cartImgSrc: cartImg as string,
-		children: {
-			searchInputComponent: new SearchInput({
-				id: 'search',
-				name: 'search',
-				placeholder: 'Search',
-			}),
-			chatCardComponent1: new ChatCard({
-				authorName: 'Savannah Nguyen',
-				textMessage: 'Yeah! You\'re right.',
-				children: {
-					avatarComponent: new Avatar({
-						avatarImgSrc: avatarImg1 as string,
-					}),
-					timeComponent: new Time({
-						type: 'time-card',
-						date: new Date(2021, 9, 27, 17, 31),
-					}),
-				},
-			}),
-			chatCardComponent2: new ChatCard({
-				authorName: 'Jane Cooper',
-				textMessage: 'I hope it goes well.',
-				messageCount: '4',
-				children: {
-					avatarComponent: new Avatar({
-						avatarImgSrc: avatarImg2 as string,
-					}),
-					timeComponent: new Time({
-						type: 'time-card',
-						date: new Date(2021, 9, 3, 17, 31),
-					}),
-				},
-			}),
-			avatarComponent: new Avatar({
-				avatarImgSrc: avatarImg1 as string,
-				size: '36px',
-			}),
-			timeComponent1: new Time({
-				type: 'time-main',
-				date: new Date(2021, 1, 2, 12, 31),
-			}),
-			messageComponent1: new Message({
-				you: false,
-				text: 'Hey! Look, an interesting piece of lunar \n'
-                    + 'space history surfaced here - NASA at some \n'
-                    + 'point asked Hasselblad to adapt the SWC \n'
-                    + 'model for flights to the moon.\n'
-                    + '\n'
-                    + 'Hasselblad eventually adapted SWC for \n'
-                    + 'space, but something went wrong and they \n'
-                    + 'never hit the rocket.',
-				children: {
-					avatarComponent: new Avatar({
-						avatarImgSrc: avatarImg1 as string,
-					}),
-					timeComponent: new Time({
-						type: 'time-card',
-						date: new Date(2021, 9, 31, 20, 1),
-					}),
-				},
-			}),
-			messageComponent2: new Message({
-				you: true,
-				text: 'Hey! Look, an interesting piece of lunar',
-				children: {
-					avatarComponent: new Avatar({
-						avatarImgSrc: avatarImg2 as string,
-					}),
-					timeComponent: new Time({
-						type: 'time-card',
-						date: new Date(2021, 9, 31, 20, 1),
-					}),
-				},
-			}),
-      [getErrorMessageFieldName(FieldName.Message)]: new ErrorMessage({
-        addClass: 'form__error-text',
-      }),
-		},
-		events: {
-			focus: [
-				{
-					id: 'message',
-					fn: event => {
-						handleFormService.handleFieldFocus(event);
-					},
-				},
-			],
-			submit: [
-				{
-					id: 'form',
-					fn: event => {
-						handleFormService.handleFormSubmit(event);
-					},
-				},
-			],
-		},
-	};
+function startChat(currentUser: UserIdAndAvatarRequest, selectedChat: ChatCardProps, token: string): void {
+  webSocketController.start(currentUser.id, selectedChat.id, token).then((isStarted: boolean) => {
+    if (isStarted) {
+      GetUsersByChatIdController.get(selectedChat.id).then(() => {
+        webSocketController.getLastMessages((lastMessages) => {
+          if (!lastMessages) {
+            return;
+          }
+
+          const users = store.getState().chatPage.popupDeleteUserFromChat.usersList.users;
+
+          const getAvatarFromSavedUsers = (userId: number) => {
+            return users.find((user: FoundUserProps) => user.id === userId)?.avatar.avatarImgSrc ?? null;
+          }
+
+          const updatedLastMessages = lastMessages.map((lastMessage) => {
+            return {
+              you: currentUser.id === lastMessage.user_id,
+              text: lastMessage.content,
+              avatar: {
+                avatarImgSrc: getAvatarFromSavedUsers(lastMessage.user_id),
+                size: '36px'
+              },
+              time: {
+                type: TimeType.Card,
+                date: new Date(lastMessage.time),
+              }
+            }
+          })
+
+          const getActiveChats = (chats: ChatCardProps[]) => chats.map(chat => {
+            if (chat.id === Number(selectedChat.id)) {
+              return {
+                ...chat,
+                unreadMessageCount: 0,
+                textMessage: updatedLastMessages[0]?.text,
+                time: updatedLastMessages[0]?.time ?? null,
+                active: true,
+              }
+            }
+
+            return {
+              ...chat,
+              active: false,
+            }
+          })
+
+          const chats = store.getState().chatPage.chatsList.chats;
+
+          store.set(
+            getPathFromArray(['chatPage']),
+            {
+              ...store.getState().chatPage,
+              selectedChat: selectedChat,
+              chatsList: {
+                chats: getActiveChats(chats),
+              },
+              messagesList: {
+                messages: updatedLastMessages.reverse(),
+              },
+              chatName: selectedChat.chatName,
+              chatAvatar: {
+                avatarImgSrc: selectedChat.avatar.avatarImgSrc,
+                size: '36px',
+              }
+            },
+            getEventName(CHAT_PAGE_EVENT_NAME)
+          );
+
+          subscribeToMessage(currentUser);
+        });
+      });
+    }
+  });
 }
 
-const chatService = new ChatService();
+function subscribeToMessage(currentUser: UserIdAndAvatarRequest): void {
+  webSocketController.subscribeToMessage((message) => {
+    if (!message) {
+      return;
+    }
 
-export const {props} = chatService;
+    UserInfoByIdController.getInfo(message.user_id).then((response: UserInfoByIdResponse) => {
+      const messages = store.getState().chatPage.messagesList.messages as MessageProps[];
+
+      const newMessage = {
+        you: currentUser.id === response.id,
+        text: message.content,
+        avatar: {
+          avatarImgSrc: getAvatarLink(response.avatar),
+          size: '36px'
+        },
+        time: {
+          type: TimeType.Card,
+          date: new Date(),
+        }
+      }
+
+      messages.push(newMessage);
+
+      const chats = store.getState().chatPage.chatsList.chats;
+      const selectedChatId = store.getState().chatPage.selectedChat?.id as number;
+
+      const updatedChats = chats.map(chat => {
+        if (chat.id === selectedChatId) {
+          return {
+            ...chat,
+            textMessage: newMessage.text,
+            time: newMessage.time,
+          }
+        }
+
+        return chat;
+      })
+
+      store.set(
+        getPathFromArray(['chatPage', 'chatsList']),
+        {
+          ...store.getState().chatPage.chatsList,
+          chats: updatedChats,
+        },
+        getEventName(CHAT_PAGE_EVENT_NAME, 'chatsList')
+      );
+
+      store.set(
+        getPathFromArray(['chatPage', 'messagesList']),
+        {
+          ...store.getState().chatPage.messagesList,
+          messages: messages,
+        },
+        getEventName(CHAT_PAGE_EVENT_NAME, 'messagesList')
+      );
+    })
+  });
+}
+
+export const {chatEvents} = new ChatHandleService();

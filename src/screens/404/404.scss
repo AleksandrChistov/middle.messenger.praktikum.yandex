@@ -1,15 +1,13 @@
 @import "../../../static/styles/variables";
 @import "../../../static/styles/colors";
 
-body {
+.page-404-block {
   height: 100vh;
   margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
-#app {
   .error-section {
     text-align: center;
 
