@@ -2,7 +2,7 @@ import {Block} from "../../../core/block";
 import {Events, Props} from "../../../core/types";
 import {mapStateToPropsCallBack} from "../../../store/utils";
 import {compileTemplateToElement} from "../../../core/utils/compile-template";
-import templatePug from "./ellipsis-menu.pug";
+const templatePug = require("./ellipsis-menu.pug");
 import './ellipsis-menu.scss';
 
 

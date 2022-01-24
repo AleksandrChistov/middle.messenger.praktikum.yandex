@@ -1,7 +1,7 @@
 import {Block} from '../../core/block';
 import {Events} from '../../core/types';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
-import templatePug from './404.pug';
+const templatePug = require('./404.pug');
 import './404.scss';
 import {router} from '../../index';
 import {Page404Props} from './types';

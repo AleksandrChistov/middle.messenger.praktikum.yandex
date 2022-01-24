@@ -2,7 +2,7 @@ import {Block} from '../../../core/block';
 import {Events, Props} from '../../../core/types';
 import {compileTemplateToElement} from '../../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../../store/utils';
-import templatePug from './password-input.pug';
+const templatePug = require('./password-input.pug');
 import './password-input.scss';
 import {FieldName} from '../../../services/form-services/form-validation-service';
 

@@ -2,7 +2,7 @@ import {Block} from '../../core/block';
 import {Events, Props} from '../../core/types';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
-import templatePug from './form-button.pug';
+const templatePug = require('./form-button.pug');
 import './form-button.scss';
 
 export interface FormButtonProps extends Props {

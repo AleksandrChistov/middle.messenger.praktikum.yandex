@@ -2,7 +2,7 @@ import {Block} from '../../core/block';
 import {Events, Props} from '../../core/types';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
-import templatePug from './error-message.pug';
+const templatePug = require('./error-message.pug');
 import './error-message.scss';
 
 export const ERROR_ACTIVE_CLASS = 'error-text--display';

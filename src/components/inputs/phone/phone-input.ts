@@ -2,7 +2,7 @@ import {Block} from '../../../core/block';
 import {Events, Props} from '../../../core/types';
 import {compileTemplateToElement} from '../../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../../store/utils';
-import templatePug from './phone-input.pug';
+const templatePug = require('./phone-input.pug');
 import './phone-input.scss';
 import {FieldName} from '../../../services/form-services/form-validation-service';
 

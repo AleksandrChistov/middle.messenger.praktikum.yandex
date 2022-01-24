@@ -2,7 +2,7 @@ import {Block} from '../../core/block';
 import {Events, Props} from '../../core/types';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
-import templatePug from './chats-list.pug';
+const templatePug = require('./chats-list.pug');
 import {ChatCardProps} from "../chat-card/chat-card";
 
 export interface ChatsListProps extends Props {

@@ -1,6 +1,6 @@
 import {Block} from '../../core/block';
 import {compileTemplateToElement} from "../../core/utils/compile-template";
-import templatePug from './signin.pug';
+const templatePug = require('./signin.pug');
 import './signin.scss';
 import {SIGNIN_INITIAL_STATE} from "../../store/initialState/signin-initial-state";
 import {Events} from "../../core/types";

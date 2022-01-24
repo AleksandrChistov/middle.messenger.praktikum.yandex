@@ -1,6 +1,6 @@
 import {Block} from '../../core/block';
 import {compileTemplateToElement} from "../../core/utils/compile-template";
-import templatePug from './chat.pug';
+const templatePug = require('./chat.pug');
 import './chat.scss';
 import {ChatPageProps} from "./types";
 import {CHAT_INITIAL_STATE} from "../../store/initialState/chat-initial-state";

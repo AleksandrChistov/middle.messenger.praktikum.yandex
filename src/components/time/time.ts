@@ -2,7 +2,7 @@ import {Block} from '../../core/block';
 import {EventsEnum} from "../../core/block-types";
 import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
-import templatePug from './time.pug';
+const templatePug = require('./time.pug');
 import {getDateString} from './service';
 import {TimeParsedProps, TimeProps} from './types';
 import './time.scss';

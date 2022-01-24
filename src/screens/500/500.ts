@@ -1,6 +1,6 @@
 import {Block} from '../../core/block';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
-import templatePug from './500.pug';
+const templatePug = require('./500.pug');
 import './500.scss';
 import {router} from '../../index';
 import {Events} from '../../core/types';

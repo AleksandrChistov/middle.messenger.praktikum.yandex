@@ -1,6 +1,6 @@
 import {Block} from '../../core/block';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
-import templatePug from './signup.pug';
+const templatePug = require('./signup.pug');
 import './signup.scss';
 import {SIGNUP_INITIAL_STATE} from '../../store/initialState/signup-initial-state';
 import {SignUpPageProps} from './types';

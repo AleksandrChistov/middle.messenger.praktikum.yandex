@@ -2,7 +2,7 @@ import {Block} from '../../core/block';
 import {Events, Props} from '../../core/types';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
-import templatePug from './message.pug';
+const templatePug = require('./message.pug');
 import {AvatarProps} from '../avatar/avatar';
 import {TimeProps} from '../time/types';
 import './message.scss';

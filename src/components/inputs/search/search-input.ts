@@ -2,7 +2,7 @@ import {Block} from '../../../core/block';
 import {Events, Props} from '../../../core/types';
 import {compileTemplateToElement} from '../../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../../store/utils';
-import templatePug from './search-input.pug';
+const templatePug = require('./search-input.pug');
 import './search-input.scss';
 
 export interface SearchInputProps extends Props {

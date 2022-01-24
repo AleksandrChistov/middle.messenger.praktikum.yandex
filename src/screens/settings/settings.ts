@@ -1,6 +1,6 @@
 import {Block} from '../../core/block';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
-import templatePug from './settings.pug';
+const templatePug = require('./settings.pug');
 import './settings.scss';
 import {SettingsPageProps} from './types';
 import {SETTINGS_INITIAL_STATE} from '../../store/initialState/settings-initial-state';

@@ -1,7 +1,7 @@
 import {Block} from '../../core/block';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
-import templatePug from './users-list.pug';
+const templatePug = require('./users-list.pug');
 import {Events, Props} from "../../core/types";
 import {FoundUserProps} from "../found-user/types";
 

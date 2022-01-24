@@ -2,7 +2,7 @@ import {Block} from "../../../core/block";
 import {Events, Props} from "../../../core/types";
 import {mapStateToPropsCallBack} from "../../../store/utils";
 import {compileTemplateToElement} from "../../../core/utils/compile-template";
-import templatePug from "./popup-delete-user.pug";
+const templatePug = require("./popup-delete-user.pug");
 import './popup-delete-user.scss';
 import {UsersListProps} from "../../found-users/users-list";
 
