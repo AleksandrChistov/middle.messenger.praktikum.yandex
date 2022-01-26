@@ -1,5 +1,5 @@
-@import "../../../../static/styles/colors";
-@import "../input-styles";
+@import '../../../../static/styles/colors';
+@import '../input-styles';
 
 .search-input-block {
   .input {
@@ -15,7 +15,7 @@
         height: 24px;
         border: none;
         padding: 0;
-        background: url("../../../../static/assets/icons/search.svg") center center no-repeat;
+        background: url('../../../../static/assets/icons/search.svg') center center no-repeat;
 
         &:hover {
           cursor: pointer;
