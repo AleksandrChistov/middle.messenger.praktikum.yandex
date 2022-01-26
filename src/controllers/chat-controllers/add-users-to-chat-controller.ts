@@ -15,10 +15,10 @@ export type AddUsersToChatFormModel = {
 const addUsersToChatApi = new AddUsersToChatApi();
 
 export class AddUsersToChatController {
-	static async add(data: AddUsersToChatFormModel): Promise<void> {
+	static async add(data: AddUsersToChatFormModel): Promise<boolean> {
 		try {
 			// Запускаем крутилку
-			addUsersToChatApi.add(prepareDataToRequest(data))
+			return await addUsersToChatApi.add(prepareDataToRequest(data))
 				.then((response: ErrorResponse | null) => {
 					// Останавливаем крутилку
 					if (response) {
@@ -30,13 +30,15 @@ export class AddUsersToChatController {
 						prepareDataToStore(data.users),
 						getEventName('popupAddUserToChat', 'usersList'),
 					);
+
+					return true;
 				})
 				.catch(error => {
-					console.error(error, data);
+					throw new Error(JSON.stringify(error));
 					// Останавливаем крутилку
 				});
 		} catch (error: unknown) {
-			console.error(error, data);
+			throw new Error(JSON.stringify(error));
 			// Логика обработки ошибок
 		}
 	}

@@ -4,7 +4,7 @@ import {AddUsersToChatController, AddUsersToChatFormModel} from './add-users-to-
 import store from '../../store/store';
 import * as sinon from 'sinon';
 import {AddUsersToChatApi} from '../../api/chat-api/add-users-api';
-import {CHAT_PAGE_EVENT_NAME} from '../../screens/chat/events';
+import {getEventName} from "../../core/utils/get-event-name";
 
 describe('AddUsersToChatController', () => {
 	const formModel: AddUsersToChatFormModel = {
@@ -12,13 +12,13 @@ describe('AddUsersToChatController', () => {
 		chatId: 1,
 	};
 
-	it('should call API', async () => {
-		const spyAPI = sinon.stub(AddUsersToChatApi.prototype, 'add')
-      .callsFake(async () => new Promise(resolve => {
-			resolve(null);
-		}));
+  const spyAPI = sinon.stub(AddUsersToChatApi.prototype, 'add')
+    .callsFake(async () => new Promise(resolve => {
+      resolve(null);
+    }));
 
-		store.on(CHAT_PAGE_EVENT_NAME, () => {}, () => {});
+	it('should call API', async () => {
+		store.on(getEventName('popupAddUserToChat', 'usersList'), () => {}, () => {});
 
 		await AddUsersToChatController.add(formModel);
 
@@ -28,7 +28,7 @@ describe('AddUsersToChatController', () => {
 	it('should call store', async () => {
 		const spyStore = sinon.spy();
 
-		store.on(CHAT_PAGE_EVENT_NAME, spyStore, spyStore);
+		store.on(getEventName('popupAddUserToChat', 'usersList'), spyStore, spyStore);
 
 		await AddUsersToChatController.add(formModel);
 
