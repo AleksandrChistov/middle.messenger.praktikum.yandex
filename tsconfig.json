@@ -1,4 +1,12 @@
 {
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+
+    "compilerOptions": {
+      "module": "commonjs",
+    }
+  },
   "compilerOptions": {
     "outDir": "dist",
     "sourceMap": true,
@@ -6,5 +14,5 @@
     "target": "es5",
     "allowJs": true,
     "moduleResolution": "node"
-  }
+  },
 }
