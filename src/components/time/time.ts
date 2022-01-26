@@ -1,19 +1,18 @@
 import {Block} from '../../core/block';
-import {EventsEnum} from "../../core/block-types";
+import {EventsEnum} from '../../core/block-types';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
-const templatePug = require('./time.pug');
+const templatePug = require('./time.pug') as (locals: Props) => string;
 import {getDateString} from './service';
 import {TimeParsedProps, TimeProps} from './types';
 import './time.scss';
-import {Events} from "../../core/types";
-
+import {Events, Props} from '../../core/types';
 
 export class Time extends Block<TimeProps> {
 	constructor(propsObj: TimeProps, eventName: string, events?: Events) {
 		super('div', 'time-block', propsObj, events);
 
-    this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
+		this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {
@@ -28,7 +27,7 @@ export class Time extends Block<TimeProps> {
 
 		return new Proxy<TimeParsedProps>(newPropsObj, {
 			get: (target: TimeParsedProps, prop: string): unknown => {
-				const value = target[prop] as unknown;
+				const value = target[prop];
 
 				return (typeof value === 'function') ? (value as () => void).bind(target) : value;
 			},

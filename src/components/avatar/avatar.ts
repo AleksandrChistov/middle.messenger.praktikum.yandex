@@ -2,7 +2,7 @@ import {Block} from '../../core/block';
 import {Events, Props} from '../../core/types';
 import {compileTemplateToElement} from '../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../store/utils';
-const templatePug = require('./avatar.pug');
+const templatePug = require('./avatar.pug') as (locals: Props) => string;
 import './avatar.scss';
 
 export interface AvatarProps extends Props {
@@ -14,7 +14,7 @@ export class Avatar extends Block<AvatarProps> {
 	constructor(propsObj: AvatarProps, eventName: string, events?: Events) {
 		super('div', 'avatar-block', propsObj, events);
 
-    this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
+		this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {

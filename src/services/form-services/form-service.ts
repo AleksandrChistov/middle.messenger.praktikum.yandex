@@ -1,12 +1,12 @@
-import {FieldName} from "./constants";
+import {FieldName} from './constants';
 
-export type Invalid = { text?: true; length?: true; } | null;
+export type Invalid = {text?: true; length?: true} | null;
 
-export type FormValidItem = ({ fieldName: FieldName, dataName: string, invalid: Invalid } | null);
+export type FormValidItem = ({fieldName: FieldName; dataName: string; invalid: Invalid} | null);
 
 export interface IFormValidationService {
-  validateInput: (element: HTMLInputElement) => Invalid;
-  isFieldHasValidation: (fieldName: string) => boolean;
+	validateInput: (element: HTMLInputElement) => Invalid;
+	isFieldHasValidation: (fieldName: string) => boolean;
 }
 
 export class HandleFormService {
@@ -33,10 +33,49 @@ export class HandleFormService {
 		const invalid = this.formValidationService.validateInput(element);
 
 		if (invalid) {
-      element.classList.add('invalid');
-    }
+			element.classList.add('invalid');
+		}
 
-    return invalid;
+		return invalid;
+	}
+
+	validateForm(event: Event): FormValidItem[] {
+		const {elements} = event.target as HTMLFormElement;
+
+		return Array.from(elements)
+			.filter((element: HTMLInputElement) => Boolean(element.name))
+			.map((element: HTMLInputElement) => {
+				const isFieldHasValidation = this.formValidationService.isFieldHasValidation(element.name);
+
+				if (!isFieldHasValidation) {
+					return null;
+				}
+
+				const invalid = this.formValidationService.validateInput(element);
+
+				if (invalid) {
+					element.classList.add('invalid');
+				}
+
+				const errorElement = document.querySelector(`[error-for=${element.id}]`);
+
+				if (!errorElement) {
+					throw new Error(`Please specify 'error-for' attribute for element with id ${element.id}`);
+				}
+
+				const dataName = errorElement.getAttribute('data');
+
+				if (!dataName) {
+					console.error(`Data attribute for the ${element.name} element has not been specified`);
+					return null;
+				}
+
+				return {
+					fieldName: element.name as FieldName,
+					dataName,
+					invalid,
+				};
+			});
 	}
 
 	private serializeForm({elements}: HTMLFormElement): Record<string, string> | null {
@@ -50,43 +89,4 @@ export class HandleFormService {
 			return obj;
 		}, {});
 	}
-
-  validateForm(event: Event): FormValidItem[] {
-    const {elements} = event.target as HTMLFormElement;
-
-    return Array.from(elements)
-      .filter((element: HTMLInputElement) => Boolean(element.name))
-      .map((element: HTMLInputElement) => {
-        const isFieldHasValidation = this.formValidationService.isFieldHasValidation(element.name);
-
-        if (!isFieldHasValidation) {
-          return null;
-        }
-
-        const invalid = this.formValidationService.validateInput(element);
-
-        if (invalid) {
-          element.classList.add('invalid');
-        }
-
-        const errorElement = document.querySelector(`[error-for=${element.id}]`);
-
-        if (!errorElement) {
-          throw new Error(`Please specify 'error-for' attribute for element with id ${element.id}`);
-        }
-
-        const dataName = errorElement.getAttribute("data");
-
-        if (!dataName) {
-          console.error(`Data attribute for the ${element.name} element has not been specified`);
-          return null;
-        }
-
-        return {
-          fieldName: element.name as FieldName,
-          dataName: dataName,
-          invalid: invalid
-        };
-      });
-  }
 }

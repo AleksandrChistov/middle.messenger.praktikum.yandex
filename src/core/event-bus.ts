@@ -1,7 +1,7 @@
 type AnyFunc = (...args: any[]) => any | void;
 
 export class EventBus {
-	private listeners: Record<string, {subscriber: unknown, callback: AnyFunc}[]>;
+	private listeners: Record<string, Array<{subscriber: unknown; callback: AnyFunc}>>;
 
 	constructor() {
 		this.listeners = {};
@@ -12,17 +12,17 @@ export class EventBus {
 			this.listeners[event] = [];
 		}
 
-    const isAlreadyRegistered = this.listeners[event]
-      .some(listener => listener.subscriber === subscriber && listener.callback === callback);
+		const isAlreadyRegistered = this.listeners[event]
+			.some(listener => listener.subscriber === subscriber && listener.callback === callback);
 
-    if (isAlreadyRegistered) {
-      return;
-    }
+		if (isAlreadyRegistered) {
+			return;
+		}
 
 		this.listeners[event].push({
-      subscriber,
-      callback
-    });
+			subscriber,
+			callback,
+		});
 	}
 
 	off(event: string, callback: AnyFunc, subscriber: unknown) {
@@ -31,7 +31,7 @@ export class EventBus {
 		}
 
 		this.listeners[event] = this.listeners[event]
-      .filter(listener => listener.subscriber !== subscriber || listener.callback !== callback);
+			.filter(listener => listener.subscriber !== subscriber || listener.callback !== callback);
 	}
 
 	emit(event: string, ...args: any[]) {
@@ -40,7 +40,7 @@ export class EventBus {
 		}
 
 		this.listeners[event].forEach(listener => {
-      listener.callback.call(listener.subscriber, ...args);
+			listener.callback.call(listener.subscriber, ...args);
 		});
 	}
 }

@@ -2,7 +2,7 @@ import {Block} from '../../../core/block';
 import {Events, Props} from '../../../core/types';
 import {compileTemplateToElement} from '../../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../../store/utils';
-const templatePug = require('./search-input.pug');
+const templatePug = require('./search-input.pug') as (locals: Props) => string;
 import './search-input.scss';
 
 export interface SearchInputProps extends Props {
@@ -13,16 +13,16 @@ export interface SearchInputProps extends Props {
 	inputContainerClass?: string;
 	inputClass?: string;
 	placeholder?: string;
-  autofocusOn?: boolean;
-  autocomplete?: boolean
-  value?: string;
+	autofocusOn?: boolean;
+	autocomplete?: boolean;
+	value?: string;
 }
 
 export class SearchInput extends Block<SearchInputProps> {
 	constructor(propsObj: SearchInputProps, eventName: string, events?: Events) {
 		super('div', 'search-input-block', propsObj, events);
 
-    this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
+		this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {

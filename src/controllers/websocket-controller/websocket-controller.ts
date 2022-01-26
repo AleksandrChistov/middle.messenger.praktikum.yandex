@@ -1,103 +1,102 @@
-import {wssHost} from "../../constants";
-import {WebsocketApi} from "../../api/websocket-api/websocket-api";
-import {CloseCode, LastMessageResponse, MessageResponse} from "../../api/websocket-api/types";
-import {Indexed} from "../../core/types";
-import {isArray} from "../../utils";
-
+import {wssHost} from '../../constants';
+import {WebsocketApi} from '../../api/websocket-api/websocket-api';
+import {CloseCode, LastMessageResponse, MessageResponse} from '../../api/websocket-api/types';
+import {Indexed} from '../../core/types';
+import {isArray} from '../../utils';
 
 type ReturnedThenFunction = {
-  then: (callback: (isOpened: boolean) => void) => void;
-}
+	then: (callback: (isOpened: boolean) => void) => void;
+};
 
 class WebsocketController {
-  private _socketApi: WebsocketApi;
-  private _url: string;
-  private _startCallBack: (isOpened: boolean) => void;
-  public isStarted = false;
+	public isStarted = false;
+	private _socketApi: WebsocketApi;
+	private _url: string;
+	private _startCallBack: (isOpened: boolean) => void;
 
-  public start(userId: number, chatId: number, token: string): ReturnedThenFunction {
-    this._url = `${wssHost}/ws/chats/${userId}/${chatId}/${token}`;
+	public start(userId: number, chatId: number, token: string): ReturnedThenFunction {
+		this._url = `${wssHost}/ws/chats/${userId}/${chatId}/${token}`;
 
-    return this.startConnection();
-  }
+		return this.startConnection();
+	}
 
-  private startConnection(): ReturnedThenFunction {
-    this._socketApi = new WebsocketApi(this._url);
+	public closeConnection(code: CloseCode = CloseCode.Success, reason?: string): void {
+		this._socketApi.closeConnection(code, reason);
+	}
 
-    this.close();
-    this.error();
+	public close(): void {
+		this._socketApi.close(
+			(successMessage: string) => {
+				this.isStarted = false;
+				console.log('wss:// ', successMessage);
+			},
+			() => {
+				this.isStarted = false;
+				this.startConnection().then(this._startCallBack);
+			},
+		);
+	}
 
-    return {
-      then: (callback: (isOpened: boolean) => void) => {
-        this._startCallBack = callback;
+	public error(): void {
+		this._socketApi.error((event: Event) => {
+			this.isStarted = false;
+			console.error('wss:// ', event);
+		});
+	}
 
-        this._socketApi.open((success: string) => {
-          console.log('wss:// ', success);
-          this.isStarted = true;
-          callback(true);
-          this._socketApi.ping();
-        });
-      }
-    }
-  }
+	public send(message: string): void {
+		this._socketApi.send(message);
+	}
 
-  closeConnection(code: CloseCode = CloseCode.Success, reason?: string): void {
-    this._socketApi.closeConnection(code, reason);
-  }
+	public subscribeToMessage(callback: (response: MessageResponse) => void): void {
+		this._socketApi.message(response => {
+			if (isMessageResponse(response)) {
+				callback(response);
+			}
+		});
+	}
 
-  public close(): void {
-    this._socketApi.close(
-      (successMessage: string) => {
-        this.isStarted = false;
-        console.log('wss:// ', successMessage);
-      },
-      () => {
-        this.isStarted = false;
-        this.startConnection().then(this._startCallBack);
-      }
-    )
-  }
+	public getLastMessages(callback: (response: LastMessageResponse[]) => void, count = 0): void {
+		this._socketApi.message(response => {
+			if (isLastMessagesResponse(response)) {
+				callback(response);
+			}
+		});
 
-  public error(): void {
-    this._socketApi.error((event: Event) => {
-      this.isStarted = false;
-      console.error('wss:// ', event);
-    });
-  }
+		this._socketApi.send(count.toString(), 'get old');
+	}
 
-  public send(message: string): void {
-    return this._socketApi.send(message);
-  }
+	private startConnection(): ReturnedThenFunction {
+		this._socketApi = new WebsocketApi(this._url);
 
-  public subscribeToMessage(callback: (response: MessageResponse) => void): void {
-    this._socketApi.message((response) => {
-      if (isMessageResponse(response)) {
-        callback(response);
-      }
-    });
-  }
+		this.close();
+		this.error();
 
-  public getLastMessages(callback: (response: LastMessageResponse[]) => void, count: number = 0): void {
-    this._socketApi.message((response) => {
-      if (isLastMessagesResponse(response)) {
-        callback(response);
-      }
-    });
+		return {
+			then: (callback: (isOpened: boolean) => void) => {
+				this._startCallBack = callback;
 
-    this._socketApi.send(count.toString(), 'get old');
-  }
+				this._socketApi.open((success: string) => {
+					console.log('wss:// ', success);
+					this.isStarted = true;
+					callback(true);
+					this._socketApi.ping();
+				});
+			},
+		};
+	}
 }
 
 function isMessageResponse(response: Indexed | Indexed[]): response is MessageResponse {
-  return isNotArray(response) && response.type === "message";
+	return isNotArray(response) && response.type === 'message';
 }
 
 function isLastMessagesResponse(response: Indexed | Indexed[]): response is LastMessageResponse[] {
-  return isArray(response);
+	return isArray(response);
 }
 
 function isNotArray(response: Indexed | Indexed[]): response is Indexed {
-  return !isArray(response);
+	return !isArray(response);
 }
 
 export const webSocketController = new WebsocketController();

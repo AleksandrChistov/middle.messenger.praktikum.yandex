@@ -1,27 +1,26 @@
-import {Indexed} from "./core/types";
-import {host} from "./constants";
-
+import {Indexed} from './core/types';
+import {host} from './constants';
 
 export function isObject(value: unknown): value is Indexed {
-  return Object.prototype.toString.call(value) === '[object Object]';
+	return Object.prototype.toString.call(value) === '[object Object]';
 }
 
-export function isArray(value: unknown): value is [] {
-  return Array.isArray(value);
+export function isArray(value: unknown): value is unknown[] {
+	return Array.isArray(value);
 }
 
-function getParams(data: Indexed | [], parentKey: string = '') {
-  const result: [string, string][] = [];
+function getParams(data: Indexed | unknown[], parentKey = '') {
+	const result: Array<[string, string]> = [];
 
-  for(const [key, value] of Object.entries(data)) {
-    if (isObject(value) || isArray(value)) {
-      result.push(...getParams(value, `${parentKey}[${key}]`));
-    } else {
-      result.push([`${parentKey}[${key}]`, encodeURIComponent(String(value))]);
-    }
-  }
+	for (const [key, value] of Object.entries(data)) {
+		if (isObject(value) || isArray(value)) {
+			result.push(...getParams(value, `${parentKey}[${key}]`));
+		} else {
+			result.push([`${parentKey}[${key}]`, encodeURIComponent(String(value))]);
+		}
+	}
 
-  return result;
+	return result;
 }
 
 /**
@@ -31,95 +30,103 @@ function getParams(data: Indexed | [], parentKey: string = '') {
  * Пример: '?key=1&key2=test&key3=false&key4=true&key5[0]=1&key5[1]=2&key5[2]=3&key6[a]=1&key7[b][d]=2'
  */
 export function queryStringify(data: Indexed | undefined): string {
-  if (!isObject(data)) {
-    throw new Error('input must be an object');
-  }
+	if (!isObject(data)) {
+		throw new Error('input must be an object');
+	}
 
-  return '?' + getParams(data).map(arr => arr.join('=')).join('&');
+	return '?' + getParams(data).map(arr => arr.join('=')).join('&');
 }
 
 export function isDeepEqual(a: Indexed, b: Indexed): boolean {
-  const aKeys = Object.keys(a);
-  const bKeys = Object.keys(b);
+	const aKeys = Object.keys(a);
+	const bKeys = Object.keys(b);
 
-  if (aKeys.length !== bKeys.length) {
-    return false;
-  }
+	if (aKeys.length !== bKeys.length) {
+		return false;
+	}
 
-  return aKeys.every((key: string) => {
-    if (isObject(a[key]) || isArray(a[key])) {
-      if (isObject(b[key]) || isArray(b[key])) {
-        return isDeepEqual(a[key] as Indexed, b[key] as Indexed);
-      }
-      return false;
-    } else {
-      return a[key] === b[key];
-    }
-  })
+	return aKeys.every((key: string) => {
+		if (isObject(a[key]) || isArray(a[key])) {
+			if (isObject(b[key]) || isArray(b[key])) {
+				return isDeepEqual(a[key] as Indexed, b[key] as Indexed);
+			}
+
+			return false;
+		}
+
+		return a[key] === b[key];
+	});
 }
 
-export function cloneDeep<T extends object = object>(obj: T) {
-  return (function _cloneDeep(item: T): T | Date | Set<unknown> | Map<unknown, unknown> | object | T[] {
-    if (item === null || typeof item !== "object") {
-      return item;
-    }
+export function cloneDeep<T extends object = Record<string, unknown>>(obj: T) {
+	return (function _cloneDeep(item: T):
+	T | Date | Set<unknown> | Map<unknown, unknown> | Record<string, unknown> | T[] | never {
+		if (item === null || typeof item !== 'object') {
+			return item;
+		}
 
-    if (item instanceof Date) {
-      return new Date(item.valueOf());
-    }
+		if (item instanceof Date) {
+			return new Date(item.valueOf());
+		}
 
-    if (item instanceof Array) {
-      let copy = [] as unknown[];
+		if (item instanceof Array) {
+			const copy = [];
 
-      item.forEach((_, i) => (copy[i] = _cloneDeep(item[i])));
+			item.forEach((_, i) => {
+				copy[i] = _cloneDeep(item[i]);
+			});
 
-      return copy;
-    }
+			return copy as T[];
+		}
 
-    if (item instanceof Set) {
-      let copy = new Set();
+		if (item instanceof Set) {
+			const copy = new Set();
 
-      item.forEach(v => copy.add(_cloneDeep(v)));
+			item.forEach(v => copy.add(_cloneDeep(v)));
 
-      return copy;
-    }
+			return copy;
+		}
 
-    if (item instanceof Map) {
-      let copy = new Map();
+		if (item instanceof Map) {
+			const copy = new Map();
 
-      item.forEach((v, k) => copy.set(k, _cloneDeep(v)));
+			item.forEach((v, k) => copy.set(k, _cloneDeep(v)));
 
-      return copy;
-    }
+			return copy;
+		}
 
-    if (item instanceof Object) {
-      let copy: object = {};
+		if (item instanceof Object) {
+			const copy: Record<string | symbol, unknown> = {};
 
-      Object.getOwnPropertySymbols(item).forEach(s => (copy[s] = _cloneDeep(item[s])));
+			Object.getOwnPropertySymbols(item).forEach(s => {
+				copy[s] = _cloneDeep(item[s]);
+			});
 
-      Object.keys(item).forEach(k => (copy[k] = _cloneDeep(item[k])));
+			Object.keys(item).forEach(k => {
+				copy[k] = _cloneDeep(item[k]);
+			});
 
-      return copy;
-    }
+			return copy;
+		}
 
-    throw new Error(`Unable to copy object: ${item}`);
-  })(obj);
+		throw new Error(`Unable to copy object: ${typeof item}`);
+	})(obj);
 }
 
 export function debounce(fn: (...args: unknown[]) => void, ms: number): (...args: unknown[]) => void {
-  let timeout: NodeJS.Timeout;
+	let timeout: NodeJS.Timeout;
 
-  return function (...args: unknown[]): void {
-    const later = () => {
-      clearTimeout(timeout);
-      fn(...args);
-    }
+	return function (...args: unknown[]): void {
+		const later = () => {
+			clearTimeout(timeout);
+			fn(...args);
+		};
 
-    clearTimeout(timeout);
-    timeout = setTimeout(later, ms);
-  }
+		clearTimeout(timeout);
+		timeout = setTimeout(later, ms);
+	};
 }
 
 export function getAvatarLink(pathToAvatar: string | null | undefined): string | null {
-  return pathToAvatar ? `${host}/api/v2/resources${pathToAvatar}` : null;
+	return pathToAvatar ? `${host}/api/v2/resources${pathToAvatar}` : null;
 }

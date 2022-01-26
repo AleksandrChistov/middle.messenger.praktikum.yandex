@@ -1,13 +1,12 @@
 import {Block} from '../../core/block';
-import {compileTemplateToElement} from "../../core/utils/compile-template";
-const templatePug = require('./signin.pug');
+import {compileTemplateToElement} from '../../core/utils/compile-template';
+const templatePug = require('./signin.pug') as (locals: Props) => string;
 import './signin.scss';
-import {SIGNIN_INITIAL_STATE} from "../../store/initialState/signin-initial-state";
-import {Events} from "../../core/types";
-import {SignInPageProps} from "./types";
-import {signinEvents} from "./signin-service";
-import {SIGNIN_PAGE_EVENT_NAME} from "./events";
-
+import {SIGNIN_INITIAL_STATE} from '../../store/initialState/signin-initial-state';
+import {Events, Props} from '../../core/types';
+import {SignInPageProps} from './types';
+import {signinEvents} from './signin-service';
+import {SIGNIN_PAGE_EVENT_NAME} from './events';
 
 export class SignInPage extends Block<SignInPageProps> {
 	constructor(propsObj: SignInPageProps = SIGNIN_INITIAL_STATE, events: Events = signinEvents, rootId?: string) {

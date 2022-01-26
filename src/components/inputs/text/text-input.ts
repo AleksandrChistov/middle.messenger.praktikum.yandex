@@ -2,7 +2,7 @@ import {Block} from '../../../core/block';
 import {Events, Props} from '../../../core/types';
 import {compileTemplateToElement} from '../../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../../store/utils';
-const templatePug = require('./text-input.pug');
+const templatePug = require('./text-input.pug') as (locals: Props) => string;
 import './text-input.scss';
 import {FieldName} from '../../../services/form-services/form-validation-service';
 
@@ -21,7 +21,7 @@ export class TextInput extends Block<TextInputProps> {
 	constructor(propsObj: TextInputProps, eventName: string, events?: Events) {
 		super('div', 'text-input-block', propsObj, events);
 
-    this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
+		this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {

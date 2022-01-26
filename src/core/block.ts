@@ -1,24 +1,30 @@
 import {EventBus} from './event-bus';
 import {Events, Props} from './types';
-import {cloneDeep, isDeepEqual} from "../utils";
-import store from "../store/store";
-import {EventsEnum, Meta, StoreEvent} from "./block-types";
+import {cloneDeep, isDeepEqual} from '../utils';
+import store from '../store/store';
+import {EventsEnum, Meta, StoreEvent} from './block-types';
 
 export class Block<T> {
-	props: Props;
+	public props: Props;
 	protected eventBus: EventBus;
-	private _element: HTMLElement;
 	protected readonly _meta: Meta;
-	private _storeEvents: StoreEvent[] = [];
+	private _element: HTMLElement;
+	private readonly _storeEvents: StoreEvent[] = [];
 
-	constructor(tagName = 'div', containerClassName: string, props: Props = {}, events: Events = {}, rootId?: string) {
+	constructor(
+		tagName = 'div',
+		containerClassName: string,
+		props: Props = {},
+		events: Events = {},
+		rootId?: string,
+	) {
 		this.eventBus = new EventBus();
 		this._meta = {
 			tagName,
-      containerClassName,
-      props,
-      events,
-      rootId,
+			containerClassName,
+			props,
+			events,
+			rootId,
 		};
 
 		this.props = this._makePropsProxy(props);
@@ -41,7 +47,7 @@ export class Block<T> {
 		return isDeepEqual(oldProps, newProps);
 	}
 
-	setProps<T>(nextProps: T): void {
+	setProps(nextProps: T): void {
 		if (!nextProps) {
 			return;
 		}
@@ -53,10 +59,10 @@ export class Block<T> {
 		throw new Error('The render method must be implemented');
 	}
 
-  subscribeToStoreEvent(eventName: string, callback: (path: string) => void): void {
-    store.on(eventName, callback, this);
-    this._storeEvents.push({eventName, callback});
-  }
+	subscribeToStoreEvent(eventName: string, callback: (path: string) => void): void {
+		store.on(eventName, callback, this);
+		this._storeEvents.push({eventName, callback});
+	}
 
 	makePropsProxy(_: Props): Props | null {
 		return null;
@@ -67,16 +73,16 @@ export class Block<T> {
 	}
 
 	show(): void {
-    this.getContent().classList.remove('hidden');
+		this.getContent().classList.remove('hidden');
 	}
 
 	hide(): void {
-    this.getContent().classList.add('hidden');
+		this.getContent().classList.add('hidden');
 	}
 
-  destroy(): void {
-    this._componentWillUnmount();
-  }
+	destroy(): void {
+		this._componentWillUnmount();
+	}
 
 	get element(): HTMLElement {
 		return this._element;
@@ -89,12 +95,12 @@ export class Block<T> {
 		eventBus.on(EventsEnum.FLOW_RENDER, this._render, this);
 	}
 
-  _removeEventBusEvents() {
-    this.eventBus.off(EventsEnum.INIT, this.init, this);
-    this.eventBus.off(EventsEnum.FLOW_CDM, this._componentDidMount, this);
-    this.eventBus.off(EventsEnum.FLOW_CDU, this._componentDidUpdate, this);
-    this.eventBus.off(EventsEnum.FLOW_RENDER, this._render, this);
-  }
+	_removeEventBusEvents() {
+		this.eventBus.off(EventsEnum.INIT, this.init, this);
+		this.eventBus.off(EventsEnum.FLOW_CDM, this._componentDidMount, this);
+		this.eventBus.off(EventsEnum.FLOW_CDU, this._componentDidUpdate, this);
+		this.eventBus.off(EventsEnum.FLOW_RENDER, this._render, this);
+	}
 
 	_createResources() {
 		const {tagName} = this._meta;
@@ -104,9 +110,9 @@ export class Block<T> {
 	_addComponentAttributes() {
 		this._element.setAttribute('data-component', this.constructor.name);
 
-    if (this._meta.containerClassName) {
-      this._element.classList.add(this._meta.containerClassName);
-    }
+		if (this._meta.containerClassName) {
+			this._element.classList.add(this._meta.containerClassName);
+		}
 	}
 
 	_componentDidMount() {
@@ -114,14 +120,14 @@ export class Block<T> {
 		this.eventBus.emit(EventsEnum.FLOW_RENDER);
 	}
 
-  _componentWillUnmount() {
-    this._removeAllEvents();
-    const root = document.getElementById(this._meta.rootId || '');
+	_componentWillUnmount() {
+		this._removeAllEvents();
+		const root = document.getElementById(this._meta.rootId || '');
 
-    if (root) {
-      root.innerHTML = '';
-    }
-  }
+		if (root) {
+			root.innerHTML = '';
+		}
+	}
 
 	_componentDidUpdate(oldProps: Props, newProps: Props): void {
 		const isEqual = this.componentDidUpdate(oldProps, newProps);
@@ -147,7 +153,7 @@ export class Block<T> {
 
 		return new Proxy<Props>(props, {
 			get: (target: Props, prop: string): unknown => {
-				const value = target[prop] as unknown;
+				const value = target[prop];
 
 				return (typeof value === 'function') ? value.bind(target) : value;
 			},
@@ -159,7 +165,7 @@ export class Block<T> {
 				const targetCopy = cloneDeep(target);
 				target[prop] = value;
 
-        this.eventBus.emit(EventsEnum.FLOW_CDU, targetCopy, target);
+				this.eventBus.emit(EventsEnum.FLOW_CDU, targetCopy, target);
 
 				return true;
 			},
@@ -183,8 +189,8 @@ export class Block<T> {
 			eventArray.forEach(({id, fn}) => {
 				const nodeElement = this.element.querySelector(`#${id}`);
 
-        if (!nodeElement) {
-          return;
+				if (!nodeElement) {
+					return;
 				}
 
 				nodeElement.addEventListener(eventName, fn);
@@ -199,22 +205,22 @@ export class Block<T> {
 			eventArray.forEach(({id, fn}) => {
 				const nodeElement = this.element.querySelector(`#${id}`);
 
-        if (nodeElement) {
+				if (nodeElement) {
 					nodeElement.removeEventListener(eventName, fn);
 				}
 			});
 		});
 	}
 
-  _removeStoreEvents() {
-    this._storeEvents.forEach(({eventName, callback}) => {
-      store.off(eventName, callback, this);
-    });
-  }
+	_removeStoreEvents() {
+		this._storeEvents.forEach(({eventName, callback}) => {
+			store.off(eventName, callback, this);
+		});
+	}
 
-  _removeAllEvents(): void {
-    this._removeEventBusEvents();
-    this._removeEvents();
-    this._removeStoreEvents();
-  }
+	_removeAllEvents(): void {
+		this._removeEventBusEvents();
+		this._removeEvents();
+		this._removeStoreEvents();
+	}
 }
