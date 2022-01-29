@@ -95,8 +95,10 @@ function setAttributes(childElementTag: Element, childComponents: Array<Instance
 		attributeNames.forEach(attrName => {
 			const attrValue = childElementTag.getAttribute(attrName);
 
+			const attrNameArr = attrValue.split(' ');
+
 			if (attrName === 'class') {
-				childElement.classList.add(attrValue ?? '');
+				childElement.classList.add(...attrNameArr);
 				return;
 			}
 
