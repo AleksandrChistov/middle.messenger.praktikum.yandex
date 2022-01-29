@@ -13,10 +13,8 @@ const getUserInfoApi = new GetUserInfoApi();
 export class UserIdAndAvatarController {
 	static async getIdAndAvatar(): Promise<UserIdAndAvatarRequest | void> {
 		try {
-			// Запускаем крутилку
 			return await getUserInfoApi.get(getOptions())
 				.then((response: UserInfoResponse | ErrorResponse) => {
-					// Останавливаем крутилку
 					if (isErrorResponse(response)) {
 						throw new Error(response.reason);
 					}
@@ -28,7 +26,6 @@ export class UserIdAndAvatarController {
 				})
 				.catch(error => {
 					throw new Error(error);
-					// Останавливаем крутилку
 				});
 		} catch (error: unknown) {
 			console.error(error);

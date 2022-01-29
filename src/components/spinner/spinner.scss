@@ -33,17 +33,17 @@
 
     .spinner__item_1 {
       left: 35%;
-      animation: spinner 1s ease-in 250ms infinite;
+      animation: spinner 1s ease-in 0ms infinite;
     }
 
     .spinner__item_2 {
       left: 50%;
-      animation: spinner 1s ease-in 500ms infinite;
+      animation: spinner 1s ease-in 250ms infinite;
     }
 
     .spinner__item_3 {
       left: 65%;
-      animation: spinner 1s ease-in 750ms infinite;
+      animation: spinner 1s ease-in 500ms infinite;
     }
   }
 }

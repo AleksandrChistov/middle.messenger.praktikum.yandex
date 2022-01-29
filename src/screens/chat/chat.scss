@@ -92,6 +92,12 @@
       margin-bottom: 20px;
       color: $gray;
     }
+
+    &__spinner {
+      position: fixed;
+      top: 50%;
+      right: 37%;
+    }
   }
 
   .top-panel {

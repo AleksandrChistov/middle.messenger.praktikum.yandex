@@ -11,6 +11,7 @@ import {PopupAddUserProps} from '../../components/popups/popup-add-user/popup-ad
 import {PopupDeleteUserProps} from '../../components/popups/popup-delete-user/popup-delete-user';
 import {ChatsListProps} from '../../components/chat-list/chats-list';
 import {MessagesListProps} from '../../components/messages-list/messages-list';
+import {SpinnerProps} from '../../components/spinner/spinner';
 
 export interface ChatPageProps extends Props {
 	chatName?: string | null;
@@ -29,4 +30,5 @@ export interface ChatPageProps extends Props {
 	popupCreateChat: PopupCreateChatProps;
 	popupAddUserToChat: PopupAddUserProps;
 	popupDeleteUserFromChat: PopupDeleteUserProps;
+	spinner: SpinnerProps;
 }

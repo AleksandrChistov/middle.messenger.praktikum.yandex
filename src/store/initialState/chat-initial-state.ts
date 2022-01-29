@@ -72,4 +72,7 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
 			isLoading: false,
 		},
 	},
+	spinner: {
+		isLoading: false,
+	},
 };

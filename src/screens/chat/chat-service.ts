@@ -1,7 +1,7 @@
 import {ShowErrorService} from '../../services/show-error-service';
 import {router} from '../../index';
 import {Events} from '../../core/types';
-import {CHAT_PAGE_EVENT_NAME} from './events';
+import {CHAT_PAGE_EVENT_NAME, CHAT_PAGE_PATH} from './events';
 import store from '../../store/store';
 import {getPathFromArray} from '../../core/utils/get-path-from-array';
 import {getEventName} from '../../core/utils/get-event-name';
@@ -22,6 +22,7 @@ import {UserInfoByIdController} from '../../controllers/user-profile-controller/
 import {UserInfoByIdResponse} from '../../api/user-profile-api/get-user-info-by-id-api';
 import {webSocketController} from '../../controllers/websocket-controller/websocket-controller';
 import {FoundUserProps} from '../../components/found-user/types';
+import {hideSpinner, showSpinner} from '../../components/spinner/spinner';
 
 class ChatHandleService extends ShowErrorService {
 	public chatEvents: Events = {
@@ -83,6 +84,8 @@ class ChatHandleService extends ShowErrorService {
 			{
 				id: 'chatCards',
 				fn: event => {
+					showSpinner(CHAT_PAGE_PATH);
+
 					const chatCardElement = (event.target as HTMLElement).closest('.chat-card');
 
 					if (!chatCardElement) {
@@ -103,10 +106,12 @@ class ChatHandleService extends ShowErrorService {
 								startChat(user, selectedChat, token);
 							})
 							.catch(error => {
+								hideSpinner(CHAT_PAGE_PATH);
 								console.error(error);
 							});
 					})
 						.catch(error => {
+							hideSpinner(CHAT_PAGE_PATH);
 							console.error(error);
 						});
 				},
@@ -475,9 +480,12 @@ function startChat(currentUser: UserIdAndAvatarRequest, selectedChat: ChatCardPr
 						getEventName(CHAT_PAGE_EVENT_NAME),
 					);
 
+					hideSpinner(CHAT_PAGE_PATH);
+
 					subscribeToMessage(currentUser);
 				});
 			}).catch(error => {
+				hideSpinner(CHAT_PAGE_PATH);
 				console.error(error);
 			});
 		}
