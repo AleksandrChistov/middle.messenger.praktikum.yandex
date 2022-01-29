@@ -1,0 +1,68 @@
+@import '../../../static/styles/colors';
+
+.spinner {
+  &-background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba($white, 95%);
+  }
+
+  &-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-60px, -25px);
+    width: 180px;
+    height: 50px;
+    border-radius: 20px;
+  }
+
+  &-container--active {
+    .spinner__item {
+      position: absolute;
+      top: 50%;
+      width: 12px;
+      height: 12px;
+      transform: translate(-6px, -6px);
+      border-radius: 50%;
+      background-color: $purple;
+    }
+
+    .spinner__item_1 {
+      left: 35%;
+      animation: spinner 1s ease-in 250ms infinite;
+    }
+
+    .spinner__item_2 {
+      left: 50%;
+      animation: spinner 1s ease-in 500ms infinite;
+    }
+
+    .spinner__item_3 {
+      left: 65%;
+      animation: spinner 1s ease-in 750ms infinite;
+    }
+  }
+}
+
+@keyframes spinner {
+  0% {
+    transform: translate(-6px, -6px);
+  }
+
+  25% {
+    transform: translate(-6px, -12px);
+    background-color: rgba($purple, 50%);
+  }
+
+  50% {
+    transform: translate(-6px, -6px);
+  }
+
+  100% {
+    transform: translate(-6px, -6px);
+  }
+}

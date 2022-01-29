@@ -19,6 +19,7 @@ import {FoundUser} from '../components/found-user/found-user';
 import {UsersList} from '../components/found-users/users-list';
 import {PopupDeleteUser} from '../components/popups/popup-delete-user/popup-delete-user';
 import {RegisteredComponents} from './types';
+import {Spinner} from '../components/spinner/spinner';
 
 export const REGISTERED_COMPONENTS: RegisteredComponents = {
 	TextInputComponent: TextInput,
@@ -41,4 +42,5 @@ export const REGISTERED_COMPONENTS: RegisteredComponents = {
 	PopupDeleteUserFromChatComponent: PopupDeleteUser,
 	FoundUserComponent: FoundUser,
 	UsersListComponent: UsersList,
+	SpinnerComponent: Spinner,
 };
