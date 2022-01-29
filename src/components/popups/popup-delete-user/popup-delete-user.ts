@@ -5,10 +5,12 @@ import {compileTemplateToElement} from '../../../core/utils/compile-template';
 const templatePug = require('./popup-delete-user.pug') as (locals: Props) => string;
 import './popup-delete-user.scss';
 import {UsersListProps} from '../../found-users/users-list';
+import {SpinnerProps} from '../../spinner/spinner';
 
 export interface PopupDeleteUserProps extends Props {
 	isOpened: boolean;
 	usersList: UsersListProps;
+	spinner: SpinnerProps;
 }
 
 export class PopupDeleteUser extends Block<PopupDeleteUserProps> {

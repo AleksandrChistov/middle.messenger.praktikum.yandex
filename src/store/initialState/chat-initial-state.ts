@@ -68,5 +68,8 @@ export const CHAT_INITIAL_STATE: ChatPageProps = {
 		usersList: {
 			users: [],
 		},
+		spinner: {
+			isLoading: false,
+		},
 	},
 };
