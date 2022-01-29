@@ -23,6 +23,8 @@ import {UserInfoByIdResponse} from '../../api/user-profile-api/get-user-info-by-
 import {webSocketController} from '../../controllers/websocket-controller/websocket-controller';
 import {FoundUserProps} from '../../components/found-user/types';
 import {hideSpinner, showSpinner} from '../../components/spinner/spinner';
+import {POPUP_DELETE_USER_FROM_CHAT_EVENT_NAME} from '../../components/popups/popup-delete-user/events';
+import {POPUP_ADD_USER_TO_CHAT_EVENT_NAME} from '../../components/popups/popup-add-user/events';
 
 class ChatHandleService extends ShowErrorService {
 	public chatEvents: Events = {
@@ -193,8 +195,14 @@ class ChatHandleService extends ShowErrorService {
 
 					const selectedChatId = store.getState().chatPage.selectedChat?.id;
 
+					showSpinner(POPUP_DELETE_USER_FROM_CHAT_EVENT_NAME);
+
 					GetUsersByChatIdController.get(selectedChatId)
+						.then(() => {
+							hideSpinner(POPUP_DELETE_USER_FROM_CHAT_EVENT_NAME);
+						})
 						.catch(error => {
+							hideSpinner(POPUP_DELETE_USER_FROM_CHAT_EVENT_NAME);
 							console.error(error);
 						});
 				},
@@ -408,8 +416,14 @@ function handleSearchUsers(event: Event): void {
 		return;
 	}
 
+	showSpinner(POPUP_ADD_USER_TO_CHAT_EVENT_NAME);
+
 	GetUsersController.get({login: text})
+		.then(() => {
+			hideSpinner(POPUP_ADD_USER_TO_CHAT_EVENT_NAME);
+		})
 		.catch(error => {
+			hideSpinner(POPUP_ADD_USER_TO_CHAT_EVENT_NAME);
 			console.error(error);
 		});
 }

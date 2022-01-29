@@ -8,20 +8,14 @@ import {UserActionIcon} from '../../components/found-user/types';
 import {getPathFromArray} from '../../core/utils/get-path-from-array';
 import {getEventName} from '../../core/utils/get-event-name';
 import {UsersListProps} from '../../components/found-users/users-list';
-import {hideSpinner, showSpinner} from '../../components/spinner/spinner';
-import {POPUP_DELETE_USER_FROM_CHAT_EVENT_NAME} from '../../components/popups/popup-delete-user/events';
 
 const getUsersByChatIdApi = new GetUsersByChatIdApi();
 
 export class GetUsersByChatIdController {
 	static async get(selectedChatId: number): Promise<boolean> {
 		try {
-			showSpinner(POPUP_DELETE_USER_FROM_CHAT_EVENT_NAME);
-
 			return await getUsersByChatIdApi.get(getOptions(), selectedChatId)
 				.then((response: UsersResponse | ErrorResponse) => {
-					hideSpinner(POPUP_DELETE_USER_FROM_CHAT_EVENT_NAME);
-
 					if (isErrorResponse(response)) {
 						throw new Error(response.reason);
 					}
@@ -35,7 +29,6 @@ export class GetUsersByChatIdController {
 					return true;
 				})
 				.catch(error => {
-					hideSpinner(POPUP_DELETE_USER_FROM_CHAT_EVENT_NAME);
 					throw new Error(error);
 				});
 		} catch (error: unknown) {

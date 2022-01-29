@@ -16,12 +16,10 @@ type UserLoginFormModel = {
 const getUsersApi = new GetUsersApi();
 
 export class GetUsersController {
-	static async get(data: UserLoginFormModel): Promise<void> {
+	static async get(data: UserLoginFormModel): Promise<boolean> {
 		try {
-			// Запускаем крутилку
-			getUsersApi.get(prepareDataToRequest(data))
+			return await getUsersApi.get(prepareDataToRequest(data))
 				.then((response: UsersResponse | ErrorResponse) => {
-					// Останавливаем крутилку
 					if (isErrorResponse(response)) {
 						throw new Error(response.reason);
 					}
@@ -31,13 +29,14 @@ export class GetUsersController {
 						prepareDataToStore(response),
 						getEventName('popupAddUserToChat', 'usersList'),
 					);
+
+					return true;
 				})
 				.catch(error => {
-					console.error(error);
-					// Останавливаем крутилку
+					throw new Error(error);
 				});
 		} catch (error: unknown) {
-			console.error(error);
+			throw new Error(JSON.stringify(error));
 			// Логика обработки ошибок
 		}
 	}
