@@ -5,8 +5,11 @@ import store from '../../store/store';
 import * as sinon from 'sinon';
 import {AddUsersToChatApi} from '../../api/chat-api/add-users-api';
 import {getEventName} from "../../core/utils/get-event-name";
+import {authService} from '../../services/auth-service';
 
 describe('AddUsersToChatController', () => {
+  sinon.stub(authService, 'isAuthorized').get(() => true);
+
 	const formModel: AddUsersToChatFormModel = {
 		users: [1],
 		chatId: 1,

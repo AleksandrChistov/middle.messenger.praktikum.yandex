@@ -4,9 +4,10 @@ import {JSDOM} from 'jsdom';
 import * as sinon from 'sinon';
 import {Router} from './router';
 import {BlockInheritor} from './types';
+import {authService} from '../../services/auth-service';
 
 describe('Router', () => {
-	beforeEach(() => {
+  beforeEach(() => {
 		const dom = new JSDOM(
 			'<!DOCTYPE html><body><div id="app"></div></body>',
 			{url: 'http://localhost:3000'},
@@ -17,7 +18,9 @@ describe('Router', () => {
 			...global.window,
 		};
 		(global as any).document = dom.window.document;
-	});
+
+    sinon.stub(authService, 'isAuthorized').get(() => true);
+  });
 
 	it('should be singleton', () => {
 		const router1 = new Router('app');
@@ -72,6 +75,20 @@ describe('Router', () => {
 
 			expect(global.window.location.pathname).to.eq('/test');
 		});
+
+    it('should return path to root when user is unauthorized', () => {
+      sinon.stub(authService, 'isAuthorized').get(() => false);
+      const blockMock = {
+        destroy() {},
+      };
+      const blockFake = sinon.fake.returns(blockMock);
+      const router = new Router('app');
+      router.use('/start', blockFake as any);
+
+      router.go('/start');
+
+      expect(global.window.location.pathname).to.eq('/');
+    });
 	});
 
 	describe('back', () => {
