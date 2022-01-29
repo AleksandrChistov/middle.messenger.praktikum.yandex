@@ -1,7 +1,7 @@
 @import '../../../static/styles/colors';
 
 .found-user {
-  margin-bottom: 10px;
+  margin-top: 10px;
 
   &-item {
     display: flex;
@@ -39,9 +39,5 @@
         }
       }
     }
-  }
-
-  &:last-child {
-    margin-bottom: 0;
   }
 }
