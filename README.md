@@ -2,7 +2,8 @@
 
 ---
 
-Домен: [https://jovial-wiles-3d5464.netlify.app](https://jovial-wiles-3d5464.netlify.app)
+Домен: [https://app-chatly.herokuapp.com/](https://app-chatly.herokuapp.com/)
+
 Ссылка на прототип проекта: [https://www.figma.com/file/Fgv0WBOkjZq5Vid1C3pcto/Chat](https://www.figma.com/file/Fgv0WBOkjZq5Vid1C3pcto/Chat)
 
 ---
