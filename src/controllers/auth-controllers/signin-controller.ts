@@ -3,6 +3,7 @@ import {router} from '../../index';
 import {SignInApi} from '../../api/auth-api/signin-api';
 import {Indexed} from '../../core/types';
 import {ErrorResponse} from '../../api/types';
+import {authService} from '../../services/auth-service';
 
 const validationKeys = ['login', 'password'];
 
@@ -29,6 +30,8 @@ export class UserSignInController {
 					if (response) {
 						throw new Error(response.reason);
 					}
+
+					authService.logIn();
 
 					router.go('/messenger');
 				})

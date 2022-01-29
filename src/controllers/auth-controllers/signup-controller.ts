@@ -3,6 +3,7 @@ import {Options, ResponseType} from '../../services/http-service';
 import {router} from '../../index';
 import {Indexed} from '../../core/types';
 import {ErrorResponse} from '../../api/types';
+import {authService} from '../../services/auth-service';
 
 const validationKeys = ['first_name', 'second_name', 'login', 'email', 'phone', 'password'];
 
@@ -33,6 +34,8 @@ export class UserSignUpController {
 					if (isErrorResponse(response)) {
 						throw new Error(response.reason);
 					}
+
+					authService.logIn();
 
 					router.go('/messenger');
 				})

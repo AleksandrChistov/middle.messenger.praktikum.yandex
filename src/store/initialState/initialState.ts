@@ -4,8 +4,9 @@ import {SIGNUP_INITIAL_STATE} from './signup-initial-state';
 import {SETTINGS_INITIAL_STATE} from './settings-initial-state';
 import {PAGE_500_INITIAL_STATE} from './500-initial-state';
 import {PAGE_404_INITIAL_STATE} from './400-initial-state';
+import {State} from '../types';
 
-export const INITIAL_STATE = {
+export const INITIAL_STATE: State = {
 	chatPage: CHAT_INITIAL_STATE,
 	signInPage: SIGNIN_INITIAL_STATE,
 	signUpPage: SIGNUP_INITIAL_STATE,

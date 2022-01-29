@@ -1,5 +1,6 @@
 import {Route} from './route';
 import {BlockInheritor} from './types';
+import {authService} from '../../services/auth-service';
 
 export class Router {
 	private static __instance: Router;
@@ -45,7 +46,14 @@ export class Router {
 	}
 
 	_onRoute(pathname: string) {
-		const route = this.getRoute(pathname) || this.getRoute(this._fallBackPathName);
+		let route: Route;
+
+		if (authService.isAuthorized) {
+			route = this.getRoute(pathname) || this.getRoute(this._fallBackPathName);
+		} else {
+			this._history.pushState({}, '', '/');
+			route = this.getRoute('/');
+		}
 
 		if (!route) {
 			return;
@@ -73,7 +81,7 @@ export class Router {
 		this._history.forward();
 	}
 
-	getRoute(pathname: string) {
+	getRoute(pathname: string): Route | undefined {
 		return this._routes.find(route => route.match(pathname));
 	}
 }
