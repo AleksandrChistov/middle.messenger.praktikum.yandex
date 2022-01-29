@@ -15,6 +15,7 @@ router
 	.use('/settings', SettingsPage)
 	.use('/messenger', ChatPage)
 	.use('/500', Page500)
+	.setAvailableUrl('/sign-up')
 	.setFallBack('/404', Page404)
 	.start();
 

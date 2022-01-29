@@ -9,6 +9,7 @@ export class Router {
 	private _fallBackPathName: string;
 
 	private readonly _routes: Route[];
+	private readonly _availableUrls: string[] = [];
 	private readonly _history: History;
 
 	constructor(rootQuery: string) {
@@ -25,9 +26,14 @@ export class Router {
 		Router.__instance = this;
 	}
 
-	use(pathname: string, block: BlockInheritor) {
+	use(pathname: string, block: BlockInheritor): this {
 		const route = new Route(pathname, block, {rootQuery: this._rootQuery});
 		this._routes.push(route);
+		return this;
+	}
+
+	setAvailableUrl(pathname: string): this {
+		this._availableUrls.push(pathname);
 		return this;
 	}
 
@@ -48,7 +54,7 @@ export class Router {
 	_onRoute(pathname: string) {
 		let route: Route;
 
-		if (authService.isAuthorized) {
+		if (authService.isAuthorized || this._availableUrls.includes(pathname)) {
 			route = this.getRoute(pathname) || this.getRoute(this._fallBackPathName);
 		} else {
 			this._history.pushState({}, '', '/');
