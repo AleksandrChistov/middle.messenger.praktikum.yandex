@@ -1,5 +1,5 @@
-@import "../../../static/styles/colors";
-@import "../../../static/styles/variables";
+@import '../../../static/styles/colors';
+@import '../../../static/styles/variables';
 
 .chat-page-block {
   display: flex;
@@ -91,6 +91,12 @@
       text-align: center;
       margin-bottom: 20px;
       color: $gray;
+    }
+
+    &__spinner {
+      position: fixed;
+      top: 50%;
+      right: 37%;
     }
   }
 

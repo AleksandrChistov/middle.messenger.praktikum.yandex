@@ -1,16 +1,16 @@
-import {Props} from "../../core/types";
+import {Props} from '../../core/types';
 
 export enum TimeType {
-  Card = 'time-card',
-  Main = 'time-main',
+	Card = 'time-card',
+	Main = 'time-main',
 }
 
 export interface TimeProps extends Props {
-  type: TimeType;
-  date: Date;
+	type: TimeType;
+	date: Date;
 }
 
 export interface TimeParsedProps extends Props {
-  type: TimeType;
-  date: string;
+	type: TimeType;
+	date: string;
 }

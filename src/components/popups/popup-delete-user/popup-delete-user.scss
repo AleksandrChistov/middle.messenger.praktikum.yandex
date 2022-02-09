@@ -1,5 +1,5 @@
-@import "../../../../static/styles/colors";
-@import "../../../../static/styles/variables";
+@import '../../../../static/styles/colors';
+@import '../../../../static/styles/variables';
 
 .popup-delete-user {
   &-background {
@@ -22,6 +22,7 @@
     border-radius: 20px;
     background-color: $background-color;
     transform: translate(-50%, -50%);
+    overflow: hidden;
 
     &__empty-text {
       position: absolute;

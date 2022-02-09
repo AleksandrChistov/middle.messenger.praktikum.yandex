@@ -2,12 +2,13 @@
 
 ---
 
-Домен: [https://jovial-wiles-3d5464.netlify.app](https://jovial-wiles-3d5464.netlify.app)
+Домен: [https://app-chatly.herokuapp.com/](https://app-chatly.herokuapp.com/)
+
 Ссылка на прототип проекта: [https://www.figma.com/file/Fgv0WBOkjZq5Vid1C3pcto/Chat](https://www.figma.com/file/Fgv0WBOkjZq5Vid1C3pcto/Chat)
 
 ---
 
-### Приложение на стадии разработки.
+### MVP версия готова.
 
 **Chatly** - веб-приложение для общения в онлайн-чатах в режиме реального времени.
 Создавайте чаты, добавляйте друзей и общайтесь.
@@ -17,16 +18,18 @@
 ### Установка проекта
 
 - `npm install` — установка зависимостей,
-- `npm run start:dev` — запуск версии для разработчика,
-- `npm run start` — запуск express сервера,
-- `npm run build` — сборка проекта.
+- `npm run start` — запуск dev-сервера.
+- `npm run server` — запуск express сервера.
+- `npm run build` — сборка проекта c помощью webpack.
 - `npm run lint` — запуск eslint.
 - `npm run stylelint` — запуск stylelint.
 - `npm run test` — запуск тестов.
 
 ### Стек технологий
 
-- сборка осуществляется при помощи **Parcel**
+- сборка осуществляется при помощи **Webpack**
+- настроена сборка **Docker** контейнера
+- настроен pre-commit при помощи **Husky**
 - стили пишем на **SCSS**
 - используем шаблонизатор **Pug**
 - проект поделен на 3 папки: **server**, **src** и **static**

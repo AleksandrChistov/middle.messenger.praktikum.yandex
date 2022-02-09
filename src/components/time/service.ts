@@ -4,11 +4,11 @@ const twoDaysMs = dayMs * 2;
 const weekMs = dayMs * 7;
 
 export function getDateString(date: Date | string): string {
-  if (!(date instanceof Date)) {
-    return date;
-  }
+	if (!(date instanceof Date)) {
+		return date;
+	}
 
-  let resultDateString: string;
+	let resultDateString: string;
 	const passedTimeMs = Date.now() - date.getTime();
 
 	if (passedTimeMs < dayMs) {

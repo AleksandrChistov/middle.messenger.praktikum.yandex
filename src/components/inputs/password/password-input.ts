@@ -2,7 +2,7 @@ import {Block} from '../../../core/block';
 import {Events, Props} from '../../../core/types';
 import {compileTemplateToElement} from '../../../core/utils/compile-template';
 import {mapStateToPropsCallBack} from '../../../store/utils';
-import templatePug from './password-input.pug';
+const templatePug = require('./password-input.pug') as (locals: Props) => string;
 import './password-input.scss';
 import {FieldName} from '../../../services/form-services/form-validation-service';
 
@@ -22,7 +22,7 @@ export class PasswordInput extends Block<PasswordInputProps> {
 	constructor(propsObj: PasswordInputProps, eventName: string, events?: Events) {
 		super('div', 'password-input-block', propsObj, events);
 
-    this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
+		this.subscribeToStoreEvent(eventName, mapStateToPropsCallBack);
 	}
 
 	render() {

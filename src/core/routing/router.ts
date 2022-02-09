@@ -1,78 +1,93 @@
-import {Route} from "./route";
-import {BlockInheritor} from "./types";
+import {Route} from './route';
+import {BlockInheritor} from './types';
+import {authService} from '../../services/auth-service';
 
 export class Router {
-  private static __instance: Router;
-  private _currentRoute: Route | null;
-  private _rootQuery: string;
-  private _fallBackPathName: string;
+	private static __instance: Router;
+	private _currentRoute: Route | null;
+	private readonly _rootQuery: string;
+	private _fallBackPathName: string;
 
-  private _routes: Route[];
-  private _history: History;
+	private readonly _routes: Route[];
+	private readonly _availableUrls: string[] = [];
+	private readonly _history: History;
 
-  constructor(rootQuery: string) {
-    if (Router.__instance) {
-      return Router.__instance;
-    }
+	constructor(rootQuery: string) {
+		if (Router.__instance) {
+			// eslint-disable-next-line no-constructor-return
+			return Router.__instance;
+		}
 
-    this._routes = [];
-    this._history = window.history;
-    this._currentRoute = null;
-    this._rootQuery = rootQuery;
+		this._routes = [];
+		this._history = window.history;
+		this._currentRoute = null;
+		this._rootQuery = rootQuery;
 
-    Router.__instance = this;
-  }
+		Router.__instance = this;
+	}
 
-  use(pathname: string, block: BlockInheritor) {
-    const route = new Route(pathname, block, {rootQuery: this._rootQuery});
-    this._routes.push(route);
-    return this;
-  }
+	use(pathname: string, block: BlockInheritor): this {
+		const route = new Route(pathname, block, {rootQuery: this._rootQuery});
+		this._routes.push(route);
+		return this;
+	}
 
-  setFallBack(pathname: string, block: BlockInheritor) {
-    this.use(pathname, block);
-    this._fallBackPathName = pathname;
-    return this;
-  }
+	setAvailableUrl(pathname: string): this {
+		this._availableUrls.push(pathname);
+		return this;
+	}
 
-  start() {
-    window.onpopstate = (event) => {
-      this._onRoute(event.currentTarget.location.pathname);
-    }
+	setFallBack(pathname: string, block: BlockInheritor) {
+		this.use(pathname, block);
+		this._fallBackPathName = pathname;
+		return this;
+	}
 
-    this._onRoute(window.location.pathname);
-  }
+	start() {
+		window.onpopstate = event => {
+			this._onRoute(event.currentTarget.location.pathname);
+		};
 
-  _onRoute(pathname: string) {
-    const route = this.getRoute(pathname) || this.getRoute(this._fallBackPathName);
+		this._onRoute(window.location.pathname);
+	}
 
-    if (!route) {
-      return;
-    }
+	_onRoute(pathname: string) {
+		let route: Route;
 
-    if (this._currentRoute) {
-      this._currentRoute.leave();
-    }
+		if (authService.isAuthorized || this._availableUrls.includes(pathname)) {
+			route = this.getRoute(pathname) || this.getRoute(this._fallBackPathName);
+		} else {
+			this._history.pushState({}, '', '/');
+			route = this.getRoute('/');
+		}
 
-    this._currentRoute = route;
+		if (!route) {
+			return;
+		}
 
-    route.render();
-  }
+		if (this._currentRoute) {
+			this._currentRoute.leave();
+		}
 
-  go(pathname: string) {
-    this._history.pushState({}, '', pathname);
-    this._onRoute(pathname);
-  }
+		this._currentRoute = route;
 
-  back() {
-    this._history.back();
-  }
+		route.render();
+	}
 
-  forward() {
-    this._history.forward();
-  }
+	go(pathname: string) {
+		this._history.pushState({}, '', pathname);
+		this._onRoute(pathname);
+	}
 
-  getRoute(pathname: string) {
-    return this._routes.find(route => route.match(pathname));
-  }
+	back() {
+		this._history.back();
+	}
+
+	forward() {
+		this._history.forward();
+	}
+
+	getRoute(pathname: string): Route | undefined {
+		return this._routes.find(route => route.match(pathname));
+	}
 }

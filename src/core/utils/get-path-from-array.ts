@@ -1,3 +1,3 @@
 export function getPathFromArray(paths: string[]): string {
-  return paths.reduce((acc, path) => `${acc}.${path}`);
+	return paths.reduce((acc, path) => `${acc}.${path}`);
 }

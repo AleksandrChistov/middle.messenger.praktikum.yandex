@@ -3,7 +3,9 @@
   "rules": {
     "color-hex-case": "lower",
     "no-descending-specificity": null,
-    "selector-class-pattern": null
+    "selector-class-pattern": null,
+    "string-quotes": "single",
+    "color-function-notation": "legacy"
   },
   "ignoreFiles": [
     "dist/*"

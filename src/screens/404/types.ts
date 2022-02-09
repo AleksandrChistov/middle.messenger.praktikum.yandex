@@ -1,5 +1,5 @@
-import {Props} from "../../core/types";
+import {Props} from '../../core/types';
 
 export interface Page404Props extends Props {
-  errorImgSrc: string;
+	errorImgSrc: string;
 }

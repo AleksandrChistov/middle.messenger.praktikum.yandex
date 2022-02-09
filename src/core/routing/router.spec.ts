@@ -1,112 +1,129 @@
-import {expect} from "chai";
-import {JSDOM} from "jsdom";
-import * as sinon from "sinon";
-import {Router} from "./router";
-import {BlockInheritor} from "./types";
+/* eslint-disable */
+import {expect} from 'chai';
+import {JSDOM} from 'jsdom';
+import * as sinon from 'sinon';
+import {Router} from './router';
+import {BlockInheritor} from './types';
+import {authService} from '../../services/auth-service';
 
-
-describe("Router", () => {
+describe('Router', () => {
   beforeEach(() => {
-    const dom = new JSDOM(
-      '<!DOCTYPE html><body><div id="app"></div></body>',
-      { url: 'http://localhost:3000' }
-    );
+		const dom = new JSDOM(
+			'<!DOCTYPE html><body><div id="app"></div></body>',
+			{url: 'http://localhost:3000'},
+		);
 
-    (global as any).window = {
-      ...dom.window,
-      ...global.window,
-    };
-    (global as any).document = dom.window.document;
-  })
+		(global as any).window = {
+			...dom.window,
+			...global.window,
+		};
+		(global as any).document = dom.window.document;
 
-  it("should be singleton", () => {
-    const router1 = new Router("app");
-    const router2 = new Router("app");
-
-    expect(router1).to.eq(router2);
+    sinon.stub(authService, 'isAuthorized').get(() => true);
   });
 
-  describe("use", () => {
-    it("should return Router instance", () => {
-      const router = new Router("app");
+	it('should be singleton', () => {
+		const router1 = new Router('app');
+		const router2 = new Router('app');
 
-      const result = router.use("/some-page", {} as BlockInheritor);
+		expect(router1).to.eq(router2);
+	});
 
-      expect(router).to.eq(result);
-    });
-  });
+	describe('use', () => {
+		it('should return Router instance', () => {
+			const router = new Router('app');
 
-  describe("setFallBack", () => {
-    it("should return Router instance", () => {
-      const router = new Router("app");
+			const result = router.use('/some-page', {} as BlockInheritor);
 
-      const result = router.setFallBack("/404", {} as BlockInheritor);
+			expect(router).to.eq(result);
+		});
+	});
 
-      expect(router).to.eq(result);
-    });
-  });
+	describe('setFallBack', () => {
+		it('should return Router instance', () => {
+			const router = new Router('app');
 
-  describe("go", () => {
-    it("should instantiate class Block", () => {
+			const result = router.setFallBack('/404', {} as BlockInheritor);
+
+			expect(router).to.eq(result);
+		});
+	});
+
+	describe('go', () => {
+		it('should instantiate class Block', () => {
+			const blockMock = {
+				destroy() {},
+			};
+			const blockFake = sinon.fake.returns(blockMock);
+			const router = new Router('app');
+			router.use('/', blockFake as any);
+
+			router.go('/');
+
+			expect(blockFake.called).to.be.true;
+		});
+
+		it('should change path in browser history', () => {
+			const blockMock = {
+				destroy() {},
+			};
+			const blockFake = sinon.fake.returns(blockMock);
+			const router = new Router('app');
+			router.use('/test', blockFake as any);
+
+			router.go('/test');
+
+			expect(global.window.location.pathname).to.eq('/test');
+		});
+
+    it('should return path to root when user is unauthorized', () => {
+      sinon.stub(authService, 'isAuthorized').get(() => false);
       const blockMock = {
-        destroy() {}
-      }
+        destroy() {},
+      };
       const blockFake = sinon.fake.returns(blockMock);
-      const router = new Router("app");
-      router.use("/", blockFake as any)
+      const router = new Router('app');
+      router.use('/start', blockFake as any);
 
-      router.go("/");
+      router.go('/start');
 
-      expect(blockFake.called).to.be.true;
+      expect(global.window.location.pathname).to.eq('/');
     });
+	});
 
-    it("should change path in browser history", () => {
-      const blockMock = {
-        destroy() {}
-      }
-      const blockFake = sinon.fake.returns(blockMock);
-      const router = new Router("app");
-      router.use("/test", blockFake as any)
+	describe('back', () => {
+		it('should call window.history.back', () => {
+			const router = new Router('app');
+			const historyBackSpy = sinon.spy(global.window.history, 'back');
 
-      router.go("/test");
+			router.back();
 
-      expect(global.window.location.pathname).to.eq("/test");
-    });
-  });
+			expect(historyBackSpy.called).to.be.true;
+		});
+	});
 
-  describe("back", () => {
-    it("should call window.history.back", () => {
-      const router = new Router("app");
-      const historyBackSpy = sinon.spy(global.window.history, 'back');
+	describe('forward', () => {
+		it('should call window.history.forward', () => {
+			const router = new Router('app');
+			const historyForwardSpy = sinon.spy(global.window.history, 'forward');
 
-      router.back();
+			router.forward();
 
-      expect(historyBackSpy.called).to.be.true;
-    });
-  });
+			expect(historyForwardSpy.called).to.be.true;
+		});
+	});
 
-  describe("forward", () => {
-    it("should call window.history.forward", () => {
-      const router = new Router("app");
-      const historyForwardSpy = sinon.spy(global.window.history, 'forward');
+	describe('getRoute', () => {
+		it('should return matched route', () => {
+			const blockMock = {
+				destroy() {},
+			};
+			const router = new Router('app');
+			router.use('/page', blockMock as any);
 
-      router.forward();
+			const result = router.getRoute('/page');
 
-      expect(historyForwardSpy.called).to.be.true;
-    });
-  });
-
-  describe("getRoute", () => {
-    it("should return matched route", () => {
-      const blockMock = {
-        destroy() {}
-      }
-      const router = new Router("app");
-      router.use('/page', blockMock as any);
-
-      const result = router.getRoute('/page');
-
-      expect(result).not.to.be.undefined;
-    });
-  });
+			expect(result).not.to.be.undefined;
+		});
+	});
 });

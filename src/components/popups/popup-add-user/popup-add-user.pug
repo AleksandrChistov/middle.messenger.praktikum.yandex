@@ -2,6 +2,7 @@ div(id="closePopupAddUserToChat" class=`popup-add-user-background${isOpened ? ""
   section(class="popup-add-user-form")
     SearchInputComponent(data="searchUserInput" class="popup-add-user-form__search")
     section(id="addUserToChat")
+      SpinnerComponent(data="spinner" class="popup-add-user__spinner")
       UsersListComponent(data="usersList")
     button(type="button" id="closeAddUserPopup" class="popup-add-user-form__cross-icon")
       include ../../../../static/assets/icons/cross.svg

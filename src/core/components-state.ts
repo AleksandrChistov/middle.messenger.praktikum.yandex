@@ -1,7 +1,5 @@
-import {Block} from "./block";
+import {Block} from './block';
 
-export type ComponentState = {
-  string: InstanceType<typeof Block>;
-}
+export type ComponentsState = Record<string, InstanceType<typeof Block> | string>;
 
-export const componentsState = {} as ComponentState;
+export const componentsState: ComponentsState = {};
